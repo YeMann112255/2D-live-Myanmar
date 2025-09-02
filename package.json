@@ -6,12 +6,10 @@
     "build": "next build",
     "start": "next start"
   },
-  "dependencies": {
-    "next": "13.4.12",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "swr": "^2.2.0",
-    "axios": "^1.6.8",
-    "cheerio": "^1.0.0-rc.12"
-  }
+"dependencies": {
+  "next": "13.4.12",
+  "react": "18.2.0",
+  "react-dom": "18.2.0",
+  "swr": "^2.2.0",
+  "puppeteer": "^22.0.0"
 }
