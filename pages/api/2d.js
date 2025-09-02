@@ -1,33 +1,31 @@
-import puppeteer from "puppeteer";
+import axios from "axios";
+import * as cheerio from "cheerio";
 
 export default async function handler(req, res) {
   try {
-    const browser = await puppeteer.launch({
-      args: ["--no-sandbox", "--disable-setuid-sandbox"],
-      headless: true,
-    });
-    const page = await browser.newPage();
-    await page.goto("https://www.set.or.th/en/home", { waitUntil: "networkidle2" });
+    const { data } = await axios.get("https://www.set.or.th/en/home");
+    const $ = cheerio.load(data);
 
-    // SET Value ကို ယူမယ်
-    const setValue = await page.$eval(".live-index-board .number", el => el.innerText);
+    const setIndex = $(".index-data .last").first().text().trim();
+    const valueText = $(".index-data .value").first().text().trim();
 
-    // Change / Value ကို ယူမယ်
-    const valueNumber = await page.$eval(".live-index-board .change", el => el.innerText);
+    let result2D = "N/A";
+    if (setIndex && valueText) {
+      const setLastDigit = parseInt(setIndex.replace(/,/g, "").slice(-1));
+      const valueMatch = valueText.replace(/,/g, "").match(/(\d+)\./);
+      const valueDigit = valueMatch ? parseInt(valueMatch[1].slice(-1)) : null;
 
-    await browser.close();
-
-    // 2D calculation
-    const lastDigit = setValue.replace(/,/g, "").slice(-1);
-    const beforeDecimal = valueNumber.split(".")[0].slice(-1);
+      if (!isNaN(setLastDigit) && valueDigit !== null) {
+        result2D = `${setLastDigit}${valueDigit}`;
+      }
+    }
 
     res.status(200).json({
-      set: setValue,
-      value: valueNumber,
-      result: lastDigit + beforeDecimal,
+      setIndex: setIndex || "N/A",
+      value: valueText || "N/A",
+      result2D,
     });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Failed to fetch data" });
+    res.status(500).json({ error: error.message });
   }
 }
