@@ -1,0 +1,19 @@
+import useSWR from "swr";
+
+const fetcher = (...args) => fetch(...args).then(res => res.json());
+
+export default function Home() {
+  const { data, error } = useSWR("/api/2d", fetcher, { refreshInterval: 10000 });
+
+  if (error) return <div>Failed to load</div>;
+  if (!data) return <div>Loading...</div>;
+
+  return (
+    <div style={{ fontFamily: "sans-serif", textAlign: "center", marginTop: "50px" }}>
+      <h1>📊 Myanmar 2D Live Result</h1>
+      <p>SET Index: {data.index}</p>
+      <p>Value (MB): {data.value}</p>
+      <h2>🎯 2D Result: {data.result2D}</h2>
+    </div>
+  );
+}
