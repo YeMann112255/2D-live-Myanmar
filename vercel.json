@@ -1,0 +1,8 @@
+{
+  "functions": {
+    "pages/api/2d.js": {
+      "maxDuration": 30,
+      "memory": 1024
+    }
+  }
+}
