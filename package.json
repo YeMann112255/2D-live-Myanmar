@@ -6,10 +6,11 @@
     "build": "next build",
     "start": "next start"
   },
-"dependencies": {
-  "next": "13.4.12",
-  "react": "18.2.0",
-  "react-dom": "18.2.0",
-  "swr": "^2.2.0",
-  "puppeteer": "^22.0.0"
+  "dependencies": {
+    "next": "13.4.12",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "swr": "^2.2.0",
+    "puppeteer": "^22.0.0"
+  }
 }
