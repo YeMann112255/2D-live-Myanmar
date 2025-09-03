@@ -12,7 +12,7 @@ export default function Home() {
 
   useEffect(() => {
     fetchData();
-    const interval = setInterval(fetchData, 5000); // auto refresh every 5s
+    const interval = setInterval(fetchData, 5000); // auto refresh 5s
     return () => clearInterval(interval);
   }, []);
 
@@ -36,16 +36,19 @@ export default function Home() {
     <div
       style={{
         textAlign: "center",
-        fontFamily: "Arial, sans-serif",
+        fontFamily: "'Poppins', sans-serif",
         padding: "20px",
+        backgroundColor: "#f5f7fa",
+        minHeight: "100vh",
       }}
     >
       {/* Title */}
       <h1
         style={{
-          fontSize: "24px",
-          fontWeight: "bold",
-          marginBottom: "20px",
+          fontSize: "26px",
+          fontWeight: "700",
+          marginBottom: "15px",
+          color: "#1e293b",
         }}
       >
         2D Live Myanmar
@@ -54,29 +57,35 @@ export default function Home() {
       {/* Latest Live */}
       <div
         style={{
-          fontSize: "100px",
-          fontWeight: "bold",
-          color: "#E91E63",
-          textShadow: "3px 3px #555",
+          fontSize: "110px",
+          fontWeight: "800",
+          color: "#e11d48",
+          textShadow: "4px 4px 10px rgba(0,0,0,0.3)",
           marginBottom: "10px",
         }}
       >
         {latest.twod}
       </div>
-      <p style={{ fontSize: "18px", fontWeight: "bold", color: "green" }}>
+      <p
+        style={{
+          fontSize: "20px",
+          fontWeight: "bold",
+          color: "green",
+          marginBottom: "5px",
+        }}
+      >
         🔴 Live Now
       </p>
-      <p style={{ color: "gray", fontSize: "14px" }}>
+      <p style={{ color: "#6b7280", fontSize: "14px", marginBottom: "25px" }}>
         Updated: {latest.stock_datetime}
       </p>
 
       {/* Daily Results */}
       <div
         style={{
-          marginTop: "30px",
           display: "flex",
           flexDirection: "column",
-          gap: "15px",
+          gap: "20px",
           alignItems: "center",
         }}
       >
@@ -87,27 +96,28 @@ export default function Home() {
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-              backgroundColor: "#1e1e1e",
+              background: "linear-gradient(135deg, #2563eb, #1e40af)",
               color: "white",
-              borderRadius: "8px",
-              padding: "15px 20px",
-              width: "350px",
-              boxShadow: "0 4px 6px rgba(0,0,0,0.2)",
+              borderRadius: "12px",
+              padding: "20px",
+              width: "90%",
+              maxWidth: "400px",
+              boxShadow: "0 6px 12px rgba(0,0,0,0.25)",
               fontSize: "16px",
               fontWeight: "500",
             }}
           >
-            <span style={{ width: "70px", textAlign: "left" }}>
+            <span style={{ fontWeight: "600", width: "90px" }}>
               {r.open_time === "12:01:00" ? "12:01 PM" : "04:30 PM"}
             </span>
-            <span style={{ width: "80px" }}>Set: {r.set}</span>
-            <span style={{ width: "90px" }}>Value: {r.value}</span>
+            <span>Set: {r.set}</span>
+            <span>Value: {r.value}</span>
             <span
               style={{
                 fontWeight: "bold",
                 color: "#FFD700",
-                fontSize: "20px",
-                width: "50px",
+                fontSize: "22px",
+                width: "40px",
                 textAlign: "right",
               }}
             >
