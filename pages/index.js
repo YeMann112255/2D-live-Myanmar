@@ -33,14 +33,29 @@ export default function Home() {
       (r.open_time === "12:01:00" || r.open_time === "16:30:00")
   );
 
+  // 🕒 Time Logic
+  const now = new Date();
+  const hour = now.getHours();
+  const minute = now.getMinutes();
+
+  const isMorningLive =
+    hour >= 9 && (hour < 12 || (hour === 12 && minute <= 1));
+  const isEveningLive =
+    hour >= 14 && (hour < 16 || (hour === 16 && minute <= 30));
+  const isLive = isMorningLive || isEveningLive;
+
   return (
     <div className="container">
       <h1 className="title">2D Live Myanmar</h1>
 
       {/* Live Number */}
       <div className="live-wrapper">
-        <div className="live-number">{latest.twod}</div>
-        <p className="live-status">🔴 Live Now</p>
+        <div className={isLive ? "live-number anim" : "live-number"}>
+          {latest.twod}
+        </div>
+        <p className="live-status">
+          {isLive ? "🔴 Live Now" : "✅ Final Result"}
+        </p>
         <p className="update-time">Updated: {latest.stock_datetime}</p>
       </div>
 
@@ -62,6 +77,18 @@ export default function Home() {
 
       {/* CSS */}
       <style jsx>{`
+        @keyframes glow {
+          0% {
+            text-shadow: 0 0 6px #f43f5e, 0 0 10px #f43f5e;
+          }
+          50% {
+            text-shadow: 0 0 20px #22c55e, 0 0 30px #22c55e;
+          }
+          100% {
+            text-shadow: 0 0 6px #f43f5e, 0 0 10px #f43f5e;
+          }
+        }
+
         .container {
           text-align: center;
           font-family: "Poppins", sans-serif;
@@ -84,12 +111,14 @@ export default function Home() {
           background: linear-gradient(90deg, #f43f5e, #ec4899);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
-          text-shadow: 2px 4px 8px rgba(236, 72, 153, 0.3);
+        }
+        .live-number.anim {
+          animation: glow 1.5s ease-in-out infinite;
         }
         .live-status {
           font-size: 20px;
           font-weight: 600;
-          color: #dc2626; /* 🔴 အနီ */
+          color: #dc2626;
           margin: 8px 0;
         }
         .update-time {
@@ -122,7 +151,7 @@ export default function Home() {
           text-align: left;
         }
         .info {
-          text-align: center; /* အလယ်သို့ရွှေ့ */
+          text-align: center;
           font-size: 16px;
           color: #334155;
           flex-grow: 1;
@@ -130,7 +159,7 @@ export default function Home() {
         .twod {
           font-weight: 900;
           font-size: 26px;
-          color: #f59e0b; /* ပိုသိသာတဲ့ အဝါ */
+          color: #f59e0b;
           text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
           width: 60px;
           text-align: right;
