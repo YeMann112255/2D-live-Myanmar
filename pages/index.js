@@ -38,92 +38,19 @@ export default function Home() {
       <h1 className="title">2D Live Myanmar</h1>
 
       {/* Live Number */}
-      <div className="live-number">{latest.twod}</div>
-      <p className="live-status">🔴 Live Now</p>
-      <p className="update-time">Updated: {latest.stock_datetime}</p>
+      <div className="live-wrapper">
+        <div className="live-number">{latest.twod}</div>
+        <p className="live-status">🟢 Live Now</p>
+        <p className="update-time">Updated: {latest.stock_datetime}</p>
+      </div>
 
       {/* Daily Result */}
       <div className="results">
         {daily.map((r, i) => (
-          <div className="result-box" key={i}>
-            <span className="time">
+          <div className="result-card" key={i}>
+            <div className="time">
               {r.open_time === "12:01:00" ? "12:01 PM" : "04:30 PM"}
-            </span>
-            <span>Set: {r.set}</span>
-            <span>Value: {r.value}</span>
-            <span className="twod">{r.twod}</span>
-          </div>
-        ))}
-      </div>
-
-      {/* CSS */}
-      <style jsx>{`
-        .container {
-          text-align: center;
-          font-family: 'Poppins', sans-serif;
-          padding: 20px;
-          background: #f9fafb;
-          min-height: 100vh;
-        }
-        .title {
-          font-size: 28px;
-          font-weight: 700;
-          margin-bottom: 15px;
-          color: #111827;
-        }
-        .live-number {
-          font-size: 120px;
-          font-weight: 900;
-          color: #dc2626;
-          text-shadow: 3px 5px 12px rgba(220, 38, 38, 0.5);
-          margin-bottom: 10px;
-        }
-        .live-status {
-          font-size: 22px;
-          font-weight: bold;
-          color: #16a34a;
-          margin-bottom: 8px;
-        }
-        .update-time {
-          color: #6b7280;
-          font-size: 14px;
-          margin-bottom: 25px;
-        }
-        .results {
-          display: flex;
-          flex-direction: column;
-          gap: 25px;
-          align-items: center;
-        }
-        .result-box {
-          display: flex;
-          justify-content: space-around;
-          align-items: center;
-          background: linear-gradient(135deg, #60a5fa, #a78bfa);
-          border-radius: 14px;
-          padding: 25px 15px;
-          width: 92%;
-          max-width: 420px;
-          box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-          font-size: 18px;
-          font-weight: 500;
-          color: white;
-        }
-        .time {
-          font-weight: 700;
-          font-size: 18px;
-          color: #e0f2fe;
-          width: 90px;
-        }
-        .twod {
-          font-weight: 900;
-          color: #facc15;
-          font-size: 28px;
-          text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
-          width: 50px;
-          text-align: right;
-        }
-      `}</style>
-    </div>
-  );
-}
+            </div>
+            <div className="info">
+              <p>Set: {r.set}</p>
+              <p>Value
