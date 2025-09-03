@@ -16,7 +16,7 @@ export default function Home() {
 
   useEffect(() => {
     fetchData();
-    const interval = setInterval(fetchData, 5000); // auto refresh every 5s
+    const interval = setInterval(fetchData, 5000); // auto refresh 5s
     return () => clearInterval(interval);
   }, []);
 
@@ -40,7 +40,7 @@ export default function Home() {
       {/* Live Number */}
       <div className="live-wrapper">
         <div className="live-number">{latest.twod}</div>
-        <p className="live-status">🟢 Live Now</p>
+        <p className="live-status">🔴 Live Now</p>
         <p className="update-time">Updated: {latest.stock_datetime}</p>
       </div>
 
@@ -53,7 +53,7 @@ export default function Home() {
             </div>
             <div className="info">
               <p>Set: {r.set}</p>
-              <p>Value: {r.value}</p> {/* ✅ ပိတ်လိုက်ပြီး */}
+              <p>Value: {r.value}</p>
             </div>
             <div className="twod">{r.twod}</div>
           </div>
@@ -66,7 +66,7 @@ export default function Home() {
           text-align: center;
           font-family: "Poppins", sans-serif;
           padding: 20px;
-          background: #fdfdfd;
+          background: #fafafa;
           min-height: 100vh;
         }
         .title {
@@ -89,7 +89,7 @@ export default function Home() {
         .live-status {
           font-size: 20px;
           font-weight: 600;
-          color: #22c55e;
+          color: #dc2626; /* 🔴 အနီ */
           margin: 8px 0;
         }
         .update-time {
@@ -99,7 +99,7 @@ export default function Home() {
         .results {
           display: flex;
           flex-direction: column;
-          gap: 20px;
+          gap: 18px;
           align-items: center;
         }
         .result-card {
@@ -111,30 +111,27 @@ export default function Home() {
           padding: 18px 20px;
           width: 90%;
           max-width: 420px;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-          border-left: 6px solid #3b82f6;
-          transition: transform 0.2s ease;
-        }
-        .result-card:hover {
-          transform: translateY(-3px);
+          box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+          border-left: 6px solid #2563eb;
         }
         .time {
           font-size: 18px;
           font-weight: 700;
-          color: #2563eb;
-          width: 80px;
+          color: #dc2626; /* နာရီ အနီ */
+          width: 90px;
+          text-align: left;
         }
         .info {
-          text-align: left;
+          text-align: center; /* အလယ်သို့ရွှေ့ */
           font-size: 16px;
-          flex-grow: 1;
           color: #334155;
+          flex-grow: 1;
         }
         .twod {
           font-weight: 900;
-          font-size: 28px;
-          color: #eab308;
-          text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.25);
+          font-size: 26px;
+          color: #f59e0b; /* ပိုသိသာတဲ့ အဝါ */
+          text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
           width: 60px;
           text-align: right;
         }
