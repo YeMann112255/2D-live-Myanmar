@@ -62,30 +62,30 @@ export default function Home() {
           text-align: center;
           font-family: 'Poppins', sans-serif;
           padding: 20px;
-          background: #111827;
+          background: #f9fafb;
           min-height: 100vh;
         }
         .title {
           font-size: 28px;
           font-weight: 700;
           margin-bottom: 15px;
-          color: #f3f4f6;
+          color: #111827;
         }
         .live-number {
           font-size: 120px;
           font-weight: 900;
-          color: #ef4444;
-          text-shadow: 4px 6px 15px rgba(239, 68, 68, 0.7);
+          color: #dc2626;
+          text-shadow: 3px 5px 12px rgba(220, 38, 38, 0.5);
           margin-bottom: 10px;
         }
         .live-status {
           font-size: 22px;
           font-weight: bold;
-          color: #22c55e;
+          color: #16a34a;
           margin-bottom: 8px;
         }
         .update-time {
-          color: #9ca3af;
+          color: #6b7280;
           font-size: 14px;
           margin-bottom: 25px;
         }
@@ -99,12 +99,12 @@ export default function Home() {
           display: flex;
           justify-content: space-around;
           align-items: center;
-          background: linear-gradient(135deg, #3b82f6, #9333ea);
+          background: linear-gradient(135deg, #60a5fa, #a78bfa);
           border-radius: 14px;
           padding: 25px 15px;
           width: 92%;
           max-width: 420px;
-          box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
+          box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
           font-size: 18px;
           font-weight: 500;
           color: white;
@@ -112,14 +112,14 @@ export default function Home() {
         .time {
           font-weight: 700;
           font-size: 18px;
-          color: #bfdbfe;
+          color: #e0f2fe;
           width: 90px;
         }
         .twod {
           font-weight: 900;
-          color: #fde047;
+          color: #facc15;
           font-size: 28px;
-          text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+          text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
           width: 50px;
           text-align: right;
         }
