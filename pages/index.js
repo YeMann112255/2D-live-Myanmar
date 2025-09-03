@@ -16,19 +16,38 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
-  if (!data) return <p style={{ textAlign: "center", marginTop: "50px" }}>Loading...</p>;
+  if (!data)
+    return (
+      <p style={{ textAlign: "center", marginTop: "50px" }}>Loading...</p>
+    );
 
   // နောက်ဆုံးထွက် 2D
   const latest = data.result[data.result.length - 1];
 
-  // ဒီနေ့ရလဒ်တွေ
+  // ဒီနေ့ 12:01PM & 04:30PM ပဲ filter
   const today = new Date().toISOString().slice(0, 10);
-  const daily = data.result.filter((r) => r.stock_date === today);
+  const daily = data.result.filter(
+    (r) =>
+      r.stock_date === today &&
+      (r.open_time === "12:01:00" || r.open_time === "16:30:00")
+  );
 
   return (
-    <div style={{ textAlign: "center", fontFamily: "Arial, sans-serif", padding: "20px" }}>
+    <div
+      style={{
+        textAlign: "center",
+        fontFamily: "Arial, sans-serif",
+        padding: "20px",
+      }}
+    >
       {/* Title */}
-      <h1 style={{ fontSize: "22px", fontWeight: "bold", marginBottom: "15px" }}>
+      <h1
+        style={{
+          fontSize: "24px",
+          fontWeight: "bold",
+          marginBottom: "20px",
+        }}
+      >
         2D Live Myanmar
       </h1>
 
@@ -44,16 +63,20 @@ export default function Home() {
       >
         {latest.twod}
       </div>
-      <p style={{ fontSize: "18px", fontWeight: "bold", color: "green" }}>🔴 Live Now</p>
-      <p style={{ color: "gray", fontSize: "14px" }}>Updated: {latest.stock_datetime}</p>
+      <p style={{ fontSize: "18px", fontWeight: "bold", color: "green" }}>
+        🔴 Live Now
+      </p>
+      <p style={{ color: "gray", fontSize: "14px" }}>
+        Updated: {latest.stock_datetime}
+      </p>
 
-      {/* Daily Result Box */}
+      {/* Daily Results */}
       <div
         style={{
-          marginTop: "25px",
+          marginTop: "30px",
           display: "flex",
           flexDirection: "column",
-          gap: "12px",
+          gap: "15px",
           alignItems: "center",
         }}
       >
@@ -64,20 +87,32 @@ export default function Home() {
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-              backgroundColor: "#1976D2",
+              backgroundColor: "#1e1e1e",
               color: "white",
               borderRadius: "8px",
-              padding: "12px 20px",
-              width: "320px",
-              boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
+              padding: "15px 20px",
+              width: "350px",
+              boxShadow: "0 4px 6px rgba(0,0,0,0.2)",
               fontSize: "16px",
               fontWeight: "500",
             }}
           >
-            <span>{r.open_time === "12:01:00" ? "12:01 PM" : r.open_time === "16:30:00" ? "04:30 PM" : r.open_time}</span>
-            <span>Set: {r.set}</span>
-            <span>Value: {r.value}</span>
-            <span style={{ fontWeight: "bold", color: "yellow" }}>{r.twod}</span>
+            <span style={{ width: "70px", textAlign: "left" }}>
+              {r.open_time === "12:01:00" ? "12:01 PM" : "04:30 PM"}
+            </span>
+            <span style={{ width: "80px" }}>Set: {r.set}</span>
+            <span style={{ width: "90px" }}>Value: {r.value}</span>
+            <span
+              style={{
+                fontWeight: "bold",
+                color: "#FFD700",
+                fontSize: "20px",
+                width: "50px",
+                textAlign: "right",
+              }}
+            >
+              {r.twod}
+            </span>
           </div>
         ))}
       </div>
