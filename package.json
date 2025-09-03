@@ -1,11 +1,11 @@
 {
-  "name": "myanmar-2d-live",
+  "name": "2d-live-myanmar",
   "version": "1.0.0",
   "type": "module",
   "dependencies": {
+    "node-fetch": "^3.3.2",
     "next": "14.2.5",
     "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "node-fetch": "^3.3.2"
+    "react-dom": "18.2.0"
   }
 }
