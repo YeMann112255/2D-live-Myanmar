@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 export default function Home() {
   const [data, setData] = useState(null);
 
-  // function for fetching data
   const fetchData = async () => {
     const res = await fetch("/api/live");
     const d = await res.json();
@@ -12,75 +11,73 @@ export default function Home() {
   };
 
   useEffect(() => {
-    fetchData(); // load once when page open
-
-    // auto refresh every 10 seconds
-    const interval = setInterval(() => {
-      fetchData();
-    }, 10000);
-
-    return () => clearInterval(interval); // cleanup interval
+    fetchData();
+    const interval = setInterval(fetchData, 5000); // auto refresh every 5s
+    return () => clearInterval(interval);
   }, []);
 
   if (!data) return <p style={{ textAlign: "center", marginTop: "50px" }}>Loading...</p>;
 
-  // latest live result
+  // နောက်ဆုံးထွက် 2D
   const latest = data.result[data.result.length - 1];
 
-  // filter today 12:01 & 4:30
+  // ဒီနေ့ရလဒ်တွေ
   const today = new Date().toISOString().slice(0, 10);
-  const daily = data.result.filter(
-    (r) =>
-      r.stock_date === today &&
-      (r.open_time === "12:01:00" || r.open_time === "16:30:00")
-  );
+  const daily = data.result.filter((r) => r.stock_date === today);
 
   return (
     <div style={{ textAlign: "center", fontFamily: "Arial, sans-serif", padding: "20px" }}>
+      {/* Title */}
       <h1 style={{ fontSize: "22px", fontWeight: "bold", marginBottom: "15px" }}>
         2D Live Myanmar
       </h1>
 
-      {/* latest live */}
+      {/* Latest Live */}
       <div
         style={{
-          fontSize: "90px",
+          fontSize: "100px",
           fontWeight: "bold",
-          color: "#FF4500",
-          textShadow: "3px 3px #ccc",
+          color: "#E91E63",
+          textShadow: "3px 3px #555",
+          marginBottom: "10px",
         }}
       >
         {latest.twod}
       </div>
-      <p style={{ margin: "5px 0", fontWeight: "bold", color: "green" }}>🔴 Live</p>
-      <p style={{ color: "gray", fontSize: "14px" }}>
-        Updated: {latest.stock_datetime}
-      </p>
+      <p style={{ fontSize: "18px", fontWeight: "bold", color: "green" }}>🔴 Live Now</p>
+      <p style={{ color: "gray", fontSize: "14px" }}>Updated: {latest.stock_datetime}</p>
 
-      {/* daily results */}
-      <div style={{ marginTop: "20px" }}>
+      {/* Daily Result Box */}
+      <div
+        style={{
+          marginTop: "25px",
+          display: "flex",
+          flexDirection: "column",
+          gap: "12px",
+          alignItems: "center",
+        }}
+      >
         {daily.map((r, i) => (
           <div
             key={i}
             style={{
-              backgroundColor: i % 2 === 0 ? "#1976D2" : "#009688",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              backgroundColor: "#1976D2",
               color: "white",
-              borderRadius: "10px",
-              padding: "15px",
-              margin: "10px auto",
-              width: "260px",
+              borderRadius: "8px",
+              padding: "12px 20px",
+              width: "320px",
               boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
-              fontSize: "15px",
+              fontSize: "16px",
+              fontWeight: "500",
             }}
           >
-            <h2 style={{ margin: "0 0 8px 0", fontSize: "16px" }}>
-              {r.open_time === "12:01:00" ? "12:01 PM" : "04:30 PM"}
-            </h2>
-            <p style={{ margin: "2px 0" }}>Set: {r.set}</p>
-            <p style={{ margin: "2px 0" }}>Value: {r.value}</p>
-            <p style={{ fontSize: "18px", marginTop: "5px" }}>
-              2D: <span style={{ fontWeight: "bold", color: "yellow" }}>{r.twod}</span>
-            </p>
+            <span>{r.open_time === "12:01:00" ? "12:01 PM" : r.open_time === "16:30:00" ? "04:30 PM" : r.open_time}</span>
+            <span>Set: {r.set}</span>
+            <span>Value: {r.value}</span>
+            <span style={{ fontWeight: "bold", color: "yellow" }}>{r.twod}</span>
           </div>
         ))}
       </div>
