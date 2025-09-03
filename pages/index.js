@@ -12,7 +12,7 @@ export default function Home() {
 
   useEffect(() => {
     fetchData();
-    const interval = setInterval(fetchData, 5000); // auto refresh 5s
+    const interval = setInterval(fetchData, 5000);
     return () => clearInterval(interval);
   }, []);
 
@@ -21,10 +21,7 @@ export default function Home() {
       <p style={{ textAlign: "center", marginTop: "50px" }}>Loading...</p>
     );
 
-  // နောက်ဆုံးထွက် 2D
   const latest = data.result[data.result.length - 1];
-
-  // ဒီနေ့ 12:01PM & 04:30PM ပဲ filter
   const today = new Date().toISOString().slice(0, 10);
   const daily = data.result.filter(
     (r) =>
@@ -38,17 +35,17 @@ export default function Home() {
         textAlign: "center",
         fontFamily: "'Poppins', sans-serif",
         padding: "20px",
-        backgroundColor: "#f5f7fa",
+        backgroundColor: "#111827",
         minHeight: "100vh",
       }}
     >
       {/* Title */}
       <h1
         style={{
-          fontSize: "26px",
+          fontSize: "28px",
           fontWeight: "700",
           marginBottom: "15px",
-          color: "#1e293b",
+          color: "#f3f4f6",
         }}
       >
         2D Live Myanmar
@@ -57,10 +54,10 @@ export default function Home() {
       {/* Latest Live */}
       <div
         style={{
-          fontSize: "110px",
-          fontWeight: "800",
-          color: "#e11d48",
-          textShadow: "4px 4px 10px rgba(0,0,0,0.3)",
+          fontSize: "120px",
+          fontWeight: "900",
+          color: "#ef4444",
+          textShadow: "4px 6px 15px rgba(239,68,68,0.7)",
           marginBottom: "10px",
         }}
       >
@@ -68,15 +65,15 @@ export default function Home() {
       </div>
       <p
         style={{
-          fontSize: "20px",
+          fontSize: "22px",
           fontWeight: "bold",
-          color: "green",
-          marginBottom: "5px",
+          color: "#22c55e",
+          marginBottom: "8px",
         }}
       >
         🔴 Live Now
       </p>
-      <p style={{ color: "#6b7280", fontSize: "14px", marginBottom: "25px" }}>
+      <p style={{ color: "#9ca3af", fontSize: "14px", marginBottom: "25px" }}>
         Updated: {latest.stock_datetime}
       </p>
 
@@ -85,7 +82,7 @@ export default function Home() {
         style={{
           display: "flex",
           flexDirection: "column",
-          gap: "20px",
+          gap: "25px",
           alignItems: "center",
         }}
       >
@@ -94,38 +91,9 @@ export default function Home() {
             key={i}
             style={{
               display: "flex",
-              justifyContent: "space-between",
+              justifyContent: "space-around",
               alignItems: "center",
-              background: "linear-gradient(135deg, #2563eb, #1e40af)",
-              color: "white",
-              borderRadius: "12px",
-              padding: "20px",
-              width: "90%",
-              maxWidth: "400px",
-              boxShadow: "0 6px 12px rgba(0,0,0,0.25)",
-              fontSize: "16px",
-              fontWeight: "500",
-            }}
-          >
-            <span style={{ fontWeight: "600", width: "90px" }}>
-              {r.open_time === "12:01:00" ? "12:01 PM" : "04:30 PM"}
-            </span>
-            <span>Set: {r.set}</span>
-            <span>Value: {r.value}</span>
-            <span
-              style={{
-                fontWeight: "bold",
-                color: "#FFD700",
-                fontSize: "22px",
-                width: "40px",
-                textAlign: "right",
-              }}
-            >
-              {r.twod}
-            </span>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
+              background: "linear-gradient(135deg, #3b82f6, #9333ea)",
+              borderRadius: "14px",
+              padding: "25px 15px",
+              width: "92%",
