@@ -59,17 +59,19 @@ export default function Home() {
   return (
     <div className="container">
       <Head>
-        <title>ThaiStock 2D - Live Results</title>
+        <title>2D Live Myanmar</title>
       </Head>
 
       <header className="header">
-        <h1>ThaiStock 2D Myanmar</h1>
-        <div className="current-time">🕒 {new Date().toLocaleTimeString('my-MM')}</div>
+        <h1>2D Live Myanmar</h1>
+        <div className="current-time">
+          🕒 {new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}
+        </div>
       </header>
 
       {/* Live Box */}
       <div className="live-box">
-        <h2>LIVE RESULT</h2>
+        <h2>LIVE</h2>
         <div className="live-number">{data?.live?.twod || "--"}</div>
         <div className="set-value">Set: {data?.live?.set || "--"}, Value: {data?.live?.value || "--"}</div>
         <p className="live-time">Updated: {data?.live?.time}</p>
@@ -82,7 +84,7 @@ export default function Home() {
           ?.filter(r => r.open_time === "12:01:00")
           .map((r, idx) => (
             <div key={`12-01-${idx}`} className="result-box">
-              <div className="time">{r.open_time}</div>
+              <div className="time">{new Date(`1970-01-01T${r.open_time}Z`).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}</div>
               <div className="row">
                 <span className="label">Set</span><span>{r.set}</span>
               </div>
@@ -100,7 +102,7 @@ export default function Home() {
           ?.filter(r => r.open_time === "16:30:00")
           .map((r, idx) => (
             <div key={`16-30-${idx}`} className="result-box">
-              <div className="time">{r.open_time}</div>
+              <div className="time">{new Date(`1970-01-01T${r.open_time}Z`).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}</div>
               <div className="row">
                 <span className="label">Set</span><span>{r.set}</span>
               </div>
@@ -119,14 +121,26 @@ export default function Home() {
       {/* Styled JSX */}
       <style jsx>{`
         .container { max-width:500px; margin:auto; padding:20px; font-family:'Pyidaungsu', sans-serif; }
+
         .header { text-align:center; padding:15px; margin-bottom:20px; border-bottom:2px solid #00b4d8; }
         .header h1 { font-size:2em; color:#00b4d8; font-weight:bold; }
-        .current-time { font-size:1.1em; color:#555; }
+        .current-time { font-size:1.2em; color:#555; }
 
         .live-box { background:#fff; color:#222; text-align:center; padding:25px; border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,0.1); margin-bottom:25px; }
         .live-box h2 { font-size:1.5em; margin-bottom:10px; color:#0077b6; }
-        .live-number { font-size:4em; font-weight:bold; color:#d62828; animation: pulse 2s infinite; }
-        @keyframes pulse { 0%,100% {transform:scale(1);} 50% {transform:scale(1.05);} }
+
+        .live-number {
+          font-size: 4em;
+          font-weight: bold;
+          color: #d62828;
+          text-shadow: 2px 2px 6px rgba(0,0,0,0.4);
+          display: inline-block;
+          animation: subtlePulse 2s infinite ease-in-out, float 3s infinite ease-in-out;
+        }
+
+        @keyframes subtlePulse { 0%,100%{transform:scale(1);} 50%{transform:scale(1.03);} }
+        @keyframes float { 0%,100%{transform:translateY(0px);} 50%{transform:translateY(-3px);} }
+
         .set-value { font-size:1.2em; margin:10px 0; }
         .live-time { font-size:0.9em; color:#555; }
 
