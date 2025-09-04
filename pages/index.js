@@ -6,10 +6,10 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [countdown, setCountdown] = useState("");
 
-  // Fetch API data every 5 seconds
+  // Fetch API data every 3 seconds
   useEffect(() => {
     fetchData();
-    const interval = setInterval(fetchData, 5000);
+    const interval = setInterval(fetchData, 3000); // 3s auto-refresh
     return () => clearInterval(interval);
   }, []);
 
@@ -62,6 +62,7 @@ export default function Home() {
         <title>2D Live Myanmar</title>
       </Head>
 
+      {/* Header */}
       <header className="header">
         <h1>2D Live Myanmar</h1>
         <div className="current-time">
@@ -84,16 +85,10 @@ export default function Home() {
           ?.filter(r => r.open_time === "12:01:00")
           .map((r, idx) => (
             <div key={`12-01-${idx}`} className="result-box">
-              <div className="time">{new Date(`1970-01-01T${r.open_time}Z`).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}</div>
-              <div className="row">
-                <span className="label">Set</span><span>{r.set}</span>
-              </div>
-              <div className="row">
-                <span className="label">Value</span><span>{r.value}</span>
-              </div>
-              <div className="row">
-                <span className="label">2D</span><span className="number">{r.twod}</span>
-              </div>
+              <div className="time">12:01</div>
+              <div className="row"><span className="label">Set</span><span>{r.set}</span></div>
+              <div className="row"><span className="label">Value</span><span>{r.value}</span></div>
+              <div className="row"><span className="label">2D</span><span className="number">{r.twod}</span></div>
             </div>
           ))}
 
@@ -102,20 +97,15 @@ export default function Home() {
           ?.filter(r => r.open_time === "16:30:00")
           .map((r, idx) => (
             <div key={`16-30-${idx}`} className="result-box">
-              <div className="time">{new Date(`1970-01-01T${r.open_time}Z`).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}</div>
-              <div className="row">
-                <span className="label">Set</span><span>{r.set}</span>
-              </div>
-              <div className="row">
-                <span className="label">Value</span><span>{r.value}</span>
-              </div>
-              <div className="row">
-                <span className="label">2D</span><span className="number">{r.twod}</span>
-              </div>
+              <div className="time">4:30 PM</div>
+              <div className="row"><span className="label">Set</span><span>{r.set}</span></div>
+              <div className="row"><span className="label">Value</span><span>{r.value}</span></div>
+              <div className="row"><span className="label">2D</span><span className="number">{r.twod}</span></div>
             </div>
           ))}
       </div>
 
+      {/* Countdown */}
       <div className="refresh-info">🔄 Next update in: {countdown}</div>
 
       {/* Styled JSX */}
@@ -135,11 +125,15 @@ export default function Home() {
           color: #d62828;
           text-shadow: 2px 2px 6px rgba(0,0,0,0.4);
           display: inline-block;
-          animation: subtlePulse 2s infinite ease-in-out, float 3s infinite ease-in-out;
+          animation: heartbeat 1s infinite;
         }
-
-        @keyframes subtlePulse { 0%,100%{transform:scale(1);} 50%{transform:scale(1.03);} }
-        @keyframes float { 0%,100%{transform:translateY(0px);} 50%{transform:translateY(-3px);} }
+        @keyframes heartbeat {
+          0% { transform: scale(1); }
+          25% { transform: scale(1.1); }
+          40% { transform: scale(0.95); }
+          60% { transform: scale(1.05); }
+          100% { transform: scale(1); }
+        }
 
         .set-value { font-size:1.2em; margin:10px 0; }
         .live-time { font-size:0.9em; color:#555; }
