@@ -24,9 +24,10 @@ export default function Home() {
     return <p style={{ textAlign: "center", marginTop: "50px" }}>Loading...</p>;
   }
 
-  const latest = data.result[data.result.length - 1];
+  const latest = data.result[data.result.length - 1] || {};
   const today = new Date().toISOString().slice(0, 10);
 
+  // Daily result filter
   const daily = data.result.filter(
     (r) =>
       r.stock_date === today &&
@@ -38,11 +39,13 @@ export default function Home() {
   const hour = now.getHours();
   const minute = now.getMinutes();
 
-  const isMorningLive =
-    hour >= 9 && (hour < 12 || (hour === 12 && minute <= 1));
-  const isEveningLive =
-    hour >= 14 && (hour < 16 || (hour === 16 && minute <= 30));
+  const isMorningLive = hour >= 9 && (hour < 12 || (hour === 12 && minute <= 1));
+  const isEveningLive = hour >= 14 && (hour < 16 || (hour === 16 && minute <= 30));
   const isLive = isMorningLive || isEveningLive;
+
+  // Fallback for live number
+  const latestNumber =
+    latest?.twod && latest.twod !== "--" ? latest.twod : "Waiting...";
 
   return (
     <div className="container">
@@ -51,28 +54,32 @@ export default function Home() {
       {/* Live Number */}
       <div className="live-wrapper">
         <div className={isLive ? "live-number anim" : "live-number"}>
-          {latest.twod}
+          {latestNumber}
         </div>
-        <p className="live-status">
-          {isLive ? "🔴 Live Now" : "✅ Final Result"}
+        <p className="live-status">{isLive ? "🔴 Live Now" : "✅ Final Result"}</p>
+        <p className="update-time">
+          Updated: {latest?.stock_datetime || "Waiting..."}
         </p>
-        <p className="update-time">Updated: {latest.stock_datetime}</p>
       </div>
 
       {/* Daily Result */}
       <div className="results">
-        {daily.map((r, i) => (
-          <div className="result-card" key={i}>
-            <div className="time">
-              {r.open_time === "12:01:00" ? "12:01 PM" : "04:30 PM"}
+        {daily.length > 0 ? (
+          daily.map((r, i) => (
+            <div className="result-card" key={i}>
+              <div className="time">
+                {r.open_time === "12:01:00" ? "12:01 PM" : "04:30 PM"}
+              </div>
+              <div className="info">
+                <p>Set: {r.set || "--"}</p>
+                <p>Value: {r.value || "--"}</p>
+              </div>
+              <div className="twod">{r.twod || "--"}</div>
             </div>
-            <div className="info">
-              <p>Set: {r.set}</p>
-              <p>Value: {r.value}</p>
-            </div>
-            <div className="twod">{r.twod}</div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <p>No results yet</p>
+        )}
       </div>
 
       {/* CSS */}
@@ -146,7 +153,7 @@ export default function Home() {
         .time {
           font-size: 18px;
           font-weight: 700;
-          color: #dc2626; /* နာရီ အနီ */
+          color: #dc2626;
           width: 90px;
           text-align: left;
         }
