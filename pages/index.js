@@ -74,7 +74,6 @@ export default function Home() {
                 <p>Value: {r.value || "--"}</p>
               </div>
               <div className="twod">
-                {/* fallback to data.live if twod is "--" */}
                 {r.twod !== "--" ? r.twod : data.live || "--"}
               </div>
             </div>
@@ -87,92 +86,23 @@ export default function Home() {
       {/* CSS */}
       <style jsx>{`
         @keyframes glow {
-          0% {
-            text-shadow: 0 0 6px #f43f5e, 0 0 10px #f43f5e;
-          }
-          50% {
-            text-shadow: 0 0 20px #22c55e, 0 0 30px #22c55e;
-          }
-          100% {
-            text-shadow: 0 0 6px #f43f5e, 0 0 10px #f43f5e;
-          }
+          0% { text-shadow: 0 0 6px #f43f5e, 0 0 10px #f43f5e; }
+          50% { text-shadow: 0 0 20px #22c55e, 0 0 30px #22c55e; }
+          100% { text-shadow: 0 0 6px #f43f5e, 0 0 10px #f43f5e; }
         }
 
-        .container {
-          text-align: center;
-          font-family: "Poppins", sans-serif;
-          padding: 20px;
-          background: #fafafa;
-          min-height: 100vh;
-        }
-        .title {
-          font-size: 28px;
-          font-weight: 700;
-          margin-bottom: 20px;
-          color: #0f172a;
-        }
-        .live-wrapper {
-          margin-bottom: 25px;
-        }
-        .live-number {
-          font-size: 110px;
-          font-weight: 900;
-          background: linear-gradient(90deg, #f43f5e, #ec4899);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-        }
-        .live-number.anim {
-          animation: glow 1.5s ease-in-out infinite;
-        }
-        .live-status {
-          font-size: 20px;
-          font-weight: 600;
-          color: #dc2626;
-          margin: 8px 0;
-        }
-        .update-time {
-          font-size: 14px;
-          color: #6b7280;
-        }
-        .results {
-          display: flex;
-          flex-direction: column;
-          gap: 18px;
-          align-items: center;
-        }
-        .result-card {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          background: #ffffff;
-          border-radius: 16px;
-          padding: 18px 20px;
-          width: 90%;
-          max-width: 420px;
-          box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
-          border-left: 6px solid #2563eb;
-        }
-        .time {
-          font-size: 18px;
-          font-weight: 700;
-          color: #dc2626;
-          width: 90px;
-          text-align: left;
-        }
-        .info {
-          text-align: center;
-          font-size: 16px;
-          color: #334155;
-          flex-grow: 1;
-        }
-        .twod {
-          font-weight: 900;
-          font-size: 26px;
-          color: #f59e0b;
-          text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
-          width: 60px;
-          text-align: right;
-        }
+        .container { text-align: center; font-family: "Poppins", sans-serif; padding: 20px; background: #fafafa; min-height: 100vh; }
+        .title { font-size: 28px; font-weight: 700; margin-bottom: 20px; color: #0f172a; }
+        .live-wrapper { margin-bottom: 25px; }
+        .live-number { font-size: 110px; font-weight: 900; background: linear-gradient(90deg, #f43f5e, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .live-number.anim { animation: glow 1.5s ease-in-out infinite; }
+        .live-status { font-size: 20px; font-weight: 600; color: #dc2626; margin: 8px 0; }
+        .update-time { font-size: 14px; color: #6b7280; }
+        .results { display: flex; flex-direction: column; gap: 18px; align-items: center; }
+        .result-card { display: flex; justify-content: space-between; align-items: center; background: #ffffff; border-radius: 16px; padding: 18px 20px; width: 90%; max-width: 420px; box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12); border-left: 6px solid #2563eb; }
+        .time { font-size: 18px; font-weight: 700; color: #dc2626; width: 90px; text-align: left; }
+        .info { text-align: center; font-size: 16px; color: #334155; flex-grow: 1; }
+        .twod { font-weight: 900; font-size: 26px; color: #f59e0b; text-shadow: 1px 1px 3px rgba(0,0,0,0.2); width: 60px; text-align: right; }
       `}</style>
     </div>
   );
