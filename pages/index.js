@@ -1,91 +1,99 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from 'react';
+import Head from 'next/head';
 
 export default function Home() {
-  const [data, setData] = useState({ result: [], live: "--", status: "🔴 Live Now", updated: "--" });
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Fetch live data every 5 seconds
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await fetch("/api/live");
-        const json = await res.json();
-        if (json && typeof json === "object") {
-          setData({
-            result: Array.isArray(json.result) ? json.result : [],
-            live: json.live || "--",
-            status: json.status || "🔴 Live Now",
-            updated: json.updated || "--",
-          });
-        }
-      } catch (err) {
-        console.error("Fetch error:", err);
+  const fetchLiveData = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      const response = await fetch('/api/live');
+      const result = await response.json();
+      
+      if (result.success) {
+        setData(result.data);
+      } else {
+        setError('ဒေတာရယူ၍မရပါ');
       }
-    };
+    } catch (err) {
+      setError('ချိတ်ဆက်မှုအမှား');
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    fetchData();
-    const interval = setInterval(fetchData, 5000);
+  useEffect(() => {
+    fetchLiveData();
+    const interval = setInterval(fetchLiveData, 60000);
     return () => clearInterval(interval);
   }, []);
 
-  const today = new Date().toISOString().slice(0, 10);
-  const results = data.result || [];
-  const latest = results[results.length - 1] || {};
-
-  const daily = results.filter(
-    (r) => r?.stock_date === today && (r.open_time === "12:01:00" || r.open_time === "16:30:00")
-  );
-
-  const latestNumber = latest?.twod && latest.twod !== "--" ? latest.twod : data.live;
-  const status = data.status;
-  const updatedTime = latest?.stock_datetime || data.updated;
-
   return (
-    <div style={{ textAlign: "center", padding: "20px", fontFamily: "sans-serif" }}>
-      <h1>2D Live Myanmar</h1>
+    <div className="container">
+      <Head>
+        <title>2D Live Myanmar</title>
+        <meta name="description" content="Thai Lottery 2D Live Results" />
+      </Head>
 
-      <div style={{ margin: "30px 0" }}>
-        <div
-          style={{
-            fontSize: "100px",
-            fontWeight: "900",
-            background: "linear-gradient(90deg, #f43f5e, #ec4899)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-          }}
-        >
-          {latestNumber || "--"}
-        </div>
-        <p>{status}</p>
-        <p>Updated: {updatedTime}</p>
-      </div>
+      <header className="header">
+        <h1>🎯 2D Live Myanmar</h1>
+        <p>ထိုင်းတရားဝင်ထွက်ဂဏန်းများ</p>
+      </header>
 
-      <div>
-        {daily.length > 0 ? (
-          daily.map((r, i) => (
-            <div
-              key={i}
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                maxWidth: "400px",
-                margin: "10px auto",
-                padding: "10px",
-                border: "1px solid #ccc",
-                borderRadius: "10px",
-              }}
-            >
-              <div>{r.open_time === "12:01:00" ? "12:01 PM" : "04:30 PM"}</div>
-              <div>
-                <p>Set: {r?.set || "--"}</p>
-                <p>Value: {r?.value || "--"}</p>
-              </div>
-              <div>{r?.twod && r.twod !== "--" ? r.twod : data.live || "--"}</div>
-            </div>
-          ))
-        ) : (
-          <p>No results yet</p>
+      <main className="main">
+        {loading && (
+          <div className="loading">
+            <div className="spinner"></div>
+            <p>လက်ရှိထွက်ဂဏန်းများရယူနေသည်...</p>
+          </div>
         )}
-      </div>
+
+        {error && (
+          <div className="error">
+            <h3>❌ အမှားတစ်ခုဖြစ်နေသည်</h3>
+            <p>{error}</p>
+            <button onClick={fetchLiveData}>ပြန်ယူမည်</button>
+          </div>
+        )}
+
+        {data && data.live && (
+          <div className="live-card">
+            <h2>လက်ရှိထွက်ဂဏန်း</h2>
+            <div className="live-number">{data.live.twod}</div>
+            <div className="live-info">
+              <p>🕒 အချိန်: <span>{data.live.time}</span></p>
+              <p>📊 စတော့: <span>{data.live.set}</span></p>
+              <p>💰 တန်ဖိုး: <span>{data.live.value}</span></p>
+            </div>
+          </div>
+        )}
+
+        {data && data.result && (
+          <div className="history-section">
+            <h3>ယနေ့ထွက်ဂဏန်းများ</h3>
+            <div className="history-list">
+              {data.result.slice(0, 5).map((item, index) => (
+                <div key={index} className="history-item">
+                  <span className="time">{item.open_time}</span>
+                  <span className="number">{item.twod}</span>
+                  <span className="value">{item.value}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </main>
+
+      <footer className="footer">
+        <p>© 2024 2D Live Myanmar</p>
+        <button onClick={fetchLiveData} className="refresh-btn">
+          🔄 နောက်ဆုံးရရလဒ်များ
+        </button>
+      </footer>
     </div>
   );
 }
