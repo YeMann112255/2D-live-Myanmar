@@ -35,15 +35,28 @@ export default function Home() {
         (r.open_time === "12:01:00" || r.open_time === "16:30:00")
     ) || [];
 
-  const latestNumber = latest?.twod && latest.twod !== "--" ? latest.twod : data?.live || "--";
+  const latestNumber =
+    latest?.twod && latest.twod !== "--" ? latest.twod : data?.live || "--";
   const status = data?.status || "🔴 Live Now";
   const updatedTime = latest?.stock_datetime || data?.updated || "--";
 
   return (
     <div style={{ textAlign: "center", padding: "20px", fontFamily: "sans-serif" }}>
       <h1>2D Live Myanmar</h1>
+
       <div style={{ margin: "30px 0" }}>
-        <div style={{ fontSize: "100px", fontWeight: "900", color: "#f43f5e" }}>{latestNumber}</div>
+        <div
+          style={{
+            fontSize: "100px",
+            fontWeight: "900",
+            color: "#f43f5e",
+            background: "linear-gradient(90deg, #f43f5e, #ec4899)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+          }}
+        >
+          {latestNumber}
+        </div>
         <p>{status}</p>
         <p>Updated: {updatedTime}</p>
       </div>
@@ -51,9 +64,23 @@ export default function Home() {
       <div>
         {daily.length > 0 ? (
           daily.map((r, i) => (
-            <div key={i} style={{ display: "flex", justifyContent: "space-between", maxWidth: "400px", margin: "10px auto", padding: "10px", border: "1px solid #ccc", borderRadius: "10px" }}>
+            <div
+              key={i}
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                maxWidth: "400px",
+                margin: "10px auto",
+                padding: "10px",
+                border: "1px solid #ccc",
+                borderRadius: "10px",
+              }}
+            >
               <div>{r.open_time === "12:01:00" ? "12:01 PM" : "04:30 PM"}</div>
-              <div>Set: {r?.set || "--"} | Value: {r?.value || "--"}</div>
+              <div>
+                <p>Set: {r?.set || "--"}</p>
+                <p>Value: {r?.value || "--"}</p>
+              </div>
               <div>{r?.twod !== "--" ? r.twod : data?.live || "--"}</div>
             </div>
           ))
