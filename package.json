@@ -1,15 +1,20 @@
 {
   "name": "2d-live-myanmar",
   "version": "1.0.0",
-  "private": true,
+  "description": "Thai Lottery 2D Live Results for Myanmar",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "vercel-build": "next build"
   },
   "dependencies": {
-    "next": "14.2.5",
-    "react": "18.2.0",
-    "react-dom": "18.2.0"
-  }
+    "next": "^13.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "node-fetch": "^3.0.0"
+  },
+  "keywords": ["lottery", "2d", "myanmar", "thai"],
+  "author": "Ye Mann",
+  "license": "MIT"
 }
