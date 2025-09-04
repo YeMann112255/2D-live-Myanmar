@@ -40,7 +40,6 @@ export default async function handler(req, res) {
       };
     }
 
-    // 🔴 / ✅ Status
     let status = "🔴 Live Now";
     let mainNumber = liveTwod;
 
