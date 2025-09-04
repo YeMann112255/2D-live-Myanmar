@@ -20,17 +20,20 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
-  if (!data) return <p style={{ textAlign: "center", marginTop: "50px" }}>Loading...</p>;
+  if (!data) {
+    return <p style={{ textAlign: "center", marginTop: "50px" }}>Loading...</p>;
+  }
 
   const today = new Date().toISOString().slice(0, 10);
-  const result = Array.isArray(data.result) ? data.result : [];
-  const latest = result[result.length - 1] || {};
+  const result = Array.isArray(data?.result) ? data.result : [];
+  const latest = result.length ? result[result.length - 1] : {};
 
-  const daily = result.filter(
-    (r) =>
-      r?.stock_date === today &&
-      (r.open_time === "12:01:00" || r.open_time === "16:30:00")
-  ) || [];
+  const daily =
+    result.filter(
+      (r) =>
+        r?.stock_date === today &&
+        (r.open_time === "12:01:00" || r.open_time === "16:30:00")
+    ) || [];
 
   const now = new Date();
   const hour = now.getHours();
@@ -40,12 +43,9 @@ export default function Home() {
   const isLive = isMorningLive || isEveningLive;
 
   const latestNumber =
-    (latest?.twod && latest.twod !== "--" ? latest.twod : null) ||
-    data.live ||
-    "Waiting...";
-
-  const status = data.status || (isLive ? "🔴 Live Now" : "✅ Final Result");
-  const updatedTime = latest?.stock_datetime || data.updated || "Waiting...";
+    latest?.twod && latest.twod !== "--" ? latest.twod : data?.live || "Waiting...";
+  const status = data?.status || (isLive ? "🔴 Live Now" : "✅ Final Result");
+  const updatedTime = latest?.stock_datetime || data?.updated || "Waiting...";
 
   return (
     <div className="container">
