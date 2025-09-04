@@ -4,19 +4,19 @@ import { useEffect, useState } from "react";
 export default function Home() {
   const [data, setData] = useState(null);
 
-  const fetchData = async () => {
-    try {
-      const res = await fetch("/api/live");
-      const d = await res.json();
-      setData(d);
-    } catch (e) {
-      console.error("Failed to fetch:", e);
-    }
-  };
-
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch("/api/live");
+        const d = await res.json();
+        setData(d);
+      } catch (e) {
+        console.error("Failed to fetch:", e);
+      }
+    };
+
     fetchData();
-    const interval = setInterval(fetchData, 5000); // auto refresh 5s
+    const interval = setInterval(fetchData, 5000); // refresh every 5s
     return () => clearInterval(interval);
   }, []);
 
@@ -34,18 +34,19 @@ export default function Home() {
       (r.open_time === "12:01:00" || r.open_time === "16:30:00")
   );
 
-  // 🕒 Time Logic
+  // Time logic
   const now = new Date();
   const hour = now.getHours();
   const minute = now.getMinutes();
-
   const isMorningLive = hour >= 9 && (hour < 12 || (hour === 12 && minute <= 1));
   const isEveningLive = hour >= 14 && (hour < 16 || (hour === 16 && minute <= 30));
   const isLive = isMorningLive || isEveningLive;
 
-  // Fallback for live number
+  // Latest number: prioritize data.live
   const latestNumber =
-    latest?.twod && latest.twod !== "--" ? latest.twod : "Waiting...";
+    (latest?.twod && latest.twod !== "--" ? latest.twod : null) || data.live || "Waiting...";
+
+  const status = data.status || (isLive ? "🔴 Live Now" : "✅ Final Result");
 
   return (
     <div className="container">
@@ -56,10 +57,8 @@ export default function Home() {
         <div className={isLive ? "live-number anim" : "live-number"}>
           {latestNumber}
         </div>
-        <p className="live-status">{isLive ? "🔴 Live Now" : "✅ Final Result"}</p>
-        <p className="update-time">
-          Updated: {latest?.stock_datetime || "Waiting..."}
-        </p>
+        <p className="live-status">{status}</p>
+        <p className="update-time">{latest?.stock_datetime || data.updated || "Waiting..."}</p>
       </div>
 
       {/* Daily Result */}
