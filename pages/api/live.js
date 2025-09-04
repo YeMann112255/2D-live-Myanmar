@@ -12,10 +12,11 @@ export default async function handler(req, res) {
     const hour = now.getHours();
     const minute = now.getMinutes();
 
-    const liveTwod = data.live?.twod || "--";
-    const liveSet = data.live?.set || "--";
-    const liveValue = data.live?.value || "--";
-    const liveTime = data.live?.stock_datetime || now.toISOString();
+    // 🔹 API structure fix
+    const liveTwod = data.live || "--";       // live number string
+    const liveSet = "--";                     // API မှ set value မပေး
+    const liveValue = "--";                   // API မှ value မပေး
+    const liveTime = data.updated || now.toISOString();
 
     // 🕒 12:01 freeze
     if (!morningResult && hour >= 12 && minute >= 1) {
@@ -29,7 +30,7 @@ export default async function handler(req, res) {
       };
     }
 
-    // 🕓 4:30 freeze
+    // 🕓 16:30 freeze
     if (!eveningResult && hour >= 16 && minute >= 30) {
       eveningResult = {
         stock_date: today,
@@ -42,12 +43,12 @@ export default async function handler(req, res) {
     }
 
     // 🔴 / ✅ Status
-    let status = "🔴 Live Now";
+    let status = data.status || "🔴 Live Now";
     let mainNumber = liveTwod;
 
     if (eveningResult) {
-      status = "✅ Final Result";     // Market closed
-      mainNumber = eveningResult.twod; // Final number
+      status = "✅ Final Result";     
+      mainNumber = eveningResult.twod;
     }
 
     const result = [
