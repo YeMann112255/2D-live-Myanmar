@@ -73,7 +73,10 @@ export default function Home() {
                 <p>Set: {r.set || "--"}</p>
                 <p>Value: {r.value || "--"}</p>
               </div>
-              <div className="twod">{r.twod || "--"}</div>
+              <div className="twod">
+                {/* fallback to data.live if twod is "--" */}
+                {r.twod !== "--" ? r.twod : data.live || "--"}
+              </div>
             </div>
           ))
         ) : (
