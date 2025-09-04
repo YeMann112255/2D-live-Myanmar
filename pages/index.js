@@ -3,14 +3,15 @@ import { useEffect, useState } from "react";
 export default function Home() {
   const [data, setData] = useState(null);
 
+  // Fetch live data
   useEffect(() => {
     const fetchData = async () => {
       try {
         const res = await fetch("/api/live");
-        const d = await res.json();
-        setData(d);
-      } catch (e) {
-        console.error("Failed to fetch:", e);
+        const json = await res.json();
+        setData(json);
+      } catch (err) {
+        console.error("Fetch error:", err);
         setData(null);
       }
     };
@@ -21,21 +22,26 @@ export default function Home() {
   }, []);
 
   if (!data) {
-    return <p style={{ textAlign: "center", marginTop: "50px" }}>Loading...</p>;
+    return (
+      <p style={{ textAlign: "center", marginTop: "50px" }}>
+        Loading...
+      </p>
+    );
   }
 
   const today = new Date().toISOString().slice(0, 10);
-  const result = Array.isArray(data.result) ? data.result : [];
-  const latest = result[result.length - 1] || {};
+  const results = Array.isArray(data.result) ? data.result : [];
+  const latest = results[results.length - 1] || {};
 
-  const daily = result.filter(
+  const daily = results.filter(
     (r) =>
       r?.stock_date === today &&
       (r.open_time === "12:01:00" || r.open_time === "16:30:00")
   );
 
-  const latestNumber =
-    latest?.twod && latest.twod !== "--" ? latest.twod : data?.live || "--";
+  const latestNumber = latest?.twod && latest.twod !== "--"
+    ? latest.twod
+    : data?.live || "--";
   const status = data?.status || "🔴 Live Now";
   const updatedTime = latest?.stock_datetime || data?.updated || "--";
 
@@ -43,12 +49,12 @@ export default function Home() {
     <div style={{ textAlign: "center", padding: "20px", fontFamily: "sans-serif" }}>
       <h1>2D Live Myanmar</h1>
 
+      {/* Live Number */}
       <div style={{ margin: "30px 0" }}>
         <div
           style={{
             fontSize: "100px",
             fontWeight: "900",
-            color: "#f43f5e",
             background: "linear-gradient(90deg, #f43f5e, #ec4899)",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
@@ -60,6 +66,7 @@ export default function Home() {
         <p>Updated: {updatedTime}</p>
       </div>
 
+      {/* Daily Results */}
       <div>
         {daily.length > 0 ? (
           daily.map((r, i) => (
