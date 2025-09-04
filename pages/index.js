@@ -6,12 +6,14 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [countdown, setCountdown] = useState("");
 
+  // Fetch API data every 5 seconds
   useEffect(() => {
     fetchData();
     const interval = setInterval(fetchData, 5000);
     return () => clearInterval(interval);
   }, []);
 
+  // Countdown timer
   useEffect(() => {
     if (data?.result?.length > 0) {
       const nextTime = new Date(`${data.live.date} ${data.result[data.result.length - 1].open_time}`);
@@ -39,19 +41,20 @@ export default function Home() {
     }
   };
 
-  if (loading) return (
-    <div className="container">
-      <div className="loading">
-        <div className="spinner"></div>
-        <p>လက်ရှိထွက်ဂဏန်းများ ရယူနေသည်...</p>
+  if (loading)
+    return (
+      <div className="container">
+        <div className="loading">
+          <div className="spinner"></div>
+          <p>လက်ရှိထွက်ဂဏန်းများ ရယူနေသည်...</p>
+        </div>
+        <style jsx>{`
+          .container { text-align:center; padding:50px; font-family:'Pyidaungsu', sans-serif; }
+          .spinner { border:4px solid rgba(0,0,0,0.1); border-top:4px solid #0077b6; border-radius:50%; width:60px; height:60px; animation:spin 1s linear infinite; margin:0 auto 20px; }
+          @keyframes spin {0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
+        `}</style>
       </div>
-      <style jsx>{`
-        .container { text-align:center; padding:50px; font-family:'Pyidaungsu', sans-serif; }
-        .spinner { border:4px solid rgba(0,0,0,0.1); border-top:4px solid #0077b6; border-radius:50%; width:60px; height:60px; animation:spin 1s linear infinite; margin:0 auto 20px; }
-        @keyframes spin {0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
-      `}</style>
-    </div>
-  );
+    );
 
   return (
     <div className="container">
@@ -64,6 +67,7 @@ export default function Home() {
         <div className="current-time">🕒 {new Date().toLocaleTimeString('my-MM')}</div>
       </header>
 
+      {/* Live Box */}
       <div className="live-box">
         <h2>LIVE RESULT</h2>
         <div className="live-number">{data?.live?.twod || "--"}</div>
@@ -71,21 +75,43 @@ export default function Home() {
         <p className="live-time">Updated: {data?.live?.time}</p>
       </div>
 
+      {/* Only 12:01 & 16:30 results */}
       <div className="results-grid">
-        {data?.result?.map((r, idx) => (
-          <div key={idx} className={`result-box ${idx === data.result.length - 1 ? "latest" : ""}`}>
-            <div className="time">{r.open_time}</div>
-            <div className="row">
-              <span className="label">Set</span><span>{r.set}</span>
+        {/* 12:01 */}
+        {data?.result
+          ?.filter(r => r.open_time === "12:01:00")
+          .map((r, idx) => (
+            <div key={`12-01-${idx}`} className="result-box">
+              <div className="time">{r.open_time}</div>
+              <div className="row">
+                <span className="label">Set</span><span>{r.set}</span>
+              </div>
+              <div className="row">
+                <span className="label">Value</span><span>{r.value}</span>
+              </div>
+              <div className="row">
+                <span className="label">2D</span><span className="number">{r.twod}</span>
+              </div>
             </div>
-            <div className="row">
-              <span className="label">Value</span><span>{r.value}</span>
+          ))}
+
+        {/* 16:30 */}
+        {data?.result
+          ?.filter(r => r.open_time === "16:30:00")
+          .map((r, idx) => (
+            <div key={`16-30-${idx}`} className="result-box">
+              <div className="time">{r.open_time}</div>
+              <div className="row">
+                <span className="label">Set</span><span>{r.set}</span>
+              </div>
+              <div className="row">
+                <span className="label">Value</span><span>{r.value}</span>
+              </div>
+              <div className="row">
+                <span className="label">2D</span><span className="number">{r.twod}</span>
+              </div>
             </div>
-            <div className="row highlight">
-              <span className="label">2D</span><span className="number">{r.twod}</span>
-            </div>
-          </div>
-        ))}
+          ))}
       </div>
 
       <div className="refresh-info">🔄 Next update in: {countdown}</div>
@@ -106,10 +132,6 @@ export default function Home() {
 
         .results-grid { display:grid; grid-template-columns:1fr 1fr; gap:15px; }
         .result-box { background:#fff; color:#222; padding:20px; border-radius:10px; box-shadow:0 3px 8px rgba(0,0,0,0.1); transition:0.3s; }
-        .result-box:hover { transform:translateY(-3px); box-shadow:0 6px 15px rgba(0,0,0,0.15);}
-        .result-box.latest { border:2px solid #06d6a0; animation: glow 1.5s infinite alternate; }
-        @keyframes glow { from {box-shadow:0 0 8px rgba(6,214,160,0.3);} to {box-shadow:0 0 16px rgba(6,214,160,0.6);} }
-
         .row { display:flex; justify-content:space-between; margin:5px 0; }
         .label { font-weight:600; color:#555; }
         .number { color:#d62828; font-weight:bold; font-size:1.5em; }
