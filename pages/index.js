@@ -16,7 +16,7 @@ export default function Home() {
     };
 
     fetchData();
-    const interval = setInterval(fetchData, 5000); // refresh every 5s
+    const interval = setInterval(fetchData, 5000);
     return () => clearInterval(interval);
   }, []);
 
@@ -24,15 +24,17 @@ export default function Home() {
     return <p style={{ textAlign: "center", marginTop: "50px" }}>Loading...</p>;
   }
 
-  const latest = data.result[data.result.length - 1] || {};
   const today = new Date().toISOString().slice(0, 10);
+  const result = Array.isArray(data.result) ? data.result : [];
 
-  // Daily result filter
-  const daily = data.result.filter(
+  const latest = result[result.length - 1] || {};
+
+  // Filter today's results
+  const daily = result.filter(
     (r) =>
-      r.stock_date === today &&
+      r?.stock_date === today &&
       (r.open_time === "12:01:00" || r.open_time === "16:30:00")
-  );
+  ) || [];
 
   // Time logic
   const now = new Date();
@@ -42,11 +44,12 @@ export default function Home() {
   const isEveningLive = hour >= 14 && (hour < 16 || (hour === 16 && minute <= 30));
   const isLive = isMorningLive || isEveningLive;
 
-  // Latest number: prioritize data.live
+  // Latest number: fallback
   const latestNumber =
     (latest?.twod && latest.twod !== "--" ? latest.twod : null) || data.live || "Waiting...";
 
   const status = data.status || (isLive ? "🔴 Live Now" : "✅ Final Result");
+  const updatedTime = latest?.stock_datetime || data.updated || "Waiting...";
 
   return (
     <div className="container">
@@ -58,7 +61,7 @@ export default function Home() {
           {latestNumber}
         </div>
         <p className="live-status">{status}</p>
-        <p className="update-time">{latest?.stock_datetime || data.updated || "Waiting..."}</p>
+        <p className="update-time">Updated: {updatedTime}</p>
       </div>
 
       {/* Daily Result */}
@@ -70,11 +73,11 @@ export default function Home() {
                 {r.open_time === "12:01:00" ? "12:01 PM" : "04:30 PM"}
               </div>
               <div className="info">
-                <p>Set: {r.set || "--"}</p>
-                <p>Value: {r.value || "--"}</p>
+                <p>Set: {r?.set || "--"}</p>
+                <p>Value: {r?.value || "--"}</p>
               </div>
               <div className="twod">
-                {r.twod !== "--" ? r.twod : data.live || "--"}
+                {r?.twod !== "--" ? r.twod : data?.live || "--"}
               </div>
             </div>
           ))
