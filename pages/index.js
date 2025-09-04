@@ -28,12 +28,11 @@ export default function Home() {
   const result = Array.isArray(data.result) ? data.result : [];
   const latest = result[result.length - 1] || {};
 
-  const daily =
-    result.filter(
-      (r) =>
-        r?.stock_date === today &&
-        (r.open_time === "12:01:00" || r.open_time === "16:30:00")
-    ) || [];
+  const daily = result.filter(
+    (r) =>
+      r?.stock_date === today &&
+      (r.open_time === "12:01:00" || r.open_time === "16:30:00")
+  );
 
   const latestNumber =
     latest?.twod && latest.twod !== "--" ? latest.twod : data?.live || "--";
@@ -81,7 +80,7 @@ export default function Home() {
                 <p>Set: {r?.set || "--"}</p>
                 <p>Value: {r?.value || "--"}</p>
               </div>
-              <div>{r?.twod !== "--" ? r.twod : data?.live || "--"}</div>
+              <div>{r?.twod && r.twod !== "--" ? r.twod : data?.live || "--"}</div>
             </div>
           ))
         ) : (
