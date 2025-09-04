@@ -1,18 +1,24 @@
 import { useEffect, useState } from "react";
 
 export default function Home() {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState({ result: [], live: "--", status: "🔴 Live Now", updated: "--" });
 
-  // Fetch live data
+  // Fetch live data every 5 seconds
   useEffect(() => {
     const fetchData = async () => {
       try {
         const res = await fetch("/api/live");
         const json = await res.json();
-        setData(json);
+        if (json && typeof json === "object") {
+          setData({
+            result: Array.isArray(json.result) ? json.result : [],
+            live: json.live || "--",
+            status: json.status || "🔴 Live Now",
+            updated: json.updated || "--",
+          });
+        }
       } catch (err) {
         console.error("Fetch error:", err);
-        setData(null);
       }
     };
 
@@ -21,35 +27,22 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
-  if (!data) {
-    return (
-      <p style={{ textAlign: "center", marginTop: "50px" }}>
-        Loading...
-      </p>
-    );
-  }
-
   const today = new Date().toISOString().slice(0, 10);
-  const results = Array.isArray(data.result) ? data.result : [];
+  const results = data.result || [];
   const latest = results[results.length - 1] || {};
 
   const daily = results.filter(
-    (r) =>
-      r?.stock_date === today &&
-      (r.open_time === "12:01:00" || r.open_time === "16:30:00")
+    (r) => r?.stock_date === today && (r.open_time === "12:01:00" || r.open_time === "16:30:00")
   );
 
-  const latestNumber = latest?.twod && latest.twod !== "--"
-    ? latest.twod
-    : data?.live || "--";
-  const status = data?.status || "🔴 Live Now";
-  const updatedTime = latest?.stock_datetime || data?.updated || "--";
+  const latestNumber = latest?.twod && latest.twod !== "--" ? latest.twod : data.live;
+  const status = data.status;
+  const updatedTime = latest?.stock_datetime || data.updated;
 
   return (
     <div style={{ textAlign: "center", padding: "20px", fontFamily: "sans-serif" }}>
       <h1>2D Live Myanmar</h1>
 
-      {/* Live Number */}
       <div style={{ margin: "30px 0" }}>
         <div
           style={{
@@ -60,13 +53,12 @@ export default function Home() {
             WebkitTextFillColor: "transparent",
           }}
         >
-          {latestNumber}
+          {latestNumber || "--"}
         </div>
         <p>{status}</p>
         <p>Updated: {updatedTime}</p>
       </div>
 
-      {/* Daily Results */}
       <div>
         {daily.length > 0 ? (
           daily.map((r, i) => (
@@ -87,7 +79,7 @@ export default function Home() {
                 <p>Set: {r?.set || "--"}</p>
                 <p>Value: {r?.value || "--"}</p>
               </div>
-              <div>{r?.twod && r.twod !== "--" ? r.twod : data?.live || "--"}</div>
+              <div>{r?.twod && r.twod !== "--" ? r.twod : data.live || "--"}</div>
             </div>
           ))
         ) : (
