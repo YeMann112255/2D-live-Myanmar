@@ -8,11 +8,11 @@ export default function Home() {
 
   useEffect(() => {
     fetchData();
-    const interval = setInterval(fetchData, 30000); // 30 seconds
+    const dataInterval = setInterval(fetchData, 5000); // 5 seconds
     const timeInterval = setInterval(() => setCurrentTime(new Date()), 1000);
     
     return () => {
-      clearInterval(interval);
+      clearInterval(dataInterval);
       clearInterval(timeInterval);
     };
   }, []);
@@ -77,50 +77,71 @@ export default function Home() {
           <div className="update-time">
             ✓ Updated: {data?.live?.time || new Date().toLocaleString()}
           </div>
-          <div className="stock-info">
-            <span>Set: {data?.live?.set || '--'}</span>
-            <span>Value: {data?.live?.value || '--'}</span>
-          </div>
         </div>
       </div>
 
-      {/* Today's Results Table */}
+      {/* Today's Results */}
       <div className="results-section">
-        <h2>📊 ယနေ့ထွက်ရလဒ်များ</h2>
-        
-        <div className="results-table">
-          {data?.result?.map((item, index) => (
-            <div key={index} className="result-row">
-              <div className="time-column">
-                <div className="time-label">
-                  {formatTime(item.stock_datetime) || item.open_time}
-                </div>
-              </div>
-              
-              <div className="data-column">
-                <div className="data-grid">
-                  <div className="data-item">
-                    <span className="label">Set</span>
-                    <span className="value set-value">{item.set}</span>
-                  </div>
-                  <div className="data-item">
-                    <span className="label">Value</span>
-                    <span className="value value-amount">{item.value}</span>
-                  </div>
-                  <div className="data-item">
-                    <span className="label">2D</span>
-                    <span className="value number-2d">{item.twod}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
+        <div className="result-item">
+          <div className="time-header">11:00 AM</div>
+          <div className="data-row">
+            <span className="data-label">Set</span>
+            <span className="data-label">Value</span>
+            <span className="data-label">2D</span>
+          </div>
+          <div className="data-row">
+            <span className="data-value set">1,262.45</span>
+            <span className="data-value value">21,100.99</span>
+            <span className="data-value number">50</span>
+          </div>
+        </div>
+
+        <div className="result-item">
+          <div className="time-header">12:01 PM</div>
+          <div className="data-row">
+            <span className="data-label">Set</span>
+            <span className="data-label">Value</span>
+            <span className="data-label">2D</span>
+          </div>
+          <div className="data-row">
+            <span className="data-value set">1,263.42</span>
+            <span className="data-value value">24,622.25</span>
+            <span className="data-value number">22</span>
+          </div>
+        </div>
+
+        <div className="result-item">
+          <div className="time-header">03:00 PM</div>
+          <div className="data-row">
+            <span className="data-label">Set</span>
+            <span className="data-label">Value</span>
+            <span className="data-label">2D</span>
+          </div>
+          <div className="data-row">
+            <span className="data-value set">1,255.22</span>
+            <span className="data-value value">34,766.06</span>
+            <span className="data-value number">26</span>
+          </div>
+        </div>
+
+        <div className="result-item">
+          <div className="time-header">04:30 PM</div>
+          <div className="data-row">
+            <span className="data-label">Set</span>
+            <span className="data-label">Value</span>
+            <span className="data-label">2D</span>
+          </div>
+          <div className="data-row">
+            <span className="data-value set">1,252.55</span>
+            <span className="data-value value">44,813.45</span>
+            <span className="data-value number">53</span>
+          </div>
         </div>
       </div>
 
       {/* Auto Refresh Info */}
       <div className="refresh-info">
-        <p>🔄 အလိုအလျောက်ပြန်လည်မွမ်းမံခြင်း (၃၀ စက္ကန့်)</p>
+        <p>🔄 Auto Refresh (5 seconds)</p>
       </div>
     </div>
   );
