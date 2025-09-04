@@ -1,5 +1,9 @@
 import fetch from 'node-fetch';
 
+let cachedData = null;
+let lastFetchTime = 0;
+const CACHE_TIME = 5000; // 5 seconds
+
 const getFallbackData = () => {
   const now = new Date();
   return {
@@ -16,38 +20,30 @@ const getFallbackData = () => {
         value: "21,100.99",
         open_time: "11:00:00",
         twod: "50",
-        stock_date: "2025-09-04",
-        stock_datetime: "2025-09-04 11:00:01"
+        stock_date: "2025-09-04"
       },
       {
         set: "1,263.42",
         value: "24,622.25", 
         open_time: "12:01:00",
         twod: "22",
-        stock_date: "2025-09-04",
-        stock_datetime: "2025-09-04 12:01:00"
+        stock_date: "2025-09-04"
       },
       {
         set: "1,255.22",
         value: "34,766.06",
         open_time: "15:00:00",
         twod: "26",
-        stock_date: "2025-09-04", 
-        stock_datetime: "2025-09-04 15:00:02"
+        stock_date: "2025-09-04"
       },
       {
         set: "1,252.55",
         value: "44,813.45",
         open_time: "16:30:00",
         twod: "53",
-        stock_date: "2025-09-04",
-        stock_datetime: "2025-09-04 16:30:02"
+        stock_date: "2025-09-04"
       }
-    ],
-    server_time: now.toISOString(),
-    status: "2",
-    date: "2025-09-04",
-    name: "NULL"
+    ]
   };
 };
 
@@ -59,34 +55,47 @@ export default async function handler(req, res) {
     return res.status(200).end();
   }
 
+  // Return cached data if within 5 seconds
+  const now = Date.now();
+  if (cachedData && (now - lastFetchTime) < CACHE_TIME) {
+    return res.status(200).json({
+      success: true,
+      data: cachedData,
+      timestamp: new Date().toISOString(),
+      cached: true
+    });
+  }
+
   try {
-    // Try to get real data
     const response = await fetch('https://api.thaistock2d.com/live', {
       headers: {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
         'Accept': 'application/json'
       },
-      timeout: 10000
+      timeout: 3000
     });
 
-    let data;
     if (response.ok) {
-      data = await response.json();
+      cachedData = await response.json();
     } else {
-      data = getFallbackData();
+      cachedData = getFallbackData();
     }
+
+    lastFetchTime = now;
 
     res.status(200).json({
       success: true,
-      data: data,
+      data: cachedData,
       timestamp: new Date().toISOString()
     });
 
   } catch (error) {
-    const fallbackData = getFallbackData();
+    cachedData = getFallbackData();
+    lastFetchTime = now;
+    
     res.status(200).json({
       success: true,
-      data: fallbackData,
+      data: cachedData,
       timestamp: new Date().toISOString(),
       cached: true
     });
