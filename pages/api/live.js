@@ -12,11 +12,11 @@ export default async function handler(req, res) {
     const hour = now.getHours();
     const minute = now.getMinutes();
 
-    // API structure fix
-    const liveTwod = data.live || "--";
+    // Live number from API
+    const liveTwod = data?.live || "--";
     const liveSet = "--";
     const liveValue = "--";
-    const liveTime = data.updated || now.toISOString();
+    const liveTime = data?.updated || now.toISOString();
 
     // 12:01 freeze
     if (!morningResult && hour >= 12 && minute >= 1) {
@@ -43,7 +43,7 @@ export default async function handler(req, res) {
     }
 
     // Status
-    let status = data.status || "🔴 Live Now";
+    let status = data?.status || "🔴 Live Now";
     let mainNumber = liveTwod;
 
     if (eveningResult) {
