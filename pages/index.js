@@ -16,7 +16,9 @@ export default function Home() {
   // Countdown timer
   useEffect(() => {
     if (data?.result?.length > 0) {
-      const nextTime = new Date(`${data.live.date} ${data.result[data.result.length - 1].open_time}`);
+      const nextTime = new Date(
+        `${data.live.date} ${data.result[data.result.length - 1].open_time}`
+      );
       const timer = setInterval(() => {
         const diff = nextTime - new Date();
         if (diff > 0) {
@@ -72,9 +74,13 @@ export default function Home() {
 
       {/* Live Box */}
       <div className="live-box">
-        <h2>LIVE</h2>
+        <h2>
+          LIVE <span className="red-dot"></span>
+        </h2>
         <div className="live-number">{data?.live?.twod || "--"}</div>
-        <div className="set-value">Set: {data?.live?.set || "--"}, Value: {data?.live?.value || "--"}</div>
+        <div className="set-value">
+          Set: {data?.live?.set || "--"}, Value: {data?.live?.value || "--"}
+        </div>
         <p className="live-time">Updated: {data?.live?.time}</p>
       </div>
 
@@ -82,10 +88,10 @@ export default function Home() {
       <div className="results-grid">
         {/* 12:01 */}
         {data?.result
-          ?.filter(r => r.open_time === "12:01:00")
+          ?.filter(r => r.open_time.includes("12:01"))
           .map((r, idx) => (
             <div key={`12-01-${idx}`} className="result-box">
-              <div className="time">12:01</div>
+              <div className="time">12:01 PM</div>
               <div className="row"><span className="label">Set</span><span>{r.set}</span></div>
               <div className="row"><span className="label">Value</span><span>{r.value}</span></div>
               <div className="row"><span className="label">2D</span><span className="number">{r.twod}</span></div>
@@ -94,7 +100,7 @@ export default function Home() {
 
         {/* 16:30 */}
         {data?.result
-          ?.filter(r => r.open_time === "16:30:00")
+          ?.filter(r => r.open_time.includes("16:30"))
           .map((r, idx) => (
             <div key={`16-30-${idx}`} className="result-box">
               <div className="time">4:30 PM</div>
@@ -117,7 +123,9 @@ export default function Home() {
         .current-time { font-size:1.2em; color:#555; }
 
         .live-box { background:#fff; color:#222; text-align:center; padding:25px; border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,0.1); margin-bottom:25px; }
-        .live-box h2 { font-size:1.5em; margin-bottom:10px; color:#0077b6; }
+        .live-box h2 { font-size:1.5em; margin-bottom:10px; color:#0077b6; display:flex; justify-content:center; align-items:center; gap:8px; }
+        .red-dot { width:12px; height:12px; background:red; border-radius:50%; display:inline-block; animation: blink 1s infinite; }
+        @keyframes blink { 0%,50%,100% {opacity:1;} 25%,75% {opacity:0;} }
 
         .live-number {
           font-size: 4em;
@@ -129,9 +137,9 @@ export default function Home() {
         }
         @keyframes heartbeat {
           0% { transform: scale(1); }
-          25% { transform: scale(1.1); }
-          40% { transform: scale(0.95); }
-          60% { transform: scale(1.05); }
+          25% { transform: scale(1.2); }
+          40% { transform: scale(0.9); }
+          60% { transform: scale(1.1); }
           100% { transform: scale(1); }
         }
 
