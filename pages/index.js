@@ -58,6 +58,12 @@ export default function Home() {
       </div>
     );
 
+  // Helper function to safely get result by time
+  const getResult = (time) => data?.result?.find(r => r.open_time === time);
+
+  const result12 = getResult("12:01:00");
+  const result1630 = getResult("16:30:00");
+
   return (
     <div className="container">
       <Head>
@@ -68,7 +74,7 @@ export default function Home() {
       <header className="header">
         <h1>2D Live Myanmar</h1>
         <div className="current-time">
-          🕒 {new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}
+          🕒 {new Date().toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", hour12: true })}
         </div>
       </header>
 
@@ -84,31 +90,23 @@ export default function Home() {
         <p className="live-time">Updated: {data?.live?.time}</p>
       </div>
 
-      {/* Only 12:01 & 16:30 results */}
+      {/* Results Grid - Always show 12:01 & 4:30 */}
       <div className="results-grid">
-        {/* 12:01 */}
-        {data?.result
-          ?.filter(r => r.open_time === "12:01:00")
-          .map((r, idx) => (
-            <div key={`12-01-${idx}`} className="result-box">
-              <div className="time">12:01 PM</div>
-              <div className="row"><span className="label">Set</span><span>{r.set}</span></div>
-              <div className="row"><span className="label">Value</span><span>{r.value}</span></div>
-              <div className="row"><span className="label">2D</span><span className="number">{r.twod}</span></div>
-            </div>
-          ))}
+        {/* 12:01 PM Box */}
+        <div className="result-box">
+          <div className="time">12:01 PM</div>
+          <div className="row"><span className="label">Set</span><span>{result12?.set || "--"}</span></div>
+          <div className="row"><span className="label">Value</span><span>{result12?.value || "--"}</span></div>
+          <div className="row"><span className="label">2D</span><span className="number">{result12?.twod || "--"}</span></div>
+        </div>
 
-        {/* 16:30 */}
-        {data?.result
-          ?.filter(r => r.open_time === "16:30:00")
-          .map((r, idx) => (
-            <div key={`16-30-${idx}`} className="result-box">
-              <div className="time">4:30 PM</div>
-              <div className="row"><span className="label">Set</span><span>{r.set}</span></div>
-              <div className="row"><span className="label">Value</span><span>{r.value}</span></div>
-              <div className="row"><span className="label">2D</span><span className="number">{r.twod}</span></div>
-            </div>
-          ))}
+        {/* 4:30 PM Box */}
+        <div className="result-box">
+          <div className="time">4:30 PM</div>
+          <div className="row"><span className="label">Set</span><span>{result1630?.set || "--"}</span></div>
+          <div className="row"><span className="label">Value</span><span>{result1630?.value || "--"}</span></div>
+          <div className="row"><span className="label">2D</span><span className="number">{result1630?.twod || "--"}</span></div>
+        </div>
       </div>
 
       {/* Countdown */}
@@ -133,7 +131,7 @@ export default function Home() {
           color: #d62828;
           text-shadow: 2px 2px 6px rgba(0,0,0,0.4);
           display: inline-block;
-          animation: heartbeat 1s infinite;
+          animation: heartbeat 1.2s infinite;
         }
         @keyframes heartbeat {
           0% { transform: scale(1); }
