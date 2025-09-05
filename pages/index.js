@@ -88,7 +88,7 @@ export default function Home() {
       <div className="results-grid">
         {/* 12:01 */}
         {data?.result
-          ?.filter(r => r.open_time.includes("12:01"))
+          ?.filter(r => r.open_time === "12:01:00")
           .map((r, idx) => (
             <div key={`12-01-${idx}`} className="result-box">
               <div className="time">12:01 PM</div>
@@ -100,7 +100,7 @@ export default function Home() {
 
         {/* 16:30 */}
         {data?.result
-          ?.filter(r => r.open_time.includes("16:30"))
+          ?.filter(r => r.open_time === "16:30:00")
           .map((r, idx) => (
             <div key={`16-30-${idx}`} className="result-box">
               <div className="time">4:30 PM</div>
