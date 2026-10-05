@@ -108,7 +108,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* အလယ် ဖုန်းပုံစံ (ဂဏန်း 57 ကို ပိုကြီးအောင် ပြုလုပ်ထားသည်) */}
+      {/* အလယ် ဖုန်းပုံစံ */}
       <div className="phone-container">
         <div className="phone-screen">
           <div className="phone-status-bar">
@@ -216,10 +216,10 @@ export default function Home() {
         .stream-container {
           width: 1920px;
           height: 1080px;
-          background: linear-gradient(135deg, #ffdb4d 0%, #ffcc00 100%);
-          background-image: radial-gradient(#ffe680 15%, transparent 16%), radial-gradient(#ffcc00 15%, transparent 16%);
-          background-size: 50px 50px;
-          background-position: 0 0, 25px 25px;
+          background-color: #ffcc00;
+          background-image: radial-gradient(rgba(0, 0, 0, 0.1) 15%, transparent 16%), radial-gradient(rgba(0, 0, 0, 0.1) 15%, transparent 16%);
+          background-size: 40px 40px;
+          background-position: 0 0, 20px 20px;
           display: flex;
           justify-content: space-between;
           align-items: center;
@@ -358,7 +358,6 @@ export default function Home() {
         .pulsing-dot { width: 7px; height: 7px; background-color: #16a34a; border-radius: 50%; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.6); } 70% { box-shadow: 0 0 0 6px rgba(22, 163, 74, 0); } 100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0); } }
 
-        /* ဂဏန်း 57 ကို ပိုမိုကြီးမားထင်ရှားအောင် ပြုလုပ်ထားခြင်း */
         .live-main-display { font-size: 6.5rem; font-weight: 900; color: #16a34a; text-align: center; line-height: 1; margin: 0; text-shadow: 0 4px 12px rgba(22, 163, 74, 0.25); }
         .update-time-indicator { text-align: center; font-size: 0.75rem; color: #16a34a; font-weight: bold; }
 
