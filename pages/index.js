@@ -29,7 +29,6 @@ export default function Home() {
         setIsPlaying(true);
       }).catch(err => {
         console.log("Audio play error:", err);
-        alert("အသံစတင်ရန် Screen ပေါ်ကို တစ်ချက်နှိပ်ပြီးမှ ခလုတ်ကို ထပ်နှိပ်ပါ။");
       });
     }
   };
@@ -64,15 +63,15 @@ export default function Home() {
   const result1630 = getResult("16:30:00");
 
   return (
-    <div className="main-container">
+    <div className="main-container" onClick={togglePlay}>
       <Head>
         <title>2D LIVE MYANMAR - Premium Stream</title>
       </Head>
 
-      {/* Stable Direct Audio Stream */}
+      {/* Relaxing / Ambient Sound Stream */}
       <audio 
         ref={audioRef} 
-        src="https://server.proxy.audio/stream/ambient.mp3"
+        src="https://actions.google.com/sounds/v1/ambiences/rain_heavy.ogg"
         crossOrigin="anonymous"
         loop 
       />
@@ -162,9 +161,9 @@ export default function Home() {
         <div className="promo-text-badge">
           🎁 2D လက်ဆောင် <br/>ကံထူးကြပါစေ ❤
         </div>
-        <div className="subscribe-badge" onClick={togglePlay}>
-          <span>{isPlaying ? "🎵 BGM: တီးခတ်နေသည်" : "🔇 BGM: ပိတ်ထားသည်"}</span>
-          <small>{isPlaying ? "တေးဂီတပိတ်ရန် နှိပ်ပါ" : "တေးဂီတဖွင့်ရန် နှိပ်ပါ"}</small>
+        <div className="subscribe-badge">
+          <span>{isPlaying ? "🌧️ မိုးသံ: ဖွင့်ထားသည်" : "🔇 မိုးသံ: ပိတ်ထားသည်"}</span>
+          <small>{isPlaying ? "ရပ်တန့်ရန် နှိပ်ပါ" : "ဖွင့်ရန် Screen ပေါ်နှိပ်ပါ"}</small>
         </div>
       </div>
 
@@ -187,6 +186,7 @@ export default function Home() {
           justify-content: space-between;
           box-sizing: border-box;
           box-shadow: 0 0 60px rgba(0,0,0,0.95);
+          cursor: pointer;
         }
         .header-banner { text-align: center; padding-top: 4px; }
         .top-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
@@ -205,7 +205,7 @@ export default function Home() {
         .live-number-wrapper { background: linear-gradient(to bottom, #ffffff, #fffbeb); padding: 16px 0 10px 0; text-align: center; }
         .live-number-display { font-size: 6.8rem; font-weight: 900; color: #dc2626; line-height: 1; text-shadow: 4px 4px 10px rgba(220, 38, 38, 0.25); animation: pulseBounce 1.5s infinite ease-in-out; }
         .live-sub-tag { font-size: 0.75rem; font-weight: 700; color: #d97706; margin-top: 6px; letter-spacing: 1px; }
-        @keyframes pulseBounce { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        @keyframes pulseBounce { 0% { screen and (transform: scale(1)); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
         .market-grid { grid-template-columns: 1fr 1fr; border-top: 2px solid #e2e8f0; border-bottom: 2px solid #e2e8f0; display: grid; }
         .market-box { padding: 12px; text-align: center; }
         .set-box { background: linear-gradient(135deg, #1e40af, #1d4ed8); color: white; border-right: 2px solid #e2e8f0; }
@@ -224,8 +224,7 @@ export default function Home() {
         .red-text { color: #dc2626; font-size: 1.55rem; font-weight: 900; }
         .footer-promo { display: grid; grid-template-columns: 1fr 1.2fr; gap: 12px; margin: 14px 0 8px 0; }
         .promo-text-badge { background: linear-gradient(135deg, #fef08a 0%, #facc15 50%, #ca8a04 100%); color: #111827; font-weight: 900; text-align: center; padding: 10px; border-radius: 16px; font-size: 0.85rem; box-shadow: 0 0 15px rgba(250, 204, 21, 0.4); border: 2px solid #fff; display: flex; align-items: center; justify-content: center; line-height: 1.3; }
-        .subscribe-badge { background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%); color: white; font-weight: 900; text-align: center; padding: 10px; border-radius: 16px; font-size: 0.85rem; box-shadow: 0 0 15px rgba(220, 38, 38, 0.5); border: 2px solid #fff; line-height: 1.3; display: flex; flex-direction: column; justify-content: center; cursor: pointer; transition: 0.2s; }
-        .subscribe-badge:hover { transform: scale(0.98); opacity: 0.9; }
+        .subscribe-badge { background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%); color: white; font-weight: 900; text-align: center; padding: 10px; border-radius: 16px; font-size: 0.85rem; box-shadow: 0 0 15px rgba(220, 38, 38, 0.5); border: 2px solid #fff; line-height: 1.3; display: flex; flex-direction: column; justify-content: center; transition: 0.2s; }
         .subscribe-badge small { font-size: 0.7rem; font-weight: normal; color: #fecaca; }
         .footer-brand { text-align: center; color: #fbbf24; font-size: 0.85rem; font-weight: bold; letter-spacing: 3px; margin-top: 4px; text-shadow: 0 0 10px rgba(251, 191, 36, 0.6); }
       `}</style>
