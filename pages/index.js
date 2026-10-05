@@ -97,19 +97,19 @@ export default function Home() {
         <div className="live-clock-box">{currentTime}</div>
         <div className="info-pill-dark">{sessionDay}</div>
         <div className="hor-box">
-          <span className="hor-label">📌 ဟောထုပ်</span>
+          <span className="hor-label">📌 ဟော့ထိပ်</span>
           <span className="hor-val">{horThout}</span>
         </div>
       </div>
 
-      {/* အလယ် တကယ့်ဖုန်းပုံစံ ရှည်ရှည် (Reality Pro Mockup) */}
+      {/* အလယ် ဖုန်းပုံစံ (အကျယ်ပိုပေးထားပြီး စာသားများ အလှမ်းမဝေးစေရန် ချိန်ညှိထားသည်) */}
       <div className="phone-container">
         <div className="phone-screen">
           {/* ဖုန်းအပေါ်ပိုင်း Status Bar & Dynamic Island */}
           <div className="phone-status-bar">
-            <span className="carrier">6:21</span>
+            <span className="carrier">6:28</span>
             <div className="dynamic-island"></div>
-            <div className="status-icons">📶 🛜 🔋 55</div>
+            <div className="status-icons">📶 🛜 🔋 87</div>
           </div>
 
           {/* အက်ပ်ခေါင်းစဉ် */}
@@ -131,40 +131,43 @@ export default function Home() {
             <span>✔ Updated: {data?.live?.update_time || "2026-10-05 16:30:13"}</span>
           </div>
 
-          {/* 12:01 PM ပွဲစဉ်အကွက် */}
-          <div className="result-card-red">
-            <div className="card-title-top">12:01 PM</div>
-            <div className="card-sub-grid">
-              <div className="sub-col">
-                <span className="sub-label">SET</span>
-                <span className="sub-val">{result12?.set || "1,572.80"}</span>
-              </div>
-              <div className="sub-col">
-                <span className="sub-label">Value</span>
-                <span className="sub-val">{result12?.value || "31,350.28"}</span>
-              </div>
-              <div className="sub-col">
-                <span className="sub-label">2D</span>
-                <span className="sub-val highlight-num">{result12?.twod || "00"}</span>
+          {/* ပွဲစဉ်ကတ်များအုပ်စု */}
+          <div className="cards-group">
+            {/* 12:01 PM ပွဲစဉ်အကွက် */}
+            <div className="result-card-red">
+              <div className="card-title-top">12:01 PM</div>
+              <div className="card-sub-grid">
+                <div className="sub-col">
+                  <span className="sub-label">SET</span>
+                  <span className="sub-val">{result12?.set || "1,572.80"}</span>
+                </div>
+                <div className="sub-col">
+                  <span className="sub-label">Value</span>
+                  <span className="sub-val">{result12?.value || "31,350.28"}</span>
+                </div>
+                <div className="sub-col">
+                  <span className="sub-label">2D</span>
+                  <span className="sub-val highlight-num">{result12?.twod || "00"}</span>
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* 4:30 PM ပွဲစဉ်အကွက် */}
-          <div className="result-card-red">
-            <div className="card-title-top">4:30 PM</div>
-            <div className="card-sub-grid">
-              <div className="sub-col">
-                <span className="sub-label">SET</span>
-                <span className="sub-val">{result1630?.set || "1,576.45"}</span>
-              </div>
-              <div className="sub-col">
-                <span className="sub-label">Value</span>
-                <span className="sub-val">{result1630?.value || "55,047.95"}</span>
-              </div>
-              <div className="sub-col">
-                <span className="sub-label">2D</span>
-                <span className="sub-val highlight-num">{result1630?.twod || "57"}</span>
+            {/* 4:30 PM ပွဲစဉ်အကွက် */}
+            <div className="result-card-red">
+              <div className="card-title-top">4:30 PM</div>
+              <div className="card-sub-grid">
+                <div className="sub-col">
+                  <span className="sub-label">SET</span>
+                  <span className="sub-val">{result1630?.set || "1,576.45"}</span>
+                </div>
+                <div className="sub-col">
+                  <span className="sub-label">Value</span>
+                  <span className="sub-val">{result1630?.value || "55,047.95"}</span>
+                </div>
+                <div className="sub-col">
+                  <span className="sub-label">2D</span>
+                  <span className="sub-val highlight-num">{result1630?.twod || "57"}</span>
+                </div>
               </div>
             </div>
           </div>
@@ -202,7 +205,7 @@ export default function Home() {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          padding: 40px 70px;
+          padding: 40px 60px;
           position: relative;
           font-family: 'Pyidaungsu', sans-serif;
           box-sizing: border-box;
@@ -248,14 +251,14 @@ export default function Home() {
         .hor-label { font-size: 1.4rem; font-weight: bold; color: #f59e0b; }
         .hor-val { font-size: 2rem; font-weight: 900; color: #fff; letter-spacing: 1px; }
 
-        /* တကယ့်ဖုန်းပုံစံ ရှည်ရှည် (Reality Pro Mockup) */
+        /* ဖုန်းဆိုဒ်ကို နည်းနည်းပိုကားပေးပြီး အမြင့်သင့်တော်အောင် ချိန်ညှိထားသည် */
         .phone-container {
-          width: 440px;
-          height: 980px;
+          width: 500px;
+          height: 960px;
           background: #111827;
           border: 12px solid #1f2937;
-          border-radius: 54px;
-          padding: 14px;
+          border-radius: 50px;
+          padding: 12px;
           box-shadow: 0 30px 70px rgba(0,0,0,0.95), inset 0 0 20px rgba(255,255,255,0.15);
           display: flex;
           flex-direction: column;
@@ -263,8 +266,8 @@ export default function Home() {
         }
         .phone-screen {
           background: #ffffff;
-          border-radius: 42px;
-          padding: 16px 20px;
+          border-radius: 38px;
+          padding: 14px 18px;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
@@ -279,63 +282,68 @@ export default function Home() {
           font-size: 0.85rem;
           font-weight: bold;
           color: #000;
-          padding: 0 5px;
+          padding: 0 4px;
         }
         .dynamic-island {
-          width: 115px;
+          width: 120px;
           height: 24px;
           background: #000;
           border-radius: 20px;
         }
         .app-header-bar {
           background: #facc15;
-          padding: 10px 16px;
-          border-radius: 12px;
+          padding: 8px 14px;
+          border-radius: 10px;
           display: flex;
           justify-content: space-between;
           align-items: center;
           font-weight: bold;
-          font-size: 1.05rem;
+          font-size: 1rem;
           box-shadow: 0 4px 10px rgba(250, 204, 21, 0.3);
         }
         .app-logo { color: #000; font-weight: 900; }
-        .app-menu-icons { display: flex; gap: 8px; align-items: center; font-size: 0.9rem; }
+        .app-menu-icons { display: flex; gap: 8px; align-items: center; font-size: 0.85rem; }
         .badge-2d { background: #16a34a; color: #fff; padding: 2px 8px; border-radius: 6px; font-size: 0.75rem; }
         .badge-3d { background: #2563eb; color: #fff; padding: 2px 8px; border-radius: 6px; font-size: 0.75rem; }
         
         .live-main-display {
-          font-size: 7.5rem;
+          font-size: 7rem;
           font-weight: 900;
           color: #16a34a;
           text-align: center;
           line-height: 1;
-          margin: 10px 0;
-          text-shadow: 0 5px 15px rgba(22, 163, 74, 0.2);
+          margin: 5px 0;
+          text-shadow: 0 4px 12px rgba(22, 163, 74, 0.2);
         }
         .update-time-indicator {
           text-align: center;
-          font-size: 0.9rem;
+          font-size: 0.85rem;
           color: #16a34a;
           font-weight: bold;
-          margin-bottom: 10px;
+          margin-bottom: 5px;
         }
 
-        /* ပွဲစဉ်ကတ်များ (Red Theme with SET & Value) */
+        .cards-group {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        /* ပွဲစဉ်ကတ်များ (စာသားများ အလှမ်းမဝေးစေရန် Padding ချိန်ညှိထားသည်) */
         .result-card-red {
           background: linear-gradient(135deg, #f87171 0%, #ef4444 100%);
-          border-radius: 16px;
-          padding: 14px 18px;
+          border-radius: 14px;
+          padding: 10px 16px;
           color: #fff;
-          box-shadow: 0 6px 15px rgba(239, 68, 68, 0.35);
-          margin-bottom: 6px;
+          box-shadow: 0 5px 12px rgba(239, 68, 68, 0.35);
         }
         .card-title-top {
           text-align: center;
           font-weight: 900;
-          font-size: 1.1rem;
+          font-size: 1rem;
           border-bottom: 1px solid rgba(255,255,255,0.3);
-          padding-bottom: 6px;
-          margin-bottom: 8px;
+          padding-bottom: 4px;
+          margin-bottom: 6px;
           letter-spacing: 1px;
         }
         .card-sub-grid {
@@ -349,18 +357,18 @@ export default function Home() {
           flex-direction: column;
         }
         .sub-label {
-          font-size: 0.75rem;
+          font-size: 0.7rem;
           opacity: 0.9;
           font-weight: bold;
         }
         .sub-val {
-          font-size: 1.35rem;
+          font-size: 1.25rem;
           font-weight: 900;
         }
         .highlight-num {
-          font-size: 1.5rem;
+          font-size: 1.4rem;
           background: rgba(0,0,0,0.18);
-          border-radius: 8px;
+          border-radius: 6px;
           padding: 2px 0;
         }
 
