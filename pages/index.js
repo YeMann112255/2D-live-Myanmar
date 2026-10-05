@@ -17,7 +17,6 @@ export default function Home() {
 
   useEffect(() => {
     const updateDateTime = () => {
-      // မြန်မာစံတော်ချိန် (UTC+6:30) ကို တိကျစွာ ယူခြင်း
       const now = new Date();
       const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
       const myanmarTime = new Date(utc + (3600000 * 6.5));
@@ -26,15 +25,13 @@ export default function Home() {
       const minutes = String(myanmarTime.getMinutes()).padStart(2, '0');
       const seconds = String(myanmarTime.getSeconds()).padStart(2, '0');
       
-      // 12 နာရီစနစ် (AM/PM) သို့ ပြောင်းလဲခြင်း
       const ampm = hours >= 12 ? 'PM' : 'AM';
       hours = hours % 12;
-      hours = hours ? hours : 12; // အကယ်၍ 0 နာရီ (ည ၁၂ နာရီ) ဖြစ်နေပါက 12 ဟုပြရန်
+      hours = hours ? hours : 12;
       const formattedHours = String(hours).padStart(2, '0');
 
       setCurrentTime(`${formattedHours}:${minutes}:${seconds} ${ampm}`);
 
-      // အချိန်အလိုက် Auto ပြောင်းရန် (ဥပမာ - နေ့လယ် ၁ နာရီ မတိုင်ခင် မနက်ပိုင်း၊ ကျော်လျှင် ညနေပိုင်း)
       if (myanmarTime.getHours() < 13) {
         setSessionTitle("12:01 PM LIVE");
         setSessionDay("မနက်ပိုင်း");
@@ -100,27 +97,44 @@ export default function Home() {
         <div className="live-clock-box">{currentTime}</div>
         <div className="info-pill-dark">{sessionDay}</div>
         <div className="hor-box">
-          <span className="hor-label">📌 ဟောထိပ်</span>
+          <span className="hor-label">📌 ဟော့ထိပ်</span>
           <span className="hor-val">{horThout}</span>
         </div>
       </div>
 
-      {/* အလယ်ဖုန်းစခရင်အကြီး */}
+      {/* အလယ် ဖုန်းပုံစံအစစ် (Pro Mockup) */}
       <div className="phone-container">
         <div className="phone-screen">
-          <div className="phone-banner">🔴 MYANMAR 2D LIVE</div>
-          <div className="live-display-box">
-            <span className="live-tag">⚡ လက်ရှိထွက်ပေါ်နေသော ⚡</span>
-            <div className="mega-number">{data?.live?.twod || "57"}</div>
+          {/* ဖုန်းအပေါ်ပိုင်း Status Bar & Dynamic Island */}
+          <div className="phone-status-bar">
+            <span className="carrier">Myan2D</span>
+            <div className="dynamic-island"></div>
+            <div className="status-icons">📶 🛜 🔋</div>
           </div>
-          <div className="session-grid">
-            <div className="ses-item">
-              <span className="ses-time">12:01 PM</span>
-              <span className="ses-num">{result12?.twod || "00"}</span>
+
+          {/* အက်ပ်ခေါင်းစဉ် */}
+          <div className="app-header-bar">
+            <span>⭐ Myanmar 2D</span>
+            <span className="live-dot-badge">🔴 LIVE</span>
+          </div>
+
+          {/* ပင်မ Live ဂဏန်းပြအကွက် */}
+          <div className="live-main-card">
+            <div className="live-mega-num">{data?.live?.twod || "57"}</div>
+            <div className="update-time-text">
+              <span>⚡ လက်ရှိထွက်ပေါ်နေသော ⚡</span>
             </div>
-            <div className="ses-item">
-              <span className="ses-time">4:30 PM</span>
-              <span className="ses-num">{result1630?.twod || "57"}</span>
+          </div>
+
+          {/* အောက်ပိုင်း ပွဲစဉ်အကွက်များ (12:01 PM & 4:30 PM) */}
+          <div className="sessions-container">
+            <div className="session-box">
+              <div className="ses-time-label">12:01 PM</div>
+              <div className="ses-val">{result12?.twod || "00"}</div>
+            </div>
+            <div className="session-box active-session">
+              <div className="ses-time-label">4:30 PM</div>
+              <div className="ses-val">{result1630?.twod || "57"}</div>
             </div>
           </div>
         </div>
@@ -202,33 +216,115 @@ export default function Home() {
         .hor-label { font-size: 1.4rem; font-weight: bold; color: #f59e0b; }
         .hor-val { font-size: 2rem; font-weight: 900; color: #fff; letter-spacing: 1px; }
 
+        /* ဖုန်းပုံစံဒီဇိုင်းအသစ် (Pro Mockup) */
         .phone-container {
-          width: 480px;
-          background: #000;
-          border: 10px solid #1e293b;
-          border-radius: 45px;
-          padding: 16px;
-          box-shadow: 0 20px 60px rgba(0,0,0,0.9);
+          width: 440px;
+          background: #111827;
+          border: 10px solid #334155;
+          border-radius: 48px;
+          padding: 14px;
+          box-shadow: 0 25px 60px rgba(0,0,0,0.9), inset 0 0 15px rgba(255,255,255,0.1);
         }
         .phone-screen {
-          background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
-          border-radius: 30px;
-          padding: 25px;
-          text-align: center;
+          background: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
+          border-radius: 36px;
+          padding: 16px 20px 20px 20px;
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
           color: #000;
         }
-        .phone-banner {
-          background: #dc2626; color: #fff; font-weight: 900; font-size: 1.2rem; padding: 10px; border-radius: 12px; margin-bottom: 20px;
+        .phone-status-bar {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          font-size: 0.8rem;
+          font-weight: bold;
+          color: #475569;
+          padding: 0 5px;
         }
-        .live-display-box {
-          background: #0f172a; color: #fff; border-radius: 20px; padding: 25px 15px; margin-bottom: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        .dynamic-island {
+          width: 110px;
+          height: 22px;
+          background: #000;
+          border-radius: 20px;
         }
-        .live-tag { font-size: 0.95rem; font-weight: bold; color: #f59e0b; letter-spacing: 1px; }
-        .mega-number { font-size: 7.5rem; font-weight: 900; color: #4ade80; line-height: 1; margin-top: 10px; text-shadow: 0 0 20px rgba(74, 222, 128, 0.4); }
-        .session-grid { display: flex; gap: 12px; }
-        .ses-item { flex: 1; background: #e2e8f0; padding: 14px; border-radius: 14px; display: flex; flex-direction: column; gap: 5px; }
-        .ses-time { font-size: 0.9rem; font-weight: bold; color: #64748b; }
-        .ses-num { font-size: 1.8rem; font-weight: 900; color: #1e293b; }
+        .app-header-bar {
+          background: #f1f5f9;
+          padding: 8px 14px;
+          border-radius: 12px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          font-weight: bold;
+          font-size: 0.95rem;
+          border: 1px solid #cbd5e1;
+        }
+        .live-dot-badge {
+          background: #fee2e2;
+          color: #dc2626;
+          padding: 2px 8px;
+          border-radius: 6px;
+          font-size: 0.75rem;
+        }
+        .live-main-card {
+          background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+          border-radius: 20px;
+          padding: 24px 15px;
+          text-align: center;
+          box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+          border: 2px solid rgba(245, 158, 11, 0.3);
+        }
+        .live-mega-num {
+          font-size: 6.5rem;
+          font-weight: 900;
+          color: #4ade80;
+          line-height: 1;
+          text-shadow: 0 0 25px rgba(74, 222, 128, 0.4);
+          margin-bottom: 8px;
+        }
+        .update-time-text {
+          font-size: 0.85rem;
+          font-weight: bold;
+          color: #f59e0b;
+          letter-spacing: 1px;
+        }
+        .sessions-container {
+          display: flex;
+          gap: 10px;
+        }
+        .session-box {
+          flex: 1;
+          background: #ffffff;
+          border: 1px solid #cbd5e1;
+          padding: 12px;
+          border-radius: 14px;
+          text-align: center;
+          box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        .active-session {
+          background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+          border: none;
+          color: #fff;
+          box-shadow: 0 6px 15px rgba(220, 38, 38, 0.3);
+        }
+        .active-session .ses-time-label {
+          color: #fee2e2;
+        }
+        .active-session .ses-val {
+          color: #fff;
+        }
+        .ses-time-label {
+          font-size: 0.75rem;
+          font-weight: bold;
+          color: #64748b;
+          margin-bottom: 4px;
+        }
+        .ses-val {
+          font-size: 1.6rem;
+          font-weight: 900;
+          color: #1e293b;
+        }
 
         .date-display-box {
           background: linear-gradient(90deg, #dc2626, #b91c1c);
