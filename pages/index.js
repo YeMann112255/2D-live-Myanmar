@@ -28,8 +28,7 @@ export default function Home() {
       audioRef.current.play().then(() => {
         setIsPlaying(true);
       }).catch(err => {
-        console.log("Audio play blocked or failed:", err);
-        alert("ဘရောက်ဆာ မူဝါဒအရ အသံစတင်ရန် Screen ပေါ်ကို အရင်တစ်ချက်နှိပ်ပါ။");
+        console.log("Audio play error:", err);
       });
     }
   };
@@ -69,7 +68,7 @@ export default function Home() {
         <title>2D LIVE MYANMAR - Premium Stream</title>
       </Head>
 
-      {/* Stable Copyright-Free Audio Stream */}
+      {/* Audio Element */}
       <audio 
         ref={audioRef} 
         src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf756.mp3?filename=lofi-study-112191.mp3" 
