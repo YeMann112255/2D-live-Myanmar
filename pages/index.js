@@ -102,10 +102,10 @@ export default function Home() {
         </div>
       </div>
 
-      {/* အလယ် ဖုန်းပုံစံအစစ် (Pro Mockup with SET, Value & Sessions) */}
+      {/* အလယ် ဖုန်းပုံစံအစစ် (SET & Value ပါသော 12:01 နှင့် 4:30 သီးသန့်) */}
       <div className="phone-container">
         <div className="phone-screen">
-          {/* ဖုန်းအပေါ်ပိုင်း Status Bar & Dynamic Island */}
+          {/* ဖုန်းအပေါ်ပိုင်း Status Bar */}
           <div className="phone-status-bar">
             <span className="carrier">6:08</span>
             <div className="dynamic-island"></div>
@@ -165,26 +165,6 @@ export default function Home() {
               <div className="sub-col">
                 <span className="sub-label">2D</span>
                 <span className="sub-val highlight-num">{result1630?.twod || "57"}</span>
-              </div>
-            </div>
-          </div>
-
-          {/* အောက်ဆုံး အသေးစား ပွဲစဉ်အကွက်များ (9:30 AM & 2:00 PM) */}
-          <div className="small-sessions-row">
-            <div className="small-ses-box">
-              <span className="s-time">9:30 AM</span>
-              <div className="s-data-row">
-                <div><small>Modern</small> <b>81</b></div>
-                <div><small>Internet</small> <b>17</b></div>
-                <div><small>TW</small> <b>48</b></div>
-              </div>
-            </div>
-            <div className="small-ses-box">
-              <span className="s-time">2:00 PM</span>
-              <div className="s-data-row">
-                <div><small>Modern</small> <b>44</b></div>
-                <div><small>Internet</small> <b>41</b></div>
-                <div><small>04:34 PM</small> <b>57</b></div>
               </div>
             </div>
           </div>
@@ -268,7 +248,7 @@ export default function Home() {
         .hor-label { font-size: 1.4rem; font-weight: bold; color: #f59e0b; }
         .hor-val { font-size: 2rem; font-weight: 900; color: #fff; letter-spacing: 1px; }
 
-        /* ဖုန်းပုံစံဒီဇိုင်းအသစ် (Second Image Pro Mockup) */
+        /* ဖုန်းပုံစံဒီဇိုင်း (12:01 နှင့် 4:30 သီးသန့်) */
         .phone-container {
           width: 440px;
           background: #111827;
@@ -283,7 +263,7 @@ export default function Home() {
           padding: 12px 16px 16px 16px;
           display: flex;
           flex-direction: column;
-          gap: 8px;
+          gap: 12px;
           color: #000;
         }
         .phone-status-bar {
@@ -317,36 +297,36 @@ export default function Home() {
         .badge-3d { background: #2563eb; color: #fff; padding: 1px 6px; border-radius: 4px; font-size: 0.7rem; }
         
         .live-main-display {
-          font-size: 5.5rem;
+          font-size: 6rem;
           font-weight: 900;
           color: #16a34a;
           text-align: center;
           line-height: 1;
-          margin-top: 2px;
+          margin-top: 5px;
         }
         .update-time-indicator {
           text-align: center;
-          font-size: 0.75rem;
+          font-size: 0.8rem;
           color: #16a34a;
           font-weight: bold;
-          margin-bottom: 4px;
+          margin-bottom: 5px;
         }
 
         /* ပွဲစဉ်ကတ်များ (Red Theme with SET & Value) */
         .result-card-red {
           background: linear-gradient(135deg, #f87171 0%, #ef4444 100%);
           border-radius: 12px;
-          padding: 8px 12px;
+          padding: 10px 14px;
           color: #fff;
           box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3);
         }
         .card-title-top {
           text-align: center;
           font-weight: 900;
-          font-size: 0.95rem;
+          font-size: 1rem;
           border-bottom: 1px solid rgba(255,255,255,0.3);
-          padding-bottom: 4px;
-          margin-bottom: 4px;
+          padding-bottom: 5px;
+          margin-bottom: 6px;
           letter-spacing: 1px;
         }
         .card-sub-grid {
@@ -360,47 +340,20 @@ export default function Home() {
           flex-direction: column;
         }
         .sub-label {
-          font-size: 0.65rem;
+          font-size: 0.7rem;
           opacity: 0.9;
           font-weight: bold;
         }
         .sub-val {
-          font-size: 1.1rem;
+          font-size: 1.2rem;
           font-weight: 900;
         }
         .highlight-num {
-          font-size: 1.25rem;
+          font-size: 1.35rem;
           background: rgba(0,0,0,0.15);
           border-radius: 6px;
-          padding: 1px 0;
+          padding: 2px 0;
         }
-
-        /* အောက်ဆုံးသေးသေး အကွက်များ */
-        .small-sessions-row {
-          display: flex;
-          gap: 6px;
-          margin-top: 2px;
-        }
-        .small-ses-box {
-          flex: 1;
-          background: #ff5252;
-          border-radius: 8px;
-          padding: 6px 8px;
-          color: #fff;
-        }
-        .s-time {
-          font-size: 0.75rem;
-          font-weight: 900;
-          display: block;
-          margin-bottom: 3px;
-        }
-        .s-data-row {
-          display: flex;
-          justify-content: space-between;
-          font-size: 0.7rem;
-        }
-        .s-data-row small { display: block; font-size: 0.55rem; opacity: 0.8; }
-        .s-data-row b { font-size: 0.85rem; }
 
         .date-display-box {
           background: linear-gradient(90deg, #dc2626, #b91c1c);
