@@ -5,17 +5,32 @@ export default function Home() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [currentDate, setCurrentDate] = useState("");
+  const [currentTime, setCurrentTime] = useState("");
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef(null);
 
   useEffect(() => {
-    const today = new Date();
-    const formattedDate = `${today.getDate()}.${today.getMonth() + 1}.${today.getFullYear()}`;
-    setCurrentDate(formattedDate);
+    const updateDateTime = () => {
+      const today = new Date();
+      const formattedDate = `${today.getDate()}.${today.getMonth() + 1}.${today.getFullYear()}`;
+      setCurrentDate(formattedDate);
+      
+      const hours = String(today.getHours()).padStart(2, '0');
+      const minutes = String(today.getMinutes()).padStart(2, '0');
+      const seconds = String(today.getSeconds()).padStart(2, '0');
+      setCurrentTime(`${hours}:${minutes}:${seconds}`);
+    };
+
+    updateDateTime();
+    const timeInterval = setInterval(updateDateTime, 1000);
 
     fetchData();
-    const interval = setInterval(fetchData, 3000);
-    return () => clearInterval(interval);
+    const dataInterval = setInterval(fetchData, 3000);
+
+    return () => {
+      clearInterval(timeInterval);
+      clearInterval(dataInterval);
+    };
   }, []);
 
   const togglePlay = () => {
@@ -68,10 +83,10 @@ export default function Home() {
         <title>2D LIVE MYANMAR - Premium Stream</title>
       </Head>
 
-      {/* Relaxing / Ambient Sound Stream */}
+      {/* Car Driving Sound Stream */}
       <audio 
         ref={audioRef} 
-        src="https://actions.google.com/sounds/v1/ambiences/rain_heavy.ogg"
+        src="https://actions.google.com/sounds/v1/transportation/car_driving_by.ogg"
         crossOrigin="anonymous"
         loop 
       />
@@ -93,8 +108,13 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="date-pill">
-          <span>📅</span> {currentDate}
+        <div className="date-time-wrapper">
+          <div className="date-pill">
+            <span>📅</span> {currentDate}
+          </div>
+          <div className="time-pill">
+            <span>⏰</span> {currentTime}
+          </div>
         </div>
       </div>
 
@@ -162,7 +182,7 @@ export default function Home() {
           🎁 2D လက်ဆောင် <br/>ကံထူးကြပါစေ ❤
         </div>
         <div className="subscribe-badge">
-          <span>{isPlaying ? "🌧️ မိုးသံ: ဖွင့်ထားသည်" : "🔇 မိုးသံ: ပိတ်ထားသည်"}</span>
+          <span>{isPlaying ? "🚗 GDM: ဖွင့်ထားသည်" : "🔇 GDM: ပိတ်ထားသည်"}</span>
           <small>{isPlaying ? "ရပ်တန့်ရန် နှိပ်ပါ" : "ဖွင့်ရန် Screen ပေါ်နှိပ်ပါ"}</small>
         </div>
       </div>
@@ -197,7 +217,9 @@ export default function Home() {
         .star { color: white; font-size: 16px; text-shadow: 0 1px 3px rgba(0,0,0,0.8); }
         .title-group h1 { font-size: 2.8rem; font-weight: 900; color: #facc15; margin: 0; line-height: 1; text-shadow: 2px 2px 0px #b45309, 0 0 30px rgba(250, 204, 21, 0.7); font-style: italic; letter-spacing: 2px; }
         .title-group h2 { font-size: 1.1rem; font-weight: 800; color: #f1f5f9; margin: 2px 0 0 0; letter-spacing: 3px; }
-        .date-pill { display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: #000; font-size: 1.25rem; font-weight: 900; padding: 6px 24px; border-radius: 30px; margin: 10px 0 14px 0; box-shadow: 0 0 20px rgba(245, 158, 11, 0.5); border: 2px solid #fff; letter-spacing: 1px; }
+        .date-time-wrapper { display: flex; justify-content: center; gap: 10px; margin: 10px 0 14px 0; }
+        .date-pill, .time-pill { display: inline-flex; align-items: center; gap: 6px; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: #000; font-size: 1.1rem; font-weight: 900; padding: 5px 16px; border-radius: 30px; box-shadow: 0 0 15px rgba(245, 158, 11, 0.4); border: 2px solid #fff; letter-spacing: 1px; }
+        .time-pill { background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%); color: #fff; }
         .content-card { background: rgba(255, 255, 255, 0.98); color: #0f172a; border-radius: 24px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 20px rgba(245, 158, 11, 0.2); border: 2.5px solid #f59e0b; }
         .live-header-bar { background: linear-gradient(90deg, #991b1b, #dc2626, #991b1b); color: white; text-align: center; font-weight: 800; font-size: 0.85rem; padding: 7px; letter-spacing: 2px; display: flex; align-items: center; justify-content: center; gap: 6px; }
         .blink-dot { color: #4ade80; animation: blink 1s infinite alternate; }
@@ -205,7 +227,7 @@ export default function Home() {
         .live-number-wrapper { background: linear-gradient(to bottom, #ffffff, #fffbeb); padding: 16px 0 10px 0; text-align: center; }
         .live-number-display { font-size: 6.8rem; font-weight: 900; color: #dc2626; line-height: 1; text-shadow: 4px 4px 10px rgba(220, 38, 38, 0.25); animation: pulseBounce 1.5s infinite ease-in-out; }
         .live-sub-tag { font-size: 0.75rem; font-weight: 700; color: #d97706; margin-top: 6px; letter-spacing: 1px; }
-        @keyframes pulseBounce { 0% { screen and (transform: scale(1)); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        @keyframes pulseBounce { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
         .market-grid { grid-template-columns: 1fr 1fr; border-top: 2px solid #e2e8f0; border-bottom: 2px solid #e2e8f0; display: grid; }
         .market-box { padding: 12px; text-align: center; }
         .set-box { background: linear-gradient(135deg, #1e40af, #1d4ed8); color: white; border-right: 2px solid #e2e8f0; }
@@ -215,7 +237,7 @@ export default function Home() {
         .session-rows { padding: 14px 20px; background: #f8fafc; }
         .s-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #e2e8f0; }
         .s-row:last-child { border-bottom: none; }
-        .s-time-info { display: flex; align-items: center; gap: 10px; color: #1e293b; }
+        .s-time-info { display: `flex`; align-items: center; gap: 10px; color: #1e293b; }
         .time-icon-box { background: #e2e8f0; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem; }
         .s-time-info strong { font-size: 0.95rem; display: block; line-height: 1.1; color: #0f172a; }
         .s-time-info p { font-size: 0.72rem; color: #64748b; margin: 2px 0 0 0; }
