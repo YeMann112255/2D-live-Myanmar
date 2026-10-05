@@ -103,14 +103,14 @@ export default function Home() {
         </div>
       </div>
 
-      {/* အလယ် ဖုန်းပုံစံ (နေရာလွတ်မရှိဘဲ စုစည်းညီညာစေရန် ပြင်ဆင်ထားသည်) */}
+      {/* အလယ် ဖုန်းပုံစံ (နေရာလွတ်မရှိစေဘဲ Pro ဆန်ဆန် ဖွဲ့စည်းထားသည်) */}
       <div className="phone-container">
         <div className="phone-screen">
           {/* ဖုန်းအပေါ်ပိုင်း Status Bar */}
           <div className="phone-status-bar">
-            <span className="carrier">6:56</span>
+            <span className="carrier">7:00</span>
             <div className="dynamic-island"></div>
-            <div className="status-icons">📶 🛜 🔋 50</div>
+            <div className="status-icons">📶 🛜 🔋 49</div>
           </div>
 
           {/* အက်ပ်ခေါင်းစဉ် */}
@@ -121,6 +121,12 @@ export default function Home() {
               <span className="badge-3d">3D</span>
               <span>📅</span>
             </div>
+          </div>
+
+          {/* အသက်ဝင်နေမှုကို ပြသသည့် Live Status Pill */}
+          <div className="live-status-pill">
+            <span className="pulsing-dot"></span>
+            <span>LIVE REAL-TIME UPDATES</span>
           </div>
 
           {/* ပင်မ Live ဂဏန်းအကြီး */}
@@ -136,7 +142,7 @@ export default function Home() {
           <div className="cards-group">
             {/* 12:01 PM ပွဲစဉ်အကွက် */}
             <div className="result-card-red">
-              <div className="card-title-top">12:01 PM</div>
+              <div className="card-title-top">12:01 PM Result</div>
               <div className="card-sub-grid">
                 <div className="sub-col">
                   <span className="sub-label">SET</span>
@@ -155,7 +161,7 @@ export default function Home() {
 
             {/* 4:30 PM ပွဲစဉ်အကွက် */}
             <div className="result-card-red">
-              <div className="card-title-top">4:30 PM</div>
+              <div className="card-title-top">4:30 PM Result</div>
               <div className="card-sub-grid">
                 <div className="sub-col">
                   <span className="sub-label">SET</span>
@@ -230,7 +236,6 @@ export default function Home() {
         .input-group label { color: #cbd5e1; font-weight: bold; font-size: 0.85rem; }
         .input-group input { background: #1e293b; border: 1px solid #475569; color: #fff; padding: 5px 8px; border-radius: 4px; width: 55%; }
 
-        /* ဘယ်ညာ ဘောက်စ်များ */
         .side-card {
           width: 440px;
           background: rgba(15, 23, 42, 0.95);
@@ -270,10 +275,10 @@ export default function Home() {
         .gold-text-pro { color: #facc15; border-color: #d97706; }
         .red-text-pro { color: #f87171; border-color: #ef4444; }
 
-        /* ဖုန်းစခရင် ပုံစံ (အံဝင်ဂွင်ကျနှင့် နေရာလွတ်မရှိစေရန် ချိန်ညှိထားသည်) */
+        /* ဖုန်းစခရင် ပုံစံ (နေရာလွတ်မရှိဘဲ မျှတညီညာစေရန် ပြင်ဆင်ထားသည်) */
         .phone-container {
-          width: 400px;
-          height: 860px;
+          width: 420px;
+          height: 900px;
           background: #111827;
           border: 8px solid #1f2937;
           border-radius: 36px;
@@ -286,7 +291,7 @@ export default function Home() {
         .phone-screen {
           background: #ffffff;
           border-radius: 28px;
-          padding: 10px 14px;
+          padding: 12px 14px;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
@@ -324,13 +329,42 @@ export default function Home() {
         .badge-2d { background: #16a34a; color: #fff; padding: 1px 5px; border-radius: 4px; font-size: 0.65rem; }
         .badge-3d { background: #2563eb; color: #fff; padding: 1px 5px; border-radius: 4px; font-size: 0.65rem; }
         
+        .live-status-pill {
+          background: #f0fdf4;
+          border: 1px solid #bbf7d0;
+          color: #16a34a;
+          font-size: 0.7rem;
+          font-weight: 900;
+          padding: 3px 8px;
+          border-radius: 20px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 6px;
+          width: fit-content;
+          margin: 0 auto;
+        }
+        .pulsing-dot {
+          width: 7px;
+          height: 7px;
+          background-color: #16a34a;
+          border-radius: 50%;
+          box-shadow: 0 0 0 rgba(22, 163, 74, 0.4);
+          animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+          0% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.6); }
+          70% { box-shadow: 0 0 0 6px rgba(22, 163, 74, 0); }
+          100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0); }
+        }
+
         .live-main-display {
-          font-size: 5rem;
+          font-size: 5.5rem;
           font-weight: 900;
           color: #16a34a;
           text-align: center;
           line-height: 1;
-          margin: 2px 0;
+          margin: 0;
           text-shadow: 0 4px 10px rgba(22, 163, 74, 0.2);
         }
         .update-time-indicator {
@@ -405,7 +439,7 @@ export default function Home() {
         .sub-bell { font-size: 0.9rem; }
 
         .date-display-box {
-          background: linear-gradient(90deg, #dc2626, #991b1b);
+          background: linear-gradient(90deg, #dc2626, #b91c1c);
           color: #fff; font-size: 1.9rem; font-weight: 900; padding: 10px; border-radius: 12px; text-align: center; border: 2px solid #fca5a5;
           box-shadow: 0 4px 12px rgba(220, 38, 38, 0.5);
         }
