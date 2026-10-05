@@ -87,18 +87,19 @@ export default function Home() {
           <div className="input-group"><label>ပိတ်သီး:</label><input type="text" value={pitThee} onChange={(e) => setPitThee(e.target.value)} /></div>
           <div className="input-group"><label>မိန်း:</label><input type="text" value={mainNum} onChange={(e) => setMainNum(e.target.value)} /></div>
           <div className="input-group"><label>အရံ:</label><input type="text" value={subNum} onChange={(e) => setSubNum(e.target.value)} /></div>
-          <div className="input-group"><label>ဟောထုပ်:</label><input type="text" value={horThout} onChange={(e) => setHorThout(e.target.value)} /></div>
+          <div className="input-group"><label>ဟောထိပ်:</label><input type="text" value={horThout} onChange={(e) => setHorThout(e.target.value)} /></div>
         </div>
       )}
 
-      {/* ဘယ်ဘက်ခြမ်း (ပိုမိုကြီးမားထင်သာမြင်သာရှိစေရန်) */}
+      {/* ဘယ်ဘက်ခြမ်း */}
       <div className="side-card left-card">
         <div className="card-header-red">{sessionTitle}</div>
         <div className="live-clock-box">{currentTime}</div>
         <div className="info-pill-dark">{sessionDay}</div>
-        <div className="hor-box">
-          <span className="hor-label">📌 ဟောထုပ်</span>
-          <span className="hor-val">{horThout}</span>
+        
+        <div className="data-group-pro">
+          <div className="label-badge gold-bg-pro">⭐ ဟောထိပ်</div>
+          <div className="val-display-pro gold-text-pro">{horThout}</div>
         </div>
       </div>
 
@@ -112,7 +113,7 @@ export default function Home() {
             <div className="status-icons">📶 🛜 🔋 87</div>
           </div>
 
-          {/* အက်ပ်ခေါင်းစဉ် (အပေါ်သို့ တိုးထားသည်) */}
+          {/* အက်ပ်ခေါင်းစဉ် */}
           <div className="app-header-bar">
             <span className="app-logo">⭐ 2D live Myanmar</span>
             <div className="app-menu-icons">
@@ -131,7 +132,7 @@ export default function Home() {
             <span>✔ Updated: {data?.live?.update_time || "2026-10-05 16:30:13"}</span>
           </div>
 
-          {/* ပွဲစဉ်ကတ်များအုပ်စု (အပေါ်သို့ ပိုတိုးထားသည်) */}
+          {/* ပွဲစဉ်ကတ်များအုပ်စု */}
           <div className="cards-group">
             {/* 12:01 PM ပွဲစဉ်အကွက် */}
             <div className="result-card-red">
@@ -172,7 +173,7 @@ export default function Home() {
             </div>
           </div>
 
-          {/* ဖုန်းစခရင်အတွင်း ထည့်သွင်းထားသော Like & Subscribe လိုဂို */}
+          {/* ဖုန်းစခရင်အတွင်း ပါဝင်သော Like & Subscribe ဘောက်စ် */}
           <div className="phone-subscribe-footer">
             <span className="sub-icon">👍</span>
             <span className="sub-text">LIKE & SUBSCRIBE</span>
@@ -182,23 +183,23 @@ export default function Home() {
         </div>
       </div>
 
-      {/* ညာဘက်ခြမ်း (ပိုမိုကြီးမားထင်သာမြင်သာရှိစေရန်) */}
+      {/* ညာဘက်ခြမ်း (စာလုံးများနှင့် အကွက်များ ကြီးမားထင်သာမြင်သာရှိစေရန်) */}
       <div className="side-card right-card">
         <div className="date-display-box">{customDate}</div>
         
-        <div className="data-group">
-          <div className="label-badge gold-bg">ယနေ့အတွက်ပိတ်သီး</div>
-          <div className="val-display gold-text">{pitThee}</div>
+        <div className="data-group-pro">
+          <div className="label-badge gold-bg-pro">🔥 ယနေ့အတွက်ပတ်သီး</div>
+          <div className="val-display-pro gold-text-pro">{pitThee}</div>
         </div>
 
-        <div className="data-group">
-          <div className="label-badge red-bg">မိန်း (Main)</div>
-          <div className="val-display red-text">{mainNum}</div>
+        <div className="data-group-pro">
+          <div className="label-badge red-bg-pro">🎯 မိန်း (Main)</div>
+          <div className="val-display-pro red-text-pro">{mainNum}</div>
         </div>
 
-        <div className="data-group">
-          <div className="label-badge red-bg">အရံ (Sub)</div>
-          <div className="val-display red-text">{subNum}</div>
+        <div className="data-group-pro">
+          <div className="label-badge red-bg-pro">⚡ အရံ (Sub)</div>
+          <div className="val-display-pro red-text-pro">{subNum}</div>
         </div>
       </div>
 
@@ -229,35 +230,46 @@ export default function Home() {
         .input-group label { color: #cbd5e1; font-weight: bold; font-size: 0.85rem; }
         .input-group input { background: #1e293b; border: 1px solid #475569; color: #fff; padding: 5px 8px; border-radius: 4px; width: 55%; }
 
-        /* ဘယ်ညာ ဘောက်စ်များကို ပိုမိုကြီးမားထင်သာမြင်သာရှိစေရန် ချိန်ညှိထားသည် */
+        /* ဘယ်ညာ ဘောက်စ်များ (Pro ဆန်ဆန် ကြီးမားထင်သာမြင်သာရှိစေရန်) */
         .side-card {
-          width: 450px;
-          background: rgba(15, 23, 42, 0.92);
-          backdrop-filter: blur(10px);
-          border: 4px solid rgba(245, 158, 11, 0.6);
+          width: 480px;
+          background: rgba(15, 23, 42, 0.95);
+          backdrop-filter: blur(12px);
+          border: 4px solid rgba(245, 158, 11, 0.7);
           border-radius: 24px;
-          padding: 24px;
+          padding: 22px;
           display: flex;
           flex-direction: column;
           gap: 16px;
-          box-shadow: 0 20px 45px rgba(0,0,0,0.8);
+          box-shadow: 0 25px 50px rgba(0,0,0,0.85);
         }
         .card-header-red {
           background: linear-gradient(90deg, #dc2626, #991b1b);
-          color: #fff; font-size: 2.1rem; font-weight: 900; padding: 14px; border-radius: 14px; text-align: center;
+          color: #fff; font-size: 2rem; font-weight: 900; padding: 12px; border-radius: 14px; text-align: center;
           box-shadow: 0 6px 18px rgba(220, 38, 38, 0.5);
         }
         .live-clock-box {
-          background: #000; color: #38bdf8; font-size: 2rem; font-weight: 900; padding: 14px; border-radius: 12px; text-align: center; border: 2px solid #38bdf8; letter-spacing: 1px;
+          background: #000; color: #38bdf8; font-size: 1.9rem; font-weight: 900; padding: 12px; border-radius: 12px; text-align: center; border: 2px solid #38bdf8; letter-spacing: 1px;
         }
         .info-pill-dark {
-          background: #1e293b; color: #f8fafc; font-size: 1.6rem; font-weight: 900; padding: 14px; border-radius: 12px; text-align: center; border: 1px solid #475569;
+          background: #1e293b; color: #f8fafc; font-size: 1.5rem; font-weight: 900; padding: 12px; border-radius: 12px; text-align: center; border: 1px solid #475569;
         }
-        .hor-box {
-          background: #0f172a; border: 2px solid #f59e0b; padding: 14px 18px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; margin-top: 5px;
+
+        /* ကြီးမားထင်သာမြင်သာရှိသော Pro စာသားအကွက်များ */
+        .data-group-pro {
+          display: flex; flex-direction: column; gap: 6px; background: rgba(30, 41, 59, 0.5); padding: 10px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.1);
         }
-        .hor-label { font-size: 1.4rem; font-weight: bold; color: #f59e0b; }
-        .hor-val { font-size: 2.1rem; font-weight: 900; color: #fff; letter-spacing: 1px; }
+        .label-badge {
+          font-size: 1.35rem; font-weight: 900; padding: 6px 12px; border-radius: 8px; display: inline-block; width: fit-content; color: #fff; letter-spacing: 0.5px;
+        }
+        .gold-bg-pro { background: linear-gradient(90deg, #d97706, #b45309); box-shadow: 0 4px 12px rgba(217, 119, 6, 0.4); }
+        .red-bg-pro { background: linear-gradient(90deg, #ef4444, #991b1b); box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4); }
+
+        .val-display-pro {
+          background: #090d16; font-size: 2.3rem; font-weight: 900; padding: 12px 14px; border-radius: 12px; text-align: center; letter-spacing: 2px; border: 2px solid #334155;
+        }
+        .gold-text-pro { color: #facc15; border-color: #d97706; text-shadow: 0 2px 8px rgba(250, 204, 21, 0.3); }
+        .red-text-pro { color: #f87171; border-color: #ef4444; text-shadow: 0 2px 8px rgba(248, 113, 113, 0.3); }
 
         /* ဖုန်းစခရင် ပုံစံ */
         .phone-container {
@@ -338,7 +350,6 @@ export default function Home() {
           gap: 8px;
         }
 
-        /* အနီရောင် box များကို အပေါ်သို့ တိုးထားသည် */
         .result-card-red {
           background: linear-gradient(135deg, #f87171 0%, #ef4444 100%);
           border-radius: 12px;
@@ -381,7 +392,6 @@ export default function Home() {
           padding: 1px 0;
         }
 
-        /* ဖုန်းစခရင်အတွင်း ပါဝင်သော Like & Subscribe ဘောက်စ် */
         .phone-subscribe-footer {
           background: linear-gradient(90deg, #dc2626, #b91c1c);
           color: #fff;
@@ -400,22 +410,9 @@ export default function Home() {
 
         .date-display-box {
           background: linear-gradient(90deg, #dc2626, #b91c1c);
-          color: #fff; font-size: 2.2rem; font-weight: 900; padding: 14px; border-radius: 14px; text-align: center; border: 2px solid #fca5a5;
+          color: #fff; font-size: 2.1rem; font-weight: 900; padding: 12px; border-radius: 14px; text-align: center; border: 2px solid #fca5a5;
           box-shadow: 0 6px 18px rgba(220, 38, 38, 0.5);
         }
-        .data-group {
-          display: flex; flex-direction: column; gap: 8px;
-        }
-        .label-badge {
-          font-size: 1.2rem; font-weight: 900; padding: 8px 14px; border-radius: 10px; display: inline-block; width: fit-content; color: #fff;
-        }
-        .gold-bg { background: #b45309; }
-        .red-bg { background: #991b1b; }
-        .val-display {
-          background: #0f172a; font-size: 2.5rem; font-weight: 900; padding: 14px; border-radius: 14px; text-align: center; letter-spacing: 2px; border: 2px solid #334155;
-        }
-        .gold-text { color: #facc15; border-color: #f59e0b; }
-        .red-text { color: #f87171; border-color: #ef4444; }
       `}</style>
     </div>
   );
