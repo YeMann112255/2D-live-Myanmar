@@ -97,46 +97,98 @@ export default function Home() {
         <div className="live-clock-box">{currentTime}</div>
         <div className="info-pill-dark">{sessionDay}</div>
         <div className="hor-box">
-          <span className="hor-label">📌 ဟော့ထိပ်</span>
+          <span className="hor-label">📌 ဟောထုပ်</span>
           <span className="hor-val">{horThout}</span>
         </div>
       </div>
 
-      {/* အလယ် ဖုန်းပုံစံအစစ် (Pro Mockup) */}
+      {/* အလယ် ဖုန်းပုံစံအစစ် (Pro Mockup with SET, Value & Sessions) */}
       <div className="phone-container">
         <div className="phone-screen">
           {/* ဖုန်းအပေါ်ပိုင်း Status Bar & Dynamic Island */}
           <div className="phone-status-bar">
-            <span className="carrier">Myan2D</span>
+            <span className="carrier">6:08</span>
             <div className="dynamic-island"></div>
-            <div className="status-icons">📶 🛜 🔋</div>
+            <div className="status-icons">📶 🛜 🔋 56</div>
           </div>
 
           {/* အက်ပ်ခေါင်းစဉ် */}
           <div className="app-header-bar">
-            <span>⭐ Myanmar 2D</span>
-            <span className="live-dot-badge">🔴 LIVE</span>
-          </div>
-
-          {/* ပင်မ Live ဂဏန်းပြအကွက် */}
-          <div className="live-main-card">
-            <div className="live-mega-num">{data?.live?.twod || "57"}</div>
-            <div className="update-time-text">
-              <span>⚡ လက်ရှိထွက်ပေါ်နေသော ⚡</span>
+            <span className="app-logo">⭐ myanmar 2D</span>
+            <div className="app-menu-icons">
+              <span className="badge-2d">2D</span>
+              <span className="badge-3d">3D</span>
+              <span>📅</span>
             </div>
           </div>
 
-          {/* အောက်ပိုင်း ပွဲစဉ်အကွက်များ (12:01 PM & 4:30 PM) */}
-          <div className="sessions-container">
-            <div className="session-box">
-              <div className="ses-time-label">12:01 PM</div>
-              <div className="ses-val">{result12?.twod || "00"}</div>
-            </div>
-            <div className="session-box active-session">
-              <div className="ses-time-label">4:30 PM</div>
-              <div className="ses-val">{result1630?.twod || "57"}</div>
+          {/* ပင်မ Live ဂဏန်းအကြီး */}
+          <div className="live-main-display">
+            {data?.live?.twod || "57"}
+          </div>
+
+          <div className="update-time-indicator">
+            <span>✔ Updated: {data?.live?.update_time || "2026-10-05 16:30:13"}</span>
+          </div>
+
+          {/* 12:01 PM ပွဲစဉ်အကွက် (SET, Value ပါဝင်သော) */}
+          <div className="result-card-red">
+            <div className="card-title-top">12:01 PM</div>
+            <div className="card-sub-grid">
+              <div className="sub-col">
+                <span className="sub-label">SET</span>
+                <span className="sub-val">{result12?.set || "1,572.80"}</span>
+              </div>
+              <div className="sub-col">
+                <span className="sub-label">Value</span>
+                <span className="sub-val">{result12?.value || "31,350.28"}</span>
+              </div>
+              <div className="sub-col">
+                <span className="sub-label">2D</span>
+                <span className="sub-val highlight-num">{result12?.twod || "00"}</span>
+              </div>
             </div>
           </div>
+
+          {/* 4:30 PM ပွဲစဉ်အကွက် (SET, Value ပါဝင်သော) */}
+          <div className="result-card-red">
+            <div className="card-title-top">4:30 PM</div>
+            <div className="card-sub-grid">
+              <div className="sub-col">
+                <span className="sub-label">SET</span>
+                <span className="sub-val">{result1630?.set || "1,576.45"}</span>
+              </div>
+              <div className="sub-col">
+                <span className="sub-label">Value</span>
+                <span className="sub-val">{result1630?.value || "55,047.95"}</span>
+              </div>
+              <div className="sub-col">
+                <span className="sub-label">2D</span>
+                <span className="sub-val highlight-num">{result1630?.twod || "57"}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* အောက်ဆုံး အသေးစား ပွဲစဉ်အကွက်များ (9:30 AM & 2:00 PM) */}
+          <div className="small-sessions-row">
+            <div className="small-ses-box">
+              <span className="s-time">9:30 AM</span>
+              <div className="s-data-row">
+                <div><small>Modern</small> <b>81</b></div>
+                <div><small>Internet</small> <b>17</b></div>
+                <div><small>TW</small> <b>48</b></div>
+              </div>
+            </div>
+            <div className="small-ses-box">
+              <span className="s-time">2:00 PM</span>
+              <div className="s-data-row">
+                <div><small>Modern</small> <b>44</b></div>
+                <div><small>Internet</small> <b>41</b></div>
+                <div><small>04:34 PM</small> <b>57</b></div>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
 
@@ -216,115 +268,139 @@ export default function Home() {
         .hor-label { font-size: 1.4rem; font-weight: bold; color: #f59e0b; }
         .hor-val { font-size: 2rem; font-weight: 900; color: #fff; letter-spacing: 1px; }
 
-        /* ဖုန်းပုံစံဒီဇိုင်းအသစ် (Pro Mockup) */
+        /* ဖုန်းပုံစံဒီဇိုင်းအသစ် (Second Image Pro Mockup) */
         .phone-container {
           width: 440px;
           background: #111827;
-          border: 10px solid #334155;
+          border: 10px solid #facc15;
           border-radius: 48px;
-          padding: 14px;
-          box-shadow: 0 25px 60px rgba(0,0,0,0.9), inset 0 0 15px rgba(255,255,255,0.1);
+          padding: 12px;
+          box-shadow: 0 25px 60px rgba(0,0,0,0.9);
         }
         .phone-screen {
-          background: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
+          background: #ffffff;
           border-radius: 36px;
-          padding: 16px 20px 20px 20px;
+          padding: 12px 16px 16px 16px;
           display: flex;
           flex-direction: column;
-          gap: 12px;
+          gap: 8px;
           color: #000;
         }
         .phone-status-bar {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          font-size: 0.8rem;
+          font-size: 0.75rem;
           font-weight: bold;
-          color: #475569;
+          color: #000;
           padding: 0 5px;
         }
         .dynamic-island {
-          width: 110px;
-          height: 22px;
+          width: 100px;
+          height: 20px;
           background: #000;
           border-radius: 20px;
         }
         .app-header-bar {
-          background: #f1f5f9;
-          padding: 8px 14px;
-          border-radius: 12px;
+          background: #facc15;
+          padding: 6px 12px;
+          border-radius: 8px;
           display: flex;
           justify-content: space-between;
           align-items: center;
           font-weight: bold;
           font-size: 0.95rem;
-          border: 1px solid #cbd5e1;
         }
-        .live-dot-badge {
-          background: #fee2e2;
-          color: #dc2626;
-          padding: 2px 8px;
-          border-radius: 6px;
-          font-size: 0.75rem;
-        }
-        .live-main-card {
-          background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-          border-radius: 20px;
-          padding: 24px 15px;
-          text-align: center;
-          box-shadow: 0 10px 25px rgba(0,0,0,0.25);
-          border: 2px solid rgba(245, 158, 11, 0.3);
-        }
-        .live-mega-num {
-          font-size: 6.5rem;
+        .app-logo { color: #000; font-weight: 900; }
+        .app-menu-icons { display: flex; gap: 6px; align-items: center; font-size: 0.8rem; }
+        .badge-2d { background: #16a34a; color: #fff; padding: 1px 6px; border-radius: 4px; font-size: 0.7rem; }
+        .badge-3d { background: #2563eb; color: #fff; padding: 1px 6px; border-radius: 4px; font-size: 0.7rem; }
+        
+        .live-main-display {
+          font-size: 5.5rem;
           font-weight: 900;
-          color: #4ade80;
-          line-height: 1;
-          text-shadow: 0 0 25px rgba(74, 222, 128, 0.4);
-          margin-bottom: 8px;
-        }
-        .update-time-text {
-          font-size: 0.85rem;
-          font-weight: bold;
-          color: #f59e0b;
-          letter-spacing: 1px;
-        }
-        .sessions-container {
-          display: flex;
-          gap: 10px;
-        }
-        .session-box {
-          flex: 1;
-          background: #ffffff;
-          border: 1px solid #cbd5e1;
-          padding: 12px;
-          border-radius: 14px;
+          color: #16a34a;
           text-align: center;
-          box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+          line-height: 1;
+          margin-top: 2px;
         }
-        .active-session {
-          background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-          border: none;
-          color: #fff;
-          box-shadow: 0 6px 15px rgba(220, 38, 38, 0.3);
-        }
-        .active-session .ses-time-label {
-          color: #fee2e2;
-        }
-        .active-session .ses-val {
-          color: #fff;
-        }
-        .ses-time-label {
+        .update-time-indicator {
+          text-align: center;
           font-size: 0.75rem;
+          color: #16a34a;
           font-weight: bold;
-          color: #64748b;
           margin-bottom: 4px;
         }
-        .ses-val {
-          font-size: 1.6rem;
-          font-weight: 900;
-          color: #1e293b;
+
+        /* ပွဲစဉ်ကတ်များ (Red Theme with SET & Value) */
+        .result-card-red {
+          background: linear-gradient(135deg, #f87171 0%, #ef4444 100%);
+          border-radius: 12px;
+          padding: 8px 12px;
+          color: #fff;
+          box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3);
         }
+        .card-title-top {
+          text-align: center;
+          font-weight: 900;
+          font-size: 0.95rem;
+          border-bottom: 1px solid rgba(255,255,255,0.3);
+          padding-bottom: 4px;
+          margin-bottom: 4px;
+          letter-spacing: 1px;
+        }
+        .card-sub-grid {
+          display: flex;
+          justify-content: space-between;
+          text-align: center;
+        }
+        .sub-col {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+        }
+        .sub-label {
+          font-size: 0.65rem;
+          opacity: 0.9;
+          font-weight: bold;
+        }
+        .sub-val {
+          font-size: 1.1rem;
+          font-weight: 900;
+        }
+        .highlight-num {
+          font-size: 1.25rem;
+          background: rgba(0,0,0,0.15);
+          border-radius: 6px;
+          padding: 1px 0;
+        }
+
+        /* အောက်ဆုံးသေးသေး အကွက်များ */
+        .small-sessions-row {
+          display: flex;
+          gap: 6px;
+          margin-top: 2px;
+        }
+        .small-ses-box {
+          flex: 1;
+          background: #ff5252;
+          border-radius: 8px;
+          padding: 6px 8px;
+          color: #fff;
+        }
+        .s-time {
+          font-size: 0.75rem;
+          font-weight: 900;
+          display: block;
+          margin-bottom: 3px;
+        }
+        .s-data-row {
+          display: flex;
+          justify-content: space-between;
+          font-size: 0.7rem;
+        }
+        .s-data-row small { display: block; font-size: 0.55rem; opacity: 0.8; }
+        .s-data-row b { font-size: 0.85rem; }
 
         .date-display-box {
           background: linear-gradient(90deg, #dc2626, #b91c1c);
