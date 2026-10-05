@@ -1,10 +1,12 @@
 import Head from 'next/head';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 export default function Home() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [currentDate, setCurrentDate] = useState("");
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef(null);
 
   useEffect(() => {
     const today = new Date();
@@ -15,6 +17,29 @@ export default function Home() {
     const interval = setInterval(fetchData, 3000);
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = 0.4;
+      audioRef.current.play().then(() => {
+        setIsPlaying(true);
+      }).catch((error) => {
+        console.log("Auto-play prevented by browser policy:", error);
+      });
+    }
+  }, []);
+
+  const togglePlay = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+        setIsPlaying(false);
+      } else {
+        audioRef.current.play();
+        setIsPlaying(true);
+      }
+    }
+  };
 
   const fetchData = async () => {
     try {
@@ -34,7 +59,7 @@ export default function Home() {
         <div className="spinner"></div>
         <p>ဒေတာများ ရယူနေပါသည်...</p>
         <style jsx>{`
-          .loading-container { text-align: center; padding: 100px 20px; font-family: 'Pyidaungsu', sans-serif; background: #040814; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #fff; }
+          .loading-container { text-align: center; padding: 100px 20px; font-family: 'Pyidaungsu', sans-serif; background: #030712; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #fff; }
           .spinner { border: 4px solid rgba(245, 158, 11, 0.2); border-top: 4px solid #f59e0b; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin-bottom: 15px; }
           @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         `}</style>
@@ -48,14 +73,21 @@ export default function Home() {
   return (
     <div className="main-container">
       <Head>
-        <title>2D LIVE MYANMAR - Pro Stream Overlay</title>
+        <title>2D LIVE MYANMAR - Premium Stream</title>
       </Head>
 
-      {/* Header Banner */}
+      {/* Copyright-Free Background Music */}
+      <audio 
+        ref={audioRef} 
+        src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf756.mp3?filename=lofi-study-112191.mp3" 
+        loop 
+      />
+
+      {/* Top Header Glow Bar */}
       <div className="header-banner">
         <div className="top-row">
-          <div className="live-badge-top">🔴 LIVE</div>
-          <div className="youtube-badge">▶ YOUTUBE LIVE STREAM</div>
+          <div className="live-badge-top"><span>🔴</span> LIVE STREAM</div>
+          <div className="youtube-badge"><span>▶</span> YOUTUBE EXCLUSIVE</div>
         </div>
         
         <div className="flag-title-wrap">
@@ -69,131 +101,137 @@ export default function Home() {
         </div>
 
         <div className="date-pill">
-          {currentDate}
+          <span>📅</span> {currentDate}
         </div>
       </div>
 
-      {/* Content Card Area */}
+      {/* Modern Glassmorphism Card */}
       <div className="content-card">
-        {/* Live Main Number Box */}
-        <div className="live-header-bar">● LIVE STREAMING</div>
+        <div className="live-header-bar">
+          <span className="blink-dot">●</span> OFFICIAL LIVE RESULT
+        </div>
         
+        {/* Main Big Number Box */}
         <div className="live-number-wrapper">
           <div className="live-number-display">
             {data?.live?.twod || "06"}
           </div>
+          <div className="live-sub-tag">⚡ လက်ရှိထွက်ပေါ်နေသော ဂဏန်း ⚡</div>
         </div>
 
-        {/* SET & VALUE Grid */}
+        {/* SET & VALUE Gorgeous Grid */}
         <div className="market-grid">
           <div className="market-box set-box">
-            <div className="m-title">SET MARKET</div>
-            <div className="m-val">{data?.live?.set || "1,573.87"}</div>
+            <div className="m-title">📈 SET MARKET</div>
+            <div className="m-val">{data?.live?.set || "1,574.60"}</div>
           </div>
           <div className="market-box val-box">
-            <div className="m-title">VALUE AMOUNT</div>
-            <div className="m-val">{data?.live?.value || "41,395.24"}</div>
+            <div className="m-title">💰 VALUE AMOUNT</div>
+            <div className="m-val">{data?.live?.value || "48,146.72"}</div>
           </div>
-        </div>
-
-        {/* Purple Middle Result Bar */}
-        <div className="purple-result-row">
-          <div className="p-label">REAL-TIME 2D</div>
-          <div className="p-val">{data?.live?.twod || "06"}</div>
         </div>
 
         {/* Sessions List (12:01 & 4:30) */}
         <div className="session-rows">
           <div className="s-row">
             <div className="s-time-info">
-              <span className="clock-icon">🕒</span>
+              <div className="time-icon-box">🕒</div>
               <div>
                 <strong>12:01 PM</strong>
-                <p>Open Result</p>
+                <p>Open Result Session</p>
               </div>
             </div>
             <div className="s-res-display">
-              <span>2D :</span> <strong className="red-text">{result12?.twod || "00"}</strong>
+              <span className="s-label-sm">2D :</span> 
+              <strong className="red-text">{result12?.twod || "00"}</strong>
             </div>
           </div>
 
           <div className="s-row">
             <div className="s-time-info">
-              <span className="clock-icon">🕒</span>
+              <div className="time-icon-box">🕒</div>
               <div>
                 <strong>4:30 PM</strong>
-                <p>Final Result</p>
+                <p>Final Result Session</p>
               </div>
             </div>
             <div className="s-res-display">
-              <span>2D :</span> <strong className="red-text">{result1630?.twod || "--"}</strong>
+              <span className="s-label-sm">2D :</span> 
+              <strong className="red-text">{result1630?.twod || "--"}</strong>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Footer Banners */}
+      {/* Footer Interactive Banners */}
       <div className="footer-promo">
         <div className="promo-text-badge">
-          ✨ 2D လက်ဆောင် <br/>ကံထူးပါစေ ❤️️
+          🎁 2D လက်ဆောင် <br/>ကံထူးကြပါစေ ❤
         </div>
-        <div className="subscribe-badge">
-          ▶ SUBSCRIBE <br/><small>LIKE & SHARE 🔔</small>
+        <div className="subscribe-badge" onClick={togglePlay}>
+          <span>{isPlaying ? "🎵 BGM: တီးခတ်နေသည်" : "🔇 BGM: ပိတ်ထားသည်"}</span>
+          <small>{isPlaying ? "တေးဂီတပိတ်ရန် နှိပ်ပါ" : "တေးဂီတဖွင့်ရန် နှိပ်ပါ"}</small>
         </div>
       </div>
 
       <div className="footer-brand">
-        🌿 — 2D LIVE MYANMAR OFFICIAL — 🌿
+        ✨ — 2D LIVE MYANMAR OFFICIAL — ✨
       </div>
 
-      {/* Styles */}
+      {/* Styling with Ultra-Modern CSS */}
       <style jsx>{`
         .main-container {
           max-width: 480px;
           margin: 0 auto;
-          background: radial-gradient(circle at center, #0f172a 0%, #030712 100%);
+          background: linear-gradient(135deg, #090d16 0%, #030712 50%, #0f172a 100%);
           min-height: 100vh;
           font-family: 'Pyidaungsu', sans-serif;
           color: #fff;
-          padding: 15px;
+          padding: 16px;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
           box-sizing: border-box;
-          box-shadow: 0 0 50px rgba(0,0,0,0.9);
+          box-shadow: 0 0 60px rgba(0,0,0,0.95);
         }
 
         .header-banner {
           text-align: center;
-          padding-top: 5px;
+          padding-top: 4px;
         }
 
         .top-row {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          margin-bottom: 8px;
+          margin-bottom: 10px;
         }
 
         .live-badge-top {
-          background: #ef4444;
+          background: linear-gradient(135deg, #ef4444, #dc2626);
           color: white;
           font-size: 0.75rem;
-          font-weight: bold;
-          padding: 3px 12px;
-          border-radius: 6px;
+          font-weight: 800;
+          padding: 4px 12px;
+          border-radius: 20px;
           letter-spacing: 1px;
-          box-shadow: 0 0 10px rgba(239, 68, 68, 0.6);
+          box-shadow: 0 0 15px rgba(239, 68, 68, 0.6);
+          display: flex;
+          align-items: center;
+          gap: 5px;
         }
 
         .youtube-badge {
-          background: #dc2626;
-          color: white;
+          background: rgba(220, 38, 38, 0.15);
+          color: #f87171;
+          border: 1px solid rgba(220, 38, 38, 0.4);
           font-size: 0.7rem;
-          font-weight: bold;
-          padding: 3px 10px;
-          border-radius: 6px;
-          box-shadow: 0 0 10px rgba(220, 38, 38, 0.6);
+          font-weight: 700;
+          padding: 4px 10px;
+          border-radius: 20px;
+          display: flex;
+          align-items: center;
+          gap: 4px;
         }
 
         .flag-title-wrap {
@@ -201,131 +239,138 @@ export default function Home() {
           align-items: center;
           justify-content: center;
           gap: 12px;
-          margin: 8px 0;
+          margin: 6px 0;
         }
 
         .myanmar-flag {
-          width: 48px;
+          width: 46px;
           height: 32px;
           background: linear-gradient(to bottom, #ffcc00 33%, #34b233 33%, #34b233 66%, #ce1126 66%);
-          border-radius: 6px;
+          border-radius: 8px;
           display: flex;
           align-items: center;
           justify-content: center;
-          box-shadow: 0 0 12px rgba(255, 204, 0, 0.5);
-          border: 1px solid rgba(255,255,255,0.3);
+          box-shadow: 0 0 15px rgba(255, 204, 0, 0.4);
+          border: 1.5px solid rgba(255,255,255,0.3);
         }
-        .star { color: white; font-size: 18px; text-shadow: 0 1px 3px rgba(0,0,0,0.8); }
+        .star { color: white; font-size: 16px; text-shadow: 0 1px 3px rgba(0,0,0,0.8); }
 
         .title-group h1 {
-          font-size: 3rem;
+          font-size: 2.8rem;
           font-weight: 900;
           color: #facc15;
           margin: 0;
           line-height: 1;
-          text-shadow: 3px 3px 0px #b45309, 0 0 25px rgba(250, 204, 21, 0.8);
+          text-shadow: 2px 2px 0px #b45309, 0 0 30px rgba(250, 204, 21, 0.7);
           font-style: italic;
           letter-spacing: 2px;
         }
 
         .title-group h2 {
-          font-size: 1.15rem;
+          font-size: 1.1rem;
           font-weight: 800;
-          color: #f8fafc;
-          margin: 3px 0 0 0;
-          letter-spacing: 2px;
-          text-shadow: 0 2px 4px rgba(0,0,0,0.9);
+          color: #f1f5f9;
+          margin: 2px 0 0 0;
+          letter-spacing: 3px;
         }
 
         .date-pill {
-          display: inline-block;
-          background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
           color: #000;
-          font-size: 1.35rem;
+          font-size: 1.25rem;
           font-weight: 900;
-          padding: 5px 28px;
-          border-radius: 25px;
+          padding: 6px 24px;
+          border-radius: 30px;
           margin: 10px 0 14px 0;
-          box-shadow: 0 0 20px rgba(245, 158, 11, 0.6);
+          box-shadow: 0 0 20px rgba(245, 158, 11, 0.5);
           border: 2px solid #fff;
           letter-spacing: 1px;
         }
 
         .content-card {
-          background: #ffffff;
-          color: #000;
-          border-radius: 20px;
+          background: rgba(255, 255, 255, 0.98);
+          color: #0f172a;
+          border-radius: 24px;
           overflow: hidden;
-          box-shadow: 0 15px 35px rgba(0,0,0,0.7);
-          border: 3px solid #f59e0b;
+          box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 20px rgba(245, 158, 11, 0.2);
+          border: 2.5px solid #f59e0b;
         }
 
         .live-header-bar {
-          background: linear-gradient(90deg, #be123c, #e11d48, #be123c);
+          background: linear-gradient(90deg, #991b1b, #dc2626, #991b1b);
           color: white;
           text-align: center;
-          font-weight: bold;
-          font-size: 0.9rem;
-          padding: 6px;
+          font-weight: 800;
+          font-size: 0.85rem;
+          padding: 7px;
           letter-spacing: 2px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 6px;
         }
 
-        /* 💥 Live Number Animation (ခုန်နေစေရန်) */
+        .blink-dot {
+          color: #4ade80;
+          animation: blink 1s infinite alternate;
+        }
+
+        @keyframes blink {
+          0% { opacity: 0.2; }
+          100% { opacity: 1; }
+        }
+
         .live-number-wrapper {
-          background: #ffffff;
-          padding: 10px 0;
-          display: flex;
-          justify-content: center;
-          align-items: center;
+          background: linear-gradient(to bottom, #ffffff, #fffbeb);
+          padding: 16px 0 10px 0;
+          text-align: center;
         }
 
         .live-number-display {
-          font-size: 6.2rem;
+          font-size: 6.8rem;
           font-weight: 900;
           color: #dc2626;
           line-height: 1;
-          text-shadow: 4px 4px 8px rgba(220, 38, 38, 0.2);
-          animation: pulseBounce 1.2s infinite ease-in-out;
+          text-shadow: 4px 4px 10px rgba(220, 38, 38, 0.25);
+          animation: pulseBounce 1.5s infinite ease-in-out;
+        }
+
+        .live-sub-tag {
+          font-size: 0.75rem;
+          font-weight: 700;
+          color: #d97706;
+          margin-top: 6px;
+          letter-spacing: 1px;
         }
 
         @keyframes pulseBounce {
-          0% { transform: scale(1); text-shadow: 0 0 10px rgba(220,38,38,0.2); }
-          50% { transform: scale(1.08); text-shadow: 0 0 25px rgba(220,38,38,0.5); }
-          100% { transform: scale(1); text-shadow: 0 0 10px rgba(220,38,38,0.2); }
+          0% { transform: scale(1); }
+          50% { transform: scale(1.05); }
+          100% { transform: scale(1); }
         }
 
         .market-grid {
           display: grid;
           grid-template-columns: 1fr 1fr;
-          border-top: 2px solid #e5e7eb;
-          border-bottom: 2px solid #e5e7eb;
+          border-top: 2px solid #e2e8f0;
+          border-bottom: 2px solid #e2e8f0;
         }
 
         .market-box {
-          padding: 10px;
+          padding: 12px;
           text-align: center;
         }
-        .set-box { background: #1d4ed8; color: white; border-right: 2px solid #e5e7eb; }
-        .val-box { background: #15803d; color: white; }
+        .set-box { background: linear-gradient(135deg, #1e40af, #1d4ed8); color: white; border-right: 2px solid #e2e8f0; }
+        .val-box { background: linear-gradient(135deg, #166534, #15803d); color: white; }
 
-        .m-title { font-size: 0.75rem; font-weight: bold; letter-spacing: 1px; opacity: 0.9; }
-        .m-val { font-size: 1.25rem; font-weight: 900; margin-top: 3px; letter-spacing: 0.5px; }
-
-        .purple-result-row {
-          background: linear-gradient(90deg, #6d28d9, #7c3aed, #6d28d9);
-          color: white;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 10px 22px;
-          font-size: 1.1rem;
-          font-weight: bold;
-          letter-spacing: 1px;
-        }
-        .p-val { font-size: 1.6rem; color: #fde047; text-shadow: 0 0 10px rgba(253, 224, 71, 0.6); }
+        .m-title { font-size: 0.72rem; font-weight: 800; letter-spacing: 1px; opacity: 0.95; }
+        .m-val { font-size: 1.2rem; font-weight: 900; margin-top: 4px; letter-spacing: 0.5px; }
 
         .session-rows {
-          padding: 12px 18px;
+          padding: 14px 20px;
           background: #f8fafc;
         }
 
@@ -344,22 +389,32 @@ export default function Home() {
           gap: 10px;
           color: #1e293b;
         }
-        .clock-icon { font-size: 1.3rem; }
-        .s-time-info strong { font-size: 1rem; display: block; line-height: 1.1; color: #0f172a; }
-        .s-time-info p { font-size: 0.75rem; color: #64748b; margin: 2px 0 0 0; }
+        .time-icon-box {
+          background: #e2e8f0;
+          width: 34px;
+          height: 34px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 1rem;
+        }
+        .s-time-info strong { font-size: 0.95rem; display: block; line-height: 1.1; color: #0f172a; }
+        .s-time-info p { font-size: 0.72rem; color: #64748b; margin: 2px 0 0 0; }
 
         .s-res-display {
-          font-size: 1.1rem;
-          font-weight: bold;
-          color: #334155;
+          display: flex;
+          align-items: center;
+          gap: 6px;
         }
-        .red-text { color: #dc2626; font-size: 1.5rem; margin-left: 6px; }
+        .s-label-sm { font-size: 0.95rem; font-weight: bold; color: #475569; }
+        .red-text { color: #dc2626; font-size: 1.55rem; font-weight: 900; }
 
         .footer-promo {
           display: grid;
           grid-template-columns: 1fr 1.2fr;
           gap: 12px;
-          margin: 15px 0 10px 0;
+          margin: 14px 0 8px 0;
         }
 
         .promo-text-badge {
@@ -368,8 +423,8 @@ export default function Home() {
           font-weight: 900;
           text-align: center;
           padding: 10px;
-          border-radius: 14px;
-          font-size: 0.9rem;
+          border-radius: 16px;
+          font-size: 0.85rem;
           box-shadow: 0 0 15px rgba(250, 204, 21, 0.4);
           border: 2px solid #fff;
           display: flex;
@@ -379,30 +434,33 @@ export default function Home() {
         }
 
         .subscribe-badge {
-          background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+          background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
           color: white;
           font-weight: 900;
           text-align: center;
           padding: 10px;
-          border-radius: 14px;
-          font-size: 0.9rem;
-          box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+          border-radius: 16px;
+          font-size: 0.85rem;
+          box-shadow: 0 0 15px rgba(220, 38, 38, 0.5);
           border: 2px solid #fff;
           line-height: 1.3;
           display: flex;
           flex-direction: column;
           justify-content: center;
+          cursor: pointer;
+          transition: 0.2s;
         }
-        .subscribe-badge small { font-size: 0.72rem; font-weight: normal; color: #fecaca; }
+        .subscribe-badge:hover { transform: scale(0.98); opacity: 0.9; }
+        .subscribe-badge small { font-size: 0.7rem; font-weight: normal; color: #fecaca; }
 
         .footer-brand {
           text-align: center;
           color: #fbbf24;
-          font-size: 0.9rem;
+          font-size: 0.85rem;
           font-weight: bold;
           letter-spacing: 3px;
-          margin-top: 5px;
-          text-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
+          margin-top: 4px;
+          text-shadow: 0 0 10px rgba(251, 191, 36, 0.6);
         }
       `}</style>
     </div>
