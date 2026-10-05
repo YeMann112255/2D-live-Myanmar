@@ -102,14 +102,14 @@ export default function Home() {
         </div>
       </div>
 
-      {/* အလယ် ဖုန်းပုံစံအစစ် (SET & Value ပါသော 12:01 နှင့် 4:30 သီးသန့်) */}
+      {/* အလယ် တကယ့်ဖုန်းပုံစံ ရှည်ရှည် (Reality Pro Mockup) */}
       <div className="phone-container">
         <div className="phone-screen">
-          {/* ဖုန်းအပေါ်ပိုင်း Status Bar */}
+          {/* ဖုန်းအပေါ်ပိုင်း Status Bar & Dynamic Island */}
           <div className="phone-status-bar">
-            <span className="carrier">6:08</span>
+            <span className="carrier">6:21</span>
             <div className="dynamic-island"></div>
-            <div className="status-icons">📶 🛜 🔋 56</div>
+            <div className="status-icons">📶 🛜 🔋 55</div>
           </div>
 
           {/* အက်ပ်ခေါင်းစဉ် */}
@@ -131,7 +131,7 @@ export default function Home() {
             <span>✔ Updated: {data?.live?.update_time || "2026-10-05 16:30:13"}</span>
           </div>
 
-          {/* 12:01 PM ပွဲစဉ်အကွက် (SET, Value ပါဝင်သော) */}
+          {/* 12:01 PM ပွဲစဉ်အကွက် */}
           <div className="result-card-red">
             <div className="card-title-top">12:01 PM</div>
             <div className="card-sub-grid">
@@ -150,7 +150,7 @@ export default function Home() {
             </div>
           </div>
 
-          {/* 4:30 PM ပွဲစဉ်အကွက် (SET, Value ပါဝင်သော) */}
+          {/* 4:30 PM ပွဲစဉ်အကွက် */}
           <div className="result-card-red">
             <div className="card-title-top">4:30 PM</div>
             <div className="card-sub-grid">
@@ -202,7 +202,7 @@ export default function Home() {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          padding: 50px 70px;
+          padding: 40px 70px;
           position: relative;
           font-family: 'Pyidaungsu', sans-serif;
           box-sizing: border-box;
@@ -248,85 +248,94 @@ export default function Home() {
         .hor-label { font-size: 1.4rem; font-weight: bold; color: #f59e0b; }
         .hor-val { font-size: 2rem; font-weight: 900; color: #fff; letter-spacing: 1px; }
 
-        /* ဖုန်းပုံစံဒီဇိုင်း (12:01 နှင့် 4:30 သီးသန့်) */
+        /* တကယ့်ဖုန်းပုံစံ ရှည်ရှည် (Reality Pro Mockup) */
         .phone-container {
           width: 440px;
+          height: 980px;
           background: #111827;
-          border: 10px solid #facc15;
-          border-radius: 48px;
-          padding: 12px;
-          box-shadow: 0 25px 60px rgba(0,0,0,0.9);
+          border: 12px solid #1f2937;
+          border-radius: 54px;
+          padding: 14px;
+          box-shadow: 0 30px 70px rgba(0,0,0,0.95), inset 0 0 20px rgba(255,255,255,0.15);
+          display: flex;
+          flex-direction: column;
+          box-sizing: border-box;
         }
         .phone-screen {
           background: #ffffff;
-          border-radius: 36px;
-          padding: 12px 16px 16px 16px;
+          border-radius: 42px;
+          padding: 16px 20px;
           display: flex;
           flex-direction: column;
-          gap: 12px;
+          justify-content: space-between;
+          height: 100%;
           color: #000;
+          box-sizing: border-box;
         }
         .phone-status-bar {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          font-size: 0.75rem;
+          font-size: 0.85rem;
           font-weight: bold;
           color: #000;
           padding: 0 5px;
         }
         .dynamic-island {
-          width: 100px;
-          height: 20px;
+          width: 115px;
+          height: 24px;
           background: #000;
           border-radius: 20px;
         }
         .app-header-bar {
           background: #facc15;
-          padding: 6px 12px;
-          border-radius: 8px;
+          padding: 10px 16px;
+          border-radius: 12px;
           display: flex;
           justify-content: space-between;
           align-items: center;
           font-weight: bold;
-          font-size: 0.95rem;
+          font-size: 1.05rem;
+          box-shadow: 0 4px 10px rgba(250, 204, 21, 0.3);
         }
         .app-logo { color: #000; font-weight: 900; }
-        .app-menu-icons { display: flex; gap: 6px; align-items: center; font-size: 0.8rem; }
-        .badge-2d { background: #16a34a; color: #fff; padding: 1px 6px; border-radius: 4px; font-size: 0.7rem; }
-        .badge-3d { background: #2563eb; color: #fff; padding: 1px 6px; border-radius: 4px; font-size: 0.7rem; }
+        .app-menu-icons { display: flex; gap: 8px; align-items: center; font-size: 0.9rem; }
+        .badge-2d { background: #16a34a; color: #fff; padding: 2px 8px; border-radius: 6px; font-size: 0.75rem; }
+        .badge-3d { background: #2563eb; color: #fff; padding: 2px 8px; border-radius: 6px; font-size: 0.75rem; }
         
         .live-main-display {
-          font-size: 6rem;
+          font-size: 7.5rem;
           font-weight: 900;
           color: #16a34a;
           text-align: center;
           line-height: 1;
-          margin-top: 5px;
+          margin: 10px 0;
+          text-shadow: 0 5px 15px rgba(22, 163, 74, 0.2);
         }
         .update-time-indicator {
           text-align: center;
-          font-size: 0.8rem;
+          font-size: 0.9rem;
           color: #16a34a;
           font-weight: bold;
-          margin-bottom: 5px;
+          margin-bottom: 10px;
         }
 
         /* ပွဲစဉ်ကတ်များ (Red Theme with SET & Value) */
         .result-card-red {
           background: linear-gradient(135deg, #f87171 0%, #ef4444 100%);
-          border-radius: 12px;
-          padding: 10px 14px;
+          border-radius: 16px;
+          padding: 14px 18px;
           color: #fff;
-          box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3);
+          box-shadow: 0 6px 15px rgba(239, 68, 68, 0.35);
+          margin-bottom: 6px;
         }
         .card-title-top {
           text-align: center;
           font-weight: 900;
-          font-size: 1rem;
+          font-size: 1.1rem;
           border-bottom: 1px solid rgba(255,255,255,0.3);
-          padding-bottom: 5px;
-          margin-bottom: 6px;
+          padding-bottom: 6px;
+          margin-bottom: 8px;
           letter-spacing: 1px;
         }
         .card-sub-grid {
@@ -340,18 +349,18 @@ export default function Home() {
           flex-direction: column;
         }
         .sub-label {
-          font-size: 0.7rem;
+          font-size: 0.75rem;
           opacity: 0.9;
           font-weight: bold;
         }
         .sub-val {
-          font-size: 1.2rem;
+          font-size: 1.35rem;
           font-weight: 900;
         }
         .highlight-num {
-          font-size: 1.35rem;
-          background: rgba(0,0,0,0.15);
-          border-radius: 6px;
+          font-size: 1.5rem;
+          background: rgba(0,0,0,0.18);
+          border-radius: 8px;
           padding: 2px 0;
         }
 
