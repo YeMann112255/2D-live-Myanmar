@@ -1,13 +1,12 @@
 import Head from 'next/head';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function Home() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [currentTime, setCurrentTime] = useState("");
   
-  // နေ့စဉ်ပြောင်းလဲမည့် ဂဏန်းများနှင့် ရက်စွဲ
-  const [customDate, setCustomDate] = useState("05.10.2026");
+  const [customDate, setCustomDate] = useState("05-10-2026");
   const [pitThee, setPitThee] = useState("5-3-2");
   const [mainNum, setMainNum] = useState("53-57-39");
   const [subNum, setSubNum] = useState("35-23-25");
@@ -51,12 +50,11 @@ export default function Home() {
   const result1630 = getResult("16:30:00");
 
   return (
-    <div className="stream-background">
+    <div className="stream-container">
       <Head>
-        <title>2D LIVE MYANMAR - Pro Stream</title>
+        <title>2D LIVE MYANMAR</title>
       </Head>
 
-      {/* Admin Panel (ဖုန်း သို့မဟုတ် ဘရောက်ဆာမှ ဂဏန်းပြောင်းရန်) */}
       <button className="admin-toggle-btn" onClick={() => setShowAdmin(!showAdmin)}>
         {showAdmin ? "⚙️ ပြီးပြီ" : "⚙️ နေ့စဉ်ဂဏန်းပြောင်းရန်"}
       </button>
@@ -64,139 +62,118 @@ export default function Home() {
       {showAdmin && (
         <div className="admin-panel">
           <h3>📌 2D ဂဏန်းနှင့် ရက်စွဲပြင်ဆန်ရန်</h3>
-          <div className="input-group">
-            <label>ရက်စွဲ:</label>
-            <input type="text" value={customDate} onChange={(e) => setCustomDate(e.target.value)} />
-          </div>
-          <div className="input-group">
-            <label>ပိတ်သီး:</label>
-            <input type="text" value={pitThee} onChange={(e) => setPitThee(e.target.value)} />
-          </div>
-          <div className="input-group">
-            <label>မိန်း:</label>
-            <input type="text" value={mainNum} onChange={(e) => setMainNum(e.target.value)} />
-          </div>
-          <div className="input-group">
-            <label>အရံ:</label>
-            <input type="text" value={subNum} onChange={(e) => setSubNum(e.target.value)} />
-          </div>
-          <div className="input-group">
-            <label>ဟောထုပ်:</label>
-            <input type="text" value={horThout} onChange={(e) => setHorThout(e.target.value)} />
-          </div>
+          <div className="input-group"><label>ရက်စွဲ:</label><input type="text" value={customDate} onChange={(e) => setCustomDate(e.target.value)} /></div>
+          <div className="input-group"><label>ပိတ်သီး:</label><input type="text" value={pitThee} onChange={(e) => setPitThee(e.target.value)} /></div>
+          <div className="input-group"><label>မိန်း:</label><input type="text" value={mainNum} onChange={(e) => setMainNum(e.target.value)} /></div>
+          <div className="input-group"><label>အရံ:</label><input type="text" value={subNum} onChange={(e) => setSubNum(e.target.value)} /></div>
+          <div className="input-group"><label>ဟောထုပ်:</label><input type="text" value={horThout} onChange={(e) => setHorThout(e.target.value)} /></div>
         </div>
       )}
 
-      {/* ဘယ်ဘက်ခြမ်း ပိတ်သီး/မိန်း/အရံ ဘောင် (ပုံပါအတိုင်း) */}
-      <div className="side-panel left-panel">
-        <div className="panel-header">🎯 ဒီနေ့အတွက်ပိတ်သီး</div>
-        <div className="panel-val gold-text">{pitThee}</div>
-        <div className="panel-header" style={{marginTop: '15px'}}>🔥 မိန်း</div>
-        <div className="panel-val red-text">{mainNum}</div>
+      {/* ဘယ်ဘက်ခြမ်း (အချိန်၊ နေ့စွဲ၊ ဟောထုပ်) */}
+      <div className="left-section">
+        <div className="time-badge">4:30 PM</div>
+        <div className="live-clock">{currentTime}</div>
+        <div className="red-banner">တနင်္လာနေ့ ညနေခင်း</div>
+        <div className="red-banner">ထွက်ဂဏန်း</div>
+        <div className="hor-badge">ဟောထုပ် ➔ {horThout}</div>
       </div>
 
-      {/* အလယ်တည့်တည့်က မိုဘိုင်းဖုန်းစခရင် ပုံစံအဓိက Display */}
-      <div className="phone-mockup">
+      {/* အလယ်ဖုန်းစခရင် အကြီး */}
+      <div className="phone-box">
         <div className="phone-screen">
-          <div className="top-banner">
-            <span className="live-dot">●</span> 2D LIVE MYANMAR
-          </div>
-          <div className="date-badge">{customDate}</div>
-          
-          <div className="main-num-box">
-            <div className="num-title">⚡ လက်ရှိထွက်ပေါ်နေသော ⚡</div>
-            <div className="big-num">{data?.live?.twod || "30"}</div>
-          </div>
-
+          <div className="phone-top-bar">Myanmar 2D</div>
+          <div className="big-number">{data?.live?.twod || "57"}</div>
           <div className="market-row">
-            <div>SET: <strong>{data?.live?.set || "1,572.03"}</strong></div>
-            <div>VALUE: <strong>{data?.live?.value || "40,150.64"}</strong></div>
-          </div>
-
-          <div className="session-box">
-            <div>12:01 PM (Open) : <strong>{result12?.twod || "00"}</strong></div>
-            <div>4:30 PM (Final) : <strong>{result1630?.twod || "--"}</strong></div>
+            <span>12:01 PM: <strong>{result12?.twod || "00"}</strong></span>
+            <span>4:30 PM: <strong>{result1630?.twod || "57"}</strong></span>
           </div>
         </div>
       </div>
 
-      {/* ညာဘက်ခြမ်း အရံ/ဟောထုပ် ဘောင် (ပုံပါအတိုင်း) */}
-      <div className="side-panel right-panel">
-        <div className="panel-header">⭐ အရံ</div>
-        <div className="panel-val green-text">{subNum}</div>
-        <div className="panel-header" style={{marginTop: '15px'}}>📌 ဟောထုပ်</div>
-        <div className="panel-val gold-text">{horThout}</div>
+      {/* ညာဘက်ခြမ်း (ရက်စွဲ၊ ပိတ်သီး၊ မိန်း၊ အရံ) */}
+      <div className="right-section">
+        <div className="date-badge-big">{customDate}</div>
+        <div className="section-title">ယနေ့အတွက်ပိတ်သီး</div>
+        <div className="value-box gold-border">{pitThee}</div>
+        
+        <div className="section-title">မိန်း</div>
+        <div className="value-box red-border">{mainNum}</div>
+        
+        <div className="section-title">အရံ</div>
+        <div className="value-box red-border">{subNum}</div>
       </div>
 
       <style jsx>{`
-        .stream-background {
-          width: 100vw;
-          height: 100vh;
-          background: linear-gradient(135deg, #020617 0%, #0f172a 50%, #1e1b4b 100%);
-          /* နောက်ခံမှာ စတော့ရှယ်ယာဇယားပုံစံ Line များ ထည့်သွင်းထားသည် */
-          background-image: radial-gradient(circle at 20% 30%, rgba(56, 189, 248, 0.15) 0%, transparent 40%),
-                            radial-gradient(circle at 80% 70%, rgba(239, 68, 68, 0.15) 0%, transparent 40%);
-          font-family: 'Pyidaungsu', sans-serif;
+        .stream-container {
+          width: 1920px;
+          height: 1080px;
+          background: #facc15; /* ပုံပါအတိုင်း တောက်ပသော အဝါရောင်နောက်ခံ */
           display: flex;
-          justify-content: center;
+          justify-content: space-between;
           align-items: center;
+          padding: 40px 60px;
           position: relative;
+          font-family: 'Pyidaungsu', sans-serif;
+          box-sizing: border-box;
           overflow: hidden;
-          color: #fff;
         }
         .admin-toggle-btn {
-          position: fixed; top: 10px; left: 10px; background: #f59e0b; color: #000; border: none; padding: 8px 14px; font-weight: bold; border-radius: 8px; cursor: pointer; z-index: 10000;
+          position: fixed; top: 20px; left: 20px; background: #000; color: #facc15; border: none; padding: 10px 20px; font-weight: bold; border-radius: 8px; cursor: pointer; z-index: 99999; font-size: 1rem;
         }
         .admin-panel {
-          position: fixed; top: 60px; left: 10px; background: rgba(15, 23, 42, 0.95); border: 2px solid #f59e0b; padding: 15px; border-radius: 12px; z-index: 10000; width: 280px;
+          position: fixed; top: 75px; left: 20px; background: #0f172a; border: 2px solid #facc15; padding: 15px; border-radius: 12px; z-index: 99999; width: 300px; color: #fff;
         }
-        .admin-panel h3 { margin: 0 0 10px 0; color: #facc15; font-size: 0.95rem; }
+        .admin-panel h3 { margin: 0 0 10px 0; color: #facc15; font-size: 1rem; }
         .input-group { display: flex; justify-content: space-between; margin-bottom: 8px; align-items: center; }
-        .input-group label { color: #cbd5e1; font-size: 0.85rem; font-weight: bold; }
-        .input-group input { background: #1e293b; border: 1px solid #475569; color: #fff; padding: 4px 8px; border-radius: 4px; width: 60%; }
+        .input-group label { color: #cbd5e1; font-weight: bold; }
+        .input-group input { background: #1e293b; border: 1px solid #475569; color: #fff; padding: 5px 8px; border-radius: 4px; width: 60%; }
 
-        /* ဘေးဘောင်ဒီဇိုင်းများ (သူများတွေလို ပုံစံတူ) */
-        .side-panel {
-          position: absolute;
-          width: 260px;
-          background: rgba(15, 23, 42, 0.85);
-          border: 3px solid #f59e0b;
-          border-radius: 16px;
-          padding: 15px;
-          text-align: center;
-          box-shadow: 0 0 25px rgba(245, 158, 11, 0.3);
+        /* ဘယ်ဘက်ခြမ်း ဒီဇိုင်း */
+        .left-section {
+          display: flex;
+          flex-direction: column;
+          gap: 15px;
+          width: 350px;
         }
-        .left-panel { left: 40px; }
-        .right-panel { right: 40px; }
-        .panel-header { font-size: 1.1rem; font-weight: 900; color: #facc15; margin-bottom: 5px; }
-        .panel-val { font-size: 1.6rem; font-weight: 900; letter-spacing: 1px; }
-        .gold-text { color: #facc15; }
-        .red-text { color: #ef4444; }
-        .green-text { color: #4ade80; }
+        .time-badge { background: #dc2626; color: #fff; font-size: 3rem; font-weight: 900; padding: 10px 20px; border-radius: 15px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        .live-clock { background: #fff; color: #000; font-size: 2rem; font-weight: 900; padding: 8px; border-radius: 10px; text-align: center; border: 3px solid #dc2626; }
+        .red-banner { background: #dc2626; color: #fff; font-size: 1.8rem; font-weight: 900; padding: 10px; border-radius: 12px; text-align: center; }
+        .hor-badge { background: #1e293b; color: #facc15; font-size: 1.8rem; font-weight: 900; padding: 12px; border-radius: 12px; text-align: center; border: 3px solid #facc15; }
 
-        /* အလယ်ဖုန်းစခရင် */
-        .phone-mockup {
-          width: 380px;
+        /* အလယ်ဖုန်းစခရင် အကြီး */
+        .phone-box {
+          width: 420px;
           background: #000;
-          border: 6px solid #334155;
-          border-radius: 30px;
-          overflow: hidden;
-          box-shadow: 0 0 50px rgba(0,0,0,0.9);
+          border: 8px solid #334155;
+          border-radius: 35px;
+          padding: 15px;
+          box-shadow: 0 10px 40px rgba(0,0,0,0.5);
         }
         .phone-screen {
-          background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
-          padding: 15px;
+          background: linear-gradient(180deg, #fff 0%, #f1f5f9 100%);
+          border-radius: 20px;
+          padding: 20px;
+          text-align: center;
+          color: #000;
+        }
+        .phone-top-bar { font-weight: bold; color: #64748b; margin-bottom: 10px; }
+        .big-number { font-size: 6rem; font-weight: 900; color: #16a34a; line-height: 1; margin: 20px 0; }
+        .market-row { display: flex; justify-content: space-around; background: #e2e8f0; padding: 12px; border-radius: 10px; font-size: 1.1rem; }
+
+        /* ညာဘက်ခြမ်း ဒီဇိုင်း */
+        .right-section {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+          width: 450px;
           text-align: center;
         }
-        .top-banner { background: #dc2626; color: white; font-weight: 900; padding: 6px; border-radius: 8px; font-size: 0.9rem; }
-        .live-dot { color: #4ade80; animation: blink 1s infinite alternate; }
-        @keyframes blink { 0% { opacity: 0.2; } 100% { opacity: 1; } }
-        .date-badge { background: #f59e0b; color: #000; font-weight: 900; display: inline-block; padding: 4px 15px; border-radius: 20px; margin: 10px 0; font-size: 1rem; }
-        .main-num-box { background: #fff; color: #000; border-radius: 12px; padding: 10px; margin-bottom: 10px; }
-        .num-title { font-size: 0.75rem; font-weight: bold; color: #d97706; }
-        .big-num { font-size: 4.5rem; font-weight: 900; color: #dc2626; line-height: 1; }
-        .market-row { display: flex; justify-content: space-between; background: rgba(255,255,255,0.1); padding: 8px; border-radius: 8px; font-size: 0.8rem; margin-bottom: 10px; }
-        .session-box { background: rgba(0,0,0,0.3); padding: 8px; border-radius: 8px; font-size: 0.85rem; text-align: left; }
+        .date-badge-big { background: #dc2626; color: #fff; font-size: 2.5rem; font-weight: 900; padding: 10px; border-radius: 15px; border: 4px solid #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        .section-title { background: #7c2d12; color: #fff; font-size: 1.4rem; font-weight: 900; padding: 6px; border-radius: 10px; display: inline-block; width: 60%; margin: 0 auto; }
+        .value-box { font-size: 2.8rem; font-weight: 900; padding: 10px; border-radius: 15px; background: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .gold-border { color: #b45309; border: 4px solid #f59e0b; }
+        .red-border { color: #dc2626; border: 4px solid #dc2626; }
       `}</style>
     </div>
   );
