@@ -29,6 +29,7 @@ export default function Home() {
         setIsPlaying(true);
       }).catch(err => {
         console.log("Audio play error:", err);
+        alert("အသံစတင်ရန် Screen ပေါ်ကို တစ်ချက်နှိပ်ပြီးမှ ခလုတ်ကို ထပ်နှိပ်ပါ။");
       });
     }
   };
@@ -68,11 +69,11 @@ export default function Home() {
         <title>2D LIVE MYANMAR - Premium Stream</title>
       </Head>
 
-      {/* Audio Element */}
+      {/* Stable Direct Audio Stream */}
       <audio 
         ref={audioRef} 
-        src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf756.mp3?filename=lofi-study-112191.mp3" 
-        preload="auto"
+        src="https://server.proxy.audio/stream/ambient.mp3"
+        crossOrigin="anonymous"
         loop 
       />
 
