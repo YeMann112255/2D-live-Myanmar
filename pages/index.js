@@ -5,24 +5,37 @@ export default function Home() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [currentTime, setCurrentTime] = useState("");
-  
-  // Admin မှ ပြင်ဆင်နိုင်သော အချက်အလက်များ
+  const [showAdmin, setShowAdmin] = useState(false);
+
   const [sessionTitle, setSessionTitle] = useState("4:30 PM LIVE");
-  const [sessionDay, setSessionDay] = useState("တနင်္လာနေ့ ညနေခင်း");
+  const [sessionDay, setSessionDay] = useState("ညနေပိုင်း");
   const [customDate, setCustomDate] = useState("05-10-2026");
   const [pitThee, setPitThee] = useState("5-3-2");
   const [mainNum, setMainNum] = useState("53-57-39");
   const [subNum, setSubNum] = useState("35-23-25");
   const [horThout, setHorThout] = useState("5-9-8");
-  const [showAdmin, setShowAdmin] = useState(false);
 
   useEffect(() => {
     const updateDateTime = () => {
-      const today = new Date();
-      const hours = String(today.getHours()).padStart(2, '0');
-      const minutes = String(today.getMinutes()).padStart(2, '0');
-      const seconds = String(today.getSeconds()).padStart(2, '0');
-      setCurrentTime(`${hours}:${minutes}:${seconds}`);
+      // မြန်မာစံတော်ချိန် (UTC+6:30) ကို တိကျစွာ ယူခြင်း
+      const now = new Date();
+      const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+      const myanmarTime = new Date(utc + (3600000 * 6.5));
+
+      const hours = myanmarTime.getHours();
+      const minutes = String(myanmarTime.getMinutes()).padStart(2, '0');
+      const seconds = String(myanmarTime.getSeconds()).padStart(2, '0');
+      
+      setCurrentTime(`${String(hours).padStart(2, '0')}:${minutes}:${seconds}`);
+
+      // အချိန်အလိုက် Auto ပြောင်းရန် (ဥပမာ - နေ့လယ် ၁ နာရီ မတိုင်ခင် မနက်ပိုင်း၊ ကျော်လျှင် ညနေပိုင်း)
+      if (hours < 13) {
+        setSessionTitle("12:01 PM LIVE");
+        setSessionDay("မနက်ပိုင်း");
+      } else {
+        setSessionTitle("4:30 PM LIVE");
+        setSessionDay("ညနေပိုင်း");
+      }
     };
 
     updateDateTime();
@@ -75,7 +88,7 @@ export default function Home() {
         </div>
       )}
 
-      {/* ဘယ်ဘက်ခြမ်း (အချိန်၊ ပွဲစဉ်အမည်၊ ဟောထုပ်) */}
+      {/* ဘယ်ဘက်ခြမ်း */}
       <div className="side-card left-card">
         <div className="card-header-red">{sessionTitle}</div>
         <div className="live-clock-box">{currentTime}</div>
@@ -107,7 +120,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* ညာဘက်ခြမ်း (ရက်စွဲ၊ ပိတ်သီး၊ မိန်း၊ အရံ) */}
+      {/* ညာဘက်ခြမ်း */}
       <div className="side-card right-card">
         <div className="date-display-box">{customDate}</div>
         
@@ -154,7 +167,6 @@ export default function Home() {
         .input-group label { color: #cbd5e1; font-weight: bold; font-size: 0.85rem; }
         .input-group input { background: #1e293b; border: 1px solid #475569; color: #fff; padding: 5px 8px; border-radius: 4px; width: 55%; }
 
-        /* ဘယ်ဘက်ကတ်ပြား ဒီဇိုင်း */
         .side-card {
           width: 420px;
           background: rgba(15, 23, 42, 0.85);
@@ -184,7 +196,6 @@ export default function Home() {
         .hor-label { font-size: 1.4rem; font-weight: bold; color: #f59e0b; }
         .hor-val { font-size: 2rem; font-weight: 900; color: #fff; letter-spacing: 1px; }
 
-        /* အလယ်ဖုန်းစခရင်အကြီး ဒီဇိုင်း */
         .phone-container {
           width: 480px;
           background: #000;
@@ -203,7 +214,7 @@ export default function Home() {
         .phone-banner {
           background: #dc2626; color: #fff; font-weight: 900; font-size: 1.2rem; padding: 10px; border-radius: 12px; margin-bottom: 20px;
         }
-        .live-display-box {
+        .live-delay-box {
           background: #0f172a; color: #fff; border-radius: 20px; padding: 25px 15px; margin-bottom: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.3);
         }
         .live-tag { font-size: 0.95rem; font-weight: bold; color: #f59e0b; letter-spacing: 1px; }
@@ -213,7 +224,6 @@ export default function Home() {
         .ses-time { font-size: 0.9rem; font-weight: bold; color: #64748b; }
         .ses-num { font-size: 1.8rem; font-weight: 900; color: #1e293b; }
 
-        /* ညာဘက်ခြမ်း ဒီဇိုင်း */
         .date-display-box {
           background: linear-gradient(90deg, #dc2626, #b91c1c);
           color: #fff; font-size: 2.2rem; font-weight: 900; padding: 14px; border-radius: 14px; text-align: center; border: 2px solid #fca5a5;
