@@ -103,14 +103,14 @@ export default function Home() {
         </div>
       </div>
 
-      {/* အလယ် ဖုန်းပုံစံ */}
+      {/* အလယ် ဖုန်းပုံစံ (နေရာလွတ်မရှိဘဲ စုစည်းညီညာစေရန် ပြင်ဆင်ထားသည်) */}
       <div className="phone-container">
         <div className="phone-screen">
-          {/* ဖုန်းအပေါ်ပိုင်း Status Bar & Dynamic Island */}
+          {/* ဖုန်းအပေါ်ပိုင်း Status Bar */}
           <div className="phone-status-bar">
-            <span className="carrier">6:28</span>
+            <span className="carrier">6:56</span>
             <div className="dynamic-island"></div>
-            <div className="status-icons">📶 🛜 🔋 87</div>
+            <div className="status-icons">📶 🛜 🔋 50</div>
           </div>
 
           {/* အက်ပ်ခေါင်းစဉ် */}
@@ -183,7 +183,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* ညာဘက်ခြမ်း (စာလုံးများနှင့် အကွက်များ ကြီးမားထင်သာမြင်သာရှိစေရန်) */}
+      {/* ညာဘက်ခြမ်း */}
       <div className="side-card right-card">
         <div className="date-display-box">{customDate}</div>
         
@@ -230,64 +230,63 @@ export default function Home() {
         .input-group label { color: #cbd5e1; font-weight: bold; font-size: 0.85rem; }
         .input-group input { background: #1e293b; border: 1px solid #475569; color: #fff; padding: 5px 8px; border-radius: 4px; width: 55%; }
 
-        /* ဘယ်ညာ ဘောက်စ်များ (Pro ဆန်ဆန် ကြီးမားထင်သာမြင်သာရှိစေရန်) */
+        /* ဘယ်ညာ ဘောက်စ်များ */
         .side-card {
-          width: 480px;
+          width: 440px;
           background: rgba(15, 23, 42, 0.95);
           backdrop-filter: blur(12px);
-          border: 4px solid rgba(245, 158, 11, 0.7);
-          border-radius: 24px;
-          padding: 22px;
+          border: 3px solid rgba(245, 158, 11, 0.7);
+          border-radius: 20px;
+          padding: 18px;
           display: flex;
           flex-direction: column;
-          gap: 16px;
+          gap: 12px;
           box-shadow: 0 25px 50px rgba(0,0,0,0.85);
         }
         .card-header-red {
           background: linear-gradient(90deg, #dc2626, #991b1b);
-          color: #fff; font-size: 2rem; font-weight: 900; padding: 12px; border-radius: 14px; text-align: center;
-          box-shadow: 0 6px 18px rgba(220, 38, 38, 0.5);
+          color: #fff; font-size: 1.8rem; font-weight: 900; padding: 10px; border-radius: 12px; text-align: center;
+          box-shadow: 0 4px 12px rgba(220, 38, 38, 0.5);
         }
         .live-clock-box {
-          background: #000; color: #38bdf8; font-size: 1.9rem; font-weight: 900; padding: 12px; border-radius: 12px; text-align: center; border: 2px solid #38bdf8; letter-spacing: 1px;
+          background: #000; color: #38bdf8; font-size: 1.7rem; font-weight: 900; padding: 10px; border-radius: 10px; text-align: center; border: 2px solid #38bdf8;
         }
         .info-pill-dark {
-          background: #1e293b; color: #f8fafc; font-size: 1.5rem; font-weight: 900; padding: 12px; border-radius: 12px; text-align: center; border: 1px solid #475569;
+          background: #1e293b; color: #f8fafc; font-size: 1.3rem; font-weight: 900; padding: 10px; border-radius: 10px; text-align: center; border: 1px solid #475569;
         }
 
-        /* ကြီးမားထင်သာမြင်သာရှိသော Pro စာသားအကွက်များ */
         .data-group-pro {
-          display: flex; flex-direction: column; gap: 6px; background: rgba(30, 41, 59, 0.5); padding: 10px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.1);
+          display: flex; flex-direction: column; gap: 4px; background: rgba(30, 41, 59, 0.5); padding: 8px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);
         }
         .label-badge {
-          font-size: 1.35rem; font-weight: 900; padding: 6px 12px; border-radius: 8px; display: inline-block; width: fit-content; color: #fff; letter-spacing: 0.5px;
+          font-size: 1.2rem; font-weight: 900; padding: 4px 10px; border-radius: 6px; display: inline-block; width: fit-content; color: #fff;
         }
-        .gold-bg-pro { background: linear-gradient(90deg, #d97706, #b45309); box-shadow: 0 4px 12px rgba(217, 119, 6, 0.4); }
-        .red-bg-pro { background: linear-gradient(90deg, #ef4444, #991b1b); box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4); }
+        .gold-bg-pro { background: linear-gradient(90deg, #d97706, #b45309); box-shadow: 0 4px 10px rgba(217, 119, 6, 0.4); }
+        .red-bg-pro { background: linear-gradient(90deg, #ef4444, #991b1b); box-shadow: 0 4px 10px rgba(239, 68, 68, 0.4); }
 
         .val-display-pro {
-          background: #090d16; font-size: 2.3rem; font-weight: 900; padding: 12px 14px; border-radius: 12px; text-align: center; letter-spacing: 2px; border: 2px solid #334155;
+          background: #090d16; font-size: 2.1rem; font-weight: 900; padding: 10px; border-radius: 10px; text-align: center; letter-spacing: 2px; border: 2px solid #334155;
         }
-        .gold-text-pro { color: #facc15; border-color: #d97706; text-shadow: 0 2px 8px rgba(250, 204, 21, 0.3); }
-        .red-text-pro { color: #f87171; border-color: #ef4444; text-shadow: 0 2px 8px rgba(248, 113, 113, 0.3); }
+        .gold-text-pro { color: #facc15; border-color: #d97706; }
+        .red-text-pro { color: #f87171; border-color: #ef4444; }
 
-        /* ဖုန်းစခရင် ပုံစံ */
+        /* ဖုန်းစခရင် ပုံစံ (အံဝင်ဂွင်ကျနှင့် နေရာလွတ်မရှိစေရန် ချိန်ညှိထားသည်) */
         .phone-container {
-          width: 480px;
-          height: 980px;
+          width: 400px;
+          height: 860px;
           background: #111827;
-          border: 10px solid #1f2937;
-          border-radius: 44px;
-          padding: 10px;
-          box-shadow: 0 30px 70px rgba(0,0,0,0.95), inset 0 0 20px rgba(255,255,255,0.15);
+          border: 8px solid #1f2937;
+          border-radius: 36px;
+          padding: 8px;
+          box-shadow: 0 30px 70px rgba(0,0,0,0.95), inset 0 0 15px rgba(255,255,255,0.15);
           display: flex;
           flex-direction: column;
           box-sizing: border-box;
         }
         .phone-screen {
           background: #ffffff;
-          border-radius: 34px;
-          padding: 12px 16px;
+          border-radius: 28px;
+          padding: 10px 14px;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
@@ -299,46 +298,44 @@ export default function Home() {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          font-size: 0.8rem;
+          font-size: 0.75rem;
           font-weight: bold;
           color: #000;
-          padding: 0 4px;
         }
         .dynamic-island {
-          width: 100px;
-          height: 20px;
+          width: 90px;
+          height: 16px;
           background: #000;
-          border-radius: 16px;
+          border-radius: 12px;
         }
         .app-header-bar {
           background: #facc15;
-          padding: 8px 14px;
+          padding: 6px 12px;
           border-radius: 8px;
           display: flex;
           justify-content: space-between;
           align-items: center;
           font-weight: bold;
-          font-size: 1rem;
-          box-shadow: 0 4px 10px rgba(250, 204, 21, 0.3);
-          margin-top: 4px;
+          font-size: 0.95rem;
+          box-shadow: 0 3px 8px rgba(250, 204, 21, 0.3);
         }
         .app-logo { color: #000; font-weight: 900; }
-        .app-menu-icons { display: flex; gap: 6px; align-items: center; font-size: 0.8rem; }
-        .badge-2d { background: #16a34a; color: #fff; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; }
-        .badge-3d { background: #2563eb; color: #fff; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; }
+        .app-menu-icons { display: flex; gap: 5px; align-items: center; font-size: 0.75rem; }
+        .badge-2d { background: #16a34a; color: #fff; padding: 1px 5px; border-radius: 4px; font-size: 0.65rem; }
+        .badge-3d { background: #2563eb; color: #fff; padding: 1px 5px; border-radius: 4px; font-size: 0.65rem; }
         
         .live-main-display {
-          font-size: 6.2rem;
+          font-size: 5rem;
           font-weight: 900;
           color: #16a34a;
           text-align: center;
           line-height: 1;
-          margin: 0;
-          text-shadow: 0 4px 12px rgba(22, 163, 74, 0.2);
+          margin: 2px 0;
+          text-shadow: 0 4px 10px rgba(22, 163, 74, 0.2);
         }
         .update-time-indicator {
           text-align: center;
-          font-size: 0.8rem;
+          font-size: 0.75rem;
           color: #16a34a;
           font-weight: bold;
           margin-bottom: 2px;
@@ -347,24 +344,23 @@ export default function Home() {
         .cards-group {
           display: flex;
           flex-direction: column;
-          gap: 8px;
+          gap: 6px;
         }
 
         .result-card-red {
           background: linear-gradient(135deg, #f87171 0%, #ef4444 100%);
-          border-radius: 12px;
-          padding: 8px 14px;
+          border-radius: 10px;
+          padding: 6px 12px;
           color: #fff;
-          box-shadow: 0 4px 10px rgba(239, 68, 68, 0.35);
+          box-shadow: 0 3px 8px rgba(239, 68, 68, 0.35);
         }
         .card-title-top {
           text-align: center;
           font-weight: 900;
-          font-size: 0.95rem;
+          font-size: 0.85rem;
           border-bottom: 1px solid rgba(255,255,255,0.3);
-          padding-bottom: 3px;
-          margin-bottom: 5px;
-          letter-spacing: 1px;
+          padding-bottom: 2px;
+          margin-bottom: 4px;
         }
         .card-sub-grid {
           display: flex;
@@ -377,41 +373,41 @@ export default function Home() {
           flex-direction: column;
         }
         .sub-label {
-          font-size: 0.65rem;
+          font-size: 0.6rem;
           opacity: 0.9;
           font-weight: bold;
         }
         .sub-val {
-          font-size: 1.15rem;
+          font-size: 1.05rem;
           font-weight: 900;
         }
         .highlight-num {
-          font-size: 1.3rem;
+          font-size: 1.2rem;
           background: rgba(0,0,0,0.18);
-          border-radius: 6px;
+          border-radius: 5px;
           padding: 1px 0;
         }
 
         .phone-subscribe-footer {
           background: linear-gradient(90deg, #dc2626, #b91c1c);
           color: #fff;
-          border-radius: 10px;
-          padding: 8px;
+          border-radius: 8px;
+          padding: 6px;
           display: flex;
           justify-content: center;
           align-items: center;
-          gap: 8px;
+          gap: 6px;
           font-weight: 900;
-          font-size: 0.9rem;
-          box-shadow: 0 4px 10px rgba(220, 38, 38, 0.4);
+          font-size: 0.85rem;
+          box-shadow: 0 3px 8px rgba(220, 38, 38, 0.4);
         }
-        .sub-icon { font-size: 1rem; }
-        .sub-bell { font-size: 1rem; }
+        .sub-icon { font-size: 0.9rem; }
+        .sub-bell { font-size: 0.9rem; }
 
         .date-display-box {
-          background: linear-gradient(90deg, #dc2626, #b91c1c);
-          color: #fff; font-size: 2.1rem; font-weight: 900; padding: 12px; border-radius: 14px; text-align: center; border: 2px solid #fca5a5;
-          box-shadow: 0 6px 18px rgba(220, 38, 38, 0.5);
+          background: linear-gradient(90deg, #dc2626, #991b1b);
+          color: #fff; font-size: 1.9rem; font-weight: 900; padding: 10px; border-radius: 12px; text-align: center; border: 2px solid #fca5a5;
+          box-shadow: 0 4px 12px rgba(220, 38, 38, 0.5);
         }
       `}</style>
     </div>
