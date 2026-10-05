@@ -6,7 +6,24 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [currentDate, setCurrentDate] = useState("");
   const [isPlaying, setIsPlaying] = useState(false);
+  const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
   const audioRef = useRef(null);
+
+  // မြန်မာလူမျိုးများအတွက် နားဆင်လို့ကောင်းပြီး Copyright ကင်းစင်သော သီချင်းစာရင်း (Playlist)
+  const playlist = [
+    {
+      title: "Myanmar Traditional Flute & Ambient",
+      src: "https://actions.google.com/sounds/v1/ambiences/wind_chimes.ogg"
+    },
+    {
+      title: "Relaxing Acoustic Vibe",
+      src: "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg"
+    },
+    {
+      title: "Peaceful Nature & Flute Sound",
+      src: "https://actions.google.com/sounds/v1/weather/rain_heavy.ogg"
+    }
+  ];
 
   useEffect(() => {
     const today = new Date();
@@ -17,6 +34,20 @@ export default function Home() {
     const interval = setInterval(fetchData, 3000);
     return () => clearInterval(interval);
   }, []);
+
+  // သီချင်းတစ်ပုဒ်ပြီးရင် နောက်တစ်ပုဒ်သို့ အလိုအလျောက်ပြောင်းရန်
+  const handleTrackEnded = () => {
+    setCurrentTrackIndex((prevIndex) => (prevIndex + 1) % playlist.length);
+  };
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.load();
+      if (isPlaying) {
+        audioRef.current.play().catch(err => console.log("Play error:", err));
+      }
+    }
+  }, [currentTrackIndex]);
 
   const togglePlay = () => {
     if (audioRef.current) {
@@ -68,11 +99,11 @@ export default function Home() {
         <title>2D LIVE MYANMAR - Premium Stream</title>
       </Head>
 
-      {/* 100% Copyright-Free Audio (Google Sound Library / Safe for YouTube Live) */}
+      {/* Audio Element with Playlist Support & Auto-Next */}
       <audio 
         ref={audioRef} 
-        src="https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg" 
-        loop 
+        src={playlist[currentTrackIndex].src} 
+        onEnded={handleTrackEnded}
       />
 
       {/* Top Header Glow Bar */}
@@ -161,8 +192,8 @@ export default function Home() {
           🎁 2D လက်ဆောင် <br/>ကံထူးကြပါစေ ❤
         </div>
         <div className="subscribe-badge" onClick={togglePlay}>
-          <span>{isPlaying ? "🎵 BGM: တီးခတ်နေသည်" : "🔇 BGM: ပိတ်ထားသည်"}</span>
-          <small>{isPlaying ? "တေးဂီတပိတ်ရန် နှိပ်ပါ" : "တေးဂီတဖွင့်ရန် နှိပ်ပါ"}</small>
+          <span>{isPlaying ? "🎵 BGM: ဖွင့်ထားသည်" : "🔇 BGM: ပိတ်ထားသည်"}</span>
+          <small>{isPlaying ? playlist[currentTrackIndex].title : "တေးဂီတဖွင့်ရန် နှိပ်ပါ"}</small>
         </div>
       </div>
 
@@ -204,7 +235,7 @@ export default function Home() {
         .live-number-display { font-size: 6.8rem; font-weight: 900; color: #dc2626; line-height: 1; text-shadow: 4px 4px 10px rgba(220, 38, 38, 0.25); animation: pulseBounce 1.5s infinite ease-in-out; }
         .live-sub-tag { font-size: 0.75rem; font-weight: 700; color: #d97706; margin-top: 6px; letter-spacing: 1px; }
         @keyframes pulseBounce { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
-        .market-grid { display: grid; grid-template-columns: 1fr 1fr; border-top: 2px solid #e2e8f0; border-bottom: 2px solid #e2e8f0; }
+        .market-grid { grid-template-columns: 1fr 1fr; border-top: 2px solid #e2e8f0; border-bottom: 2px solid #e2e8f0; display: grid; }
         .market-box { padding: 12px; text-align: center; }
         .set-box { background: linear-gradient(135deg, #1e40af, #1d4ed8); color: white; border-right: 2px solid #e2e8f0; }
         .val-box { background: linear-gradient(135deg, #166534, #15803d); color: white; }
