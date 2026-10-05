@@ -33,7 +33,8 @@ export default function Home() {
     };
   }, []);
 
-  const togglePlay = () => {
+  const togglePlay = (e) => {
+    e.stopPropagation();
     if (!audioRef.current) return;
     
     if (isPlaying) {
@@ -78,7 +79,7 @@ export default function Home() {
   const result1630 = getResult("16:30:00");
 
   return (
-    <div className="main-container" onClick={togglePlay}>
+    <div className="main-container">
       <Head>
         <title>2D LIVE MYANMAR - Premium Stream</title>
       </Head>
@@ -181,9 +182,9 @@ export default function Home() {
         <div className="promo-text-badge">
           🎁 2D လက်ဆောင် <br/>ကံထူးကြပါစေ ❤
         </div>
-        <div className="subscribe-badge">
+        <div className="subscribe-badge" onClick={togglePlay}>
           <span>{isPlaying ? "🚗 GDM: ဖွင့်ထားသည်" : "🔇 GDM: ပိတ်ထားသည်"}</span>
-          <small>{isPlaying ? "ရပ်တန့်ရန် နှိပ်ပါ" : "ဖွင့်ရန် Screen ပေါ်နှိပ်ပါ"}</small>
+          <small>{isPlaying ? "အသံပိတ်ရန် နှိပ်ပါ" : "အသံဖွင့်ရန် နှိပ်ပါ"}</small>
         </div>
       </div>
 
@@ -206,7 +207,6 @@ export default function Home() {
           justify-content: space-between;
           box-sizing: border-box;
           box-shadow: 0 0 60px rgba(0,0,0,0.95);
-          cursor: pointer;
         }
         .header-banner { text-align: center; padding-top: 4px; }
         .top-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
@@ -237,7 +237,7 @@ export default function Home() {
         .session-rows { padding: 14px 20px; background: #f8fafc; }
         .s-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #e2e8f0; }
         .s-row:last-child { border-bottom: none; }
-        .s-time-info { display: `flex`; align-items: center; gap: 10px; color: #1e293b; }
+        .s-time-info { display: flex; align-items: center; gap: 10px; color: #1e293b; }
         .time-icon-box { background: #e2e8f0; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem; }
         .s-time-info strong { font-size: 0.95rem; display: block; line-height: 1.1; color: #0f172a; }
         .s-time-info p { font-size: 0.72rem; color: #64748b; margin: 2px 0 0 0; }
@@ -246,7 +246,8 @@ export default function Home() {
         .red-text { color: #dc2626; font-size: 1.55rem; font-weight: 900; }
         .footer-promo { display: grid; grid-template-columns: 1fr 1.2fr; gap: 12px; margin: 14px 0 8px 0; }
         .promo-text-badge { background: linear-gradient(135deg, #fef08a 0%, #facc15 50%, #ca8a04 100%); color: #111827; font-weight: 900; text-align: center; padding: 10px; border-radius: 16px; font-size: 0.85rem; box-shadow: 0 0 15px rgba(250, 204, 21, 0.4); border: 2px solid #fff; display: flex; align-items: center; justify-content: center; line-height: 1.3; }
-        .subscribe-badge { background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%); color: white; font-weight: 900; text-align: center; padding: 10px; border-radius: 16px; font-size: 0.85rem; box-shadow: 0 0 15px rgba(220, 38, 38, 0.5); border: 2px solid #fff; line-height: 1.3; display: flex; flex-direction: column; justify-content: center; transition: 0.2s; }
+        .subscribe-badge { background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%); color: white; font-weight: 900; text-align: center; padding: 10px; border-radius: 16px; font-size: 0.85rem; box-shadow: 0 0 15px rgba(220, 38, 38, 0.5); border: 2px solid #fff; line-height: 1.3; display: flex; flex-direction: column; justify-content: center; cursor: pointer; transition: 0.2s; }
+        .subscribe-badge:hover { transform: scale(0.98); opacity: 0.9; }
         .subscribe-badge small { font-size: 0.7rem; font-weight: normal; color: #fecaca; }
         .footer-brand { text-align: center; color: #fbbf24; font-size: 0.85rem; font-weight: bold; letter-spacing: 3px; margin-top: 4px; text-shadow: 0 0 10px rgba(251, 191, 36, 0.6); }
       `}</style>
