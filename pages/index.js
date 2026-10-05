@@ -6,24 +6,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [currentDate, setCurrentDate] = useState("");
   const [isPlaying, setIsPlaying] = useState(false);
-  const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
   const audioRef = useRef(null);
-
-  // မြန်မာလူမျိုးများအတွက် နားဆင်လို့ကောင်းပြီး Copyright ကင်းစင်သော သီချင်းစာရင်း (Playlist)
-  const playlist = [
-    {
-      title: "Myanmar Traditional Flute & Ambient",
-      src: "https://actions.google.com/sounds/v1/ambiences/wind_chimes.ogg"
-    },
-    {
-      title: "Relaxing Acoustic Vibe",
-      src: "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg"
-    },
-    {
-      title: "Peaceful Nature & Flute Sound",
-      src: "https://actions.google.com/sounds/v1/weather/rain_heavy.ogg"
-    }
-  ];
 
   useEffect(() => {
     const today = new Date();
@@ -35,32 +18,19 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
-  // သီချင်းတစ်ပုဒ်ပြီးရင် နောက်တစ်ပုဒ်သို့ အလိုအလျောက်ပြောင်းရန်
-  const handleTrackEnded = () => {
-    setCurrentTrackIndex((prevIndex) => (prevIndex + 1) % playlist.length);
-  };
-
-  useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.load();
-      if (isPlaying) {
-        audioRef.current.play().catch(err => console.log("Play error:", err));
-      }
-    }
-  }, [currentTrackIndex]);
-
   const togglePlay = () => {
-    if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.pause();
-        setIsPlaying(false);
-      } else {
-        audioRef.current.play().then(() => {
-          setIsPlaying(true);
-        }).catch(err => {
-          console.log("Play error:", err);
-        });
-      }
+    if (!audioRef.current) return;
+    
+    if (isPlaying) {
+      audioRef.current.pause();
+      setIsPlaying(false);
+    } else {
+      audioRef.current.play().then(() => {
+        setIsPlaying(true);
+      }).catch(err => {
+        console.log("Audio play blocked or failed:", err);
+        alert("ဘရောက်ဆာ မူဝါဒအရ အသံစတင်ရန် Screen ပေါ်ကို အရင်တစ်ချက်နှိပ်ပါ။");
+      });
     }
   };
 
@@ -99,11 +69,12 @@ export default function Home() {
         <title>2D LIVE MYANMAR - Premium Stream</title>
       </Head>
 
-      {/* Audio Element with Playlist Support & Auto-Next */}
+      {/* Stable Copyright-Free Audio Stream */}
       <audio 
         ref={audioRef} 
-        src={playlist[currentTrackIndex].src} 
-        onEnded={handleTrackEnded}
+        src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf756.mp3?filename=lofi-study-112191.mp3" 
+        preload="auto"
+        loop 
       />
 
       {/* Top Header Glow Bar */}
@@ -192,8 +163,8 @@ export default function Home() {
           🎁 2D လက်ဆောင် <br/>ကံထူးကြပါစေ ❤
         </div>
         <div className="subscribe-badge" onClick={togglePlay}>
-          <span>{isPlaying ? "🎵 BGM: ဖွင့်ထားသည်" : "🔇 BGM: ပိတ်ထားသည်"}</span>
-          <small>{isPlaying ? playlist[currentTrackIndex].title : "တေးဂီတဖွင့်ရန် နှိပ်ပါ"}</small>
+          <span>{isPlaying ? "🎵 BGM: တီးခတ်နေသည်" : "🔇 BGM: ပိတ်ထားသည်"}</span>
+          <small>{isPlaying ? "တေးဂီတပိတ်ရန် နှိပ်ပါ" : "တေးဂီတဖွင့်ရန် နှိပ်ပါ"}</small>
         </div>
       </div>
 
