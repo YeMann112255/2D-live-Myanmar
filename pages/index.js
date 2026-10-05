@@ -108,7 +108,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* အလယ် ဖုန်းပုံစံ (သင့်ရဲ့ မူလကုဒ်အတိုင်း) */}
+      {/* အလယ် ဖုန်းပုံစံ (ဂဏန်း 57 ကို ပိုကြီးအောင် ပြုလုပ်ထားသည်) */}
       <div className="phone-container">
         <div className="phone-screen">
           <div className="phone-status-bar">
@@ -216,10 +216,10 @@ export default function Home() {
         .stream-container {
           width: 1920px;
           height: 1080px;
-          background-color: #ffd700;
-          background-image: radial-gradient(#ffea61 15%, transparent 16%), radial-gradient(#ffdf2b 15%, transparent 16%);
-          background-size: 60px 60px;
-          background-position: 0 0, 30px 30px;
+          background: linear-gradient(135deg, #ffdb4d 0%, #ffcc00 100%);
+          background-image: radial-gradient(#ffe680 15%, transparent 16%), radial-gradient(#ffcc00 15%, transparent 16%);
+          background-size: 50px 50px;
+          background-position: 0 0, 25px 25px;
           display: flex;
           justify-content: space-between;
           align-items: center;
@@ -242,53 +242,54 @@ export default function Home() {
 
         .side-card {
           width: 480px;
-          background: rgba(255, 255, 255, 0.3);
-          backdrop-filter: blur(8px);
-          border: 4px solid #fff;
+          background: rgba(255, 255, 255, 0.4);
+          backdrop-filter: blur(10px);
+          border: 4px solid #ffffff;
           border-radius: 24px;
           padding: 22px;
           display: flex;
           flex-direction: column;
           gap: 15px;
-          box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+          box-shadow: 0 25px 50px rgba(0,0,0,0.2);
         }
         
         .top-red-banner {
-          background: linear-gradient(135deg, #ff2a2a 0%, #b30000 100%);
+          background: linear-gradient(135deg, #e60000 0%, #990000 100%);
           color: #fff; font-size: 2.8rem; font-weight: 900; padding: 12px; border-radius: 16px; text-align: center;
-          border: 3px solid #ff9999;
-          box-shadow: 0 6px 15px rgba(255, 0, 0, 0.4);
+          border: 3px solid #ff6666;
+          box-shadow: 0 6px 15px rgba(230, 0, 0, 0.4);
           text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
         .live-clock-box {
-          background: #fff; color: #111; font-size: 2.2rem; font-weight: 900; padding: 12px; border-radius: 14px; text-align: center; border: 3px solid #ff3333;
+          background: #fff; color: #111; font-size: 2.2rem; font-weight: 900; padding: 12px; border-radius: 14px; text-align: center; border: 3px solid #e60000;
           box-shadow: 0 4px 10px rgba(0,0,0,0.15);
         }
         .red-label-box {
-          background: linear-gradient(90deg, #ff3333, #cc0000); color: #fff; font-size: 1.8rem; font-weight: 900; padding: 12px; border-radius: 14px; text-align: center;
-          border: 2px solid #ff9999;
-          box-shadow: 0 4px 10px rgba(255, 0, 0, 0.3);
+          background: linear-gradient(90deg, #e60000, #b30000); color: #fff; font-size: 1.8rem; font-weight: 900; padding: 12px; border-radius: 14px; text-align: center;
+          border: 2px solid #ff6666;
+          box-shadow: 0 4px 10px rgba(230, 0, 0, 0.3);
         }
         .youtube-subscribe-tag {
-          background: linear-gradient(90deg, #ff0000, #990000); color: #fff; font-size: 1.4rem; font-weight: 900; padding: 10px; border-radius: 12px; text-align: center;
+          background: linear-gradient(90deg, #ff0000, #800000); color: #fff; font-size: 1.4rem; font-weight: 900; padding: 10px; border-radius: 12px; text-align: center;
           display: flex; align-items: center; justify-content: center; gap: 8px; border: 2px solid #ff8080;
+          box-shadow: 0 4px 10px rgba(255,0,0,0.3);
         }
         .horthout-box {
-          background: #fff; border: 4px solid #ff3333; border-radius: 16px; padding: 10px 15px; text-align: center; display: flex; justify-content: space-between; align-items: center;
+          background: #fff; border: 4px solid #e60000; border-radius: 16px; padding: 10px 15px; text-align: center; display: flex; justify-content: space-between; align-items: center;
           box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
-        .ht-label { background: #ff3333; color: #fff; font-size: 1.4rem; font-weight: 900; padding: 8px 16px; border-radius: 10px; }
+        .ht-label { background: #e60000; color: #fff; font-size: 1.4rem; font-weight: 900; padding: 8px 16px; border-radius: 10px; }
         .ht-val { font-size: 2.8rem; font-weight: 900; color: #cc0000; flex: 1; text-align: center; letter-spacing: 3px; }
 
         .date-display-box {
-          background: linear-gradient(135deg, #ff2a2a 0%, #b30000 100%);
-          color: #fff; font-size: 2.5rem; font-weight: 900; padding: 12px; border-radius: 16px; text-align: center; border: 3px solid #ff9999;
-          box-shadow: 0 6px 15px rgba(255, 0, 0, 0.4);
+          background: linear-gradient(135deg, #e60000 0%, #990000 100%);
+          color: #fff; font-size: 2.5rem; font-weight: 900; padding: 12px; border-radius: 16px; text-align: center; border: 3px solid #ff6666;
+          box-shadow: 0 6px 15px rgba(230, 0, 0, 0.4);
         }
 
         .data-section-group {
           background: #fff;
-          border: 4px solid #ff3333;
+          border: 4px solid #e60000;
           border-radius: 18px;
           padding: 12px 16px;
           display: flex;
@@ -301,20 +302,20 @@ export default function Home() {
           margin-top: -28px;
         }
         .purple-circle-badge {
-          background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
+          background: linear-gradient(135deg, #7c3aed 100%, #5b21b6 0%);
           color: #fff;
           font-size: 1.3rem;
           font-weight: 900;
           padding: 6px 24px;
           border-radius: 30px;
           border: 3px solid #fff;
-          box-shadow: 0 4px 10px rgba(109, 40, 217, 0.4);
+          box-shadow: 0 4px 10px rgba(124, 58, 237, 0.4);
           display: inline-block;
         }
         .val-display-pro {
           font-size: 3rem;
           font-weight: 900;
-          color: #d90429;
+          color: #cc0000;
           text-align: center;
           letter-spacing: 4px;
           padding: 4px 0;
@@ -327,7 +328,7 @@ export default function Home() {
           border: 8px solid #1f2937;
           border-radius: 36px;
           padding: 8px;
-          box-shadow: 0 30px 70px rgba(0,0,0,0.5);
+          box-shadow: 0 30px 70px rgba(0,0,0,0.4);
           display: flex;
           flex-direction: column;
           box-sizing: border-box;
@@ -345,7 +346,7 @@ export default function Home() {
         }
         .phone-status-bar { display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; font-weight: bold; }
         .dynamic-island { width: 90px; height: 16px; background: #000; border-radius: 12px; }
-        .app-header-bar { background: #facc15; padding: 6px 12px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: 0.95rem; }
+        .app-header-bar { background: #ffcc00; padding: 6px 12px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: 0.95rem; }
         .app-logo { color: #000; font-weight: 900; }
         .app-menu-icons { display: flex; gap: 5px; align-items: center; font-size: 0.75rem; }
         .badge-2d { background: #16a34a; color: #fff; padding: 1px 5px; border-radius: 4px; font-size: 0.65rem; }
@@ -357,20 +358,22 @@ export default function Home() {
         .pulsing-dot { width: 7px; height: 7px; background-color: #16a34a; border-radius: 50%; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.6); } 70% { box-shadow: 0 0 0 6px rgba(22, 163, 74, 0); } 100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0); } }
 
-        .live-main-display { font-size: 5.5rem; font-weight: 900; color: #16a34a; text-align: center; line-height: 1; margin: 0; }
+        /* ဂဏန်း 57 ကို ပိုမိုကြီးမားထင်ရှားအောင် ပြုလုပ်ထားခြင်း */
+        .live-main-display { font-size: 6.5rem; font-weight: 900; color: #16a34a; text-align: center; line-height: 1; margin: 0; text-shadow: 0 4px 12px rgba(22, 163, 74, 0.25); }
         .update-time-indicator { text-align: center; font-size: 0.75rem; color: #16a34a; font-weight: bold; }
 
         .cards-group { display: flex; flex-direction: column; gap: 6px; }
-        .result-card-red { background: linear-gradient(135deg, #f87171 0%, #ef4444 100%); border-radius: 10px; padding: 6px 12px; color: #fff; }
+        .result-card-red { background: linear-gradient(135deg, #ff4d4d 0%, #e60000 100%); border-radius: 10px; padding: 6px 12px; color: #fff; box-shadow: 0 4px 10px rgba(230,0,0,0.3); }
         .card-title-top { text-align: center; font-weight: 900; font-size: 0.85rem; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 2px; margin-bottom: 4px; }
         .card-sub-grid { display: flex; justify-content: space-between; text-align: center; }
         .sub-col { flex: 1; display: flex; flex-direction: column; }
         .sub-label { font-size: 0.6rem; opacity: 0.9; font-weight: bold; }
         .sub-val { font-size: 1.05rem; font-weight: 900; }
-        .highlight-num { font-size: 1.2rem; background: rgba(0,0,0,0.18); border-radius: 5px; }
+        .highlight-num { font-size: 1.2rem; background: rgba(0,0,0,0.2); border-radius: 5px; }
 
         .phone-subscribe-footer {
-          background: linear-gradient(90deg, #dc2626, #b91c1c); color: #fff; border-radius: 8px; padding: 6px; display: flex; justify-content: center; align-items: center; gap: 6px; font-weight: 900; font-size: 0.85rem;
+          background: linear-gradient(90deg, #e60000, #990000); color: #fff; border-radius: 8px; padding: 6px; display: flex; justify-content: center; align-items: center; gap: 6px; font-weight: 900; font-size: 0.85rem;
+          box-shadow: 0 4px 10px rgba(230,0,0,0.3);
         }
         .sub-icon { font-size: 0.9rem; }
         .sub-bell { font-size: 0.9rem; }
