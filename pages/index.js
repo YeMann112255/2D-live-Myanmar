@@ -22,14 +22,20 @@ export default function Home() {
       const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
       const myanmarTime = new Date(utc + (3600000 * 6.5));
 
-      const hours = myanmarTime.getHours();
+      let hours = myanmarTime.getHours();
       const minutes = String(myanmarTime.getMinutes()).padStart(2, '0');
       const seconds = String(myanmarTime.getSeconds()).padStart(2, '0');
       
-      setCurrentTime(`${String(hours).padStart(2, '0')}:${minutes}:${seconds}`);
+      // 12 နာရီစနစ် (AM/PM) သို့ ပြောင်းလဲခြင်း
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12;
+      hours = hours ? hours : 12; // အကယ်၍ 0 နာရီ (ည ၁၂ နာရီ) ဖြစ်နေပါက 12 ဟုပြရန်
+      const formattedHours = String(hours).padStart(2, '0');
+
+      setCurrentTime(`${formattedHours}:${minutes}:${seconds} ${ampm}`);
 
       // အချိန်အလိုက် Auto ပြောင်းရန် (ဥပမာ - နေ့လယ် ၁ နာရီ မတိုင်ခင် မနက်ပိုင်း၊ ကျော်လျှင် ညနေပိုင်း)
-      if (hours < 13) {
+      if (myanmarTime.getHours() < 13) {
         setSessionTitle("12:01 PM LIVE");
         setSessionDay("မနက်ပိုင်း");
       } else {
@@ -94,7 +100,7 @@ export default function Home() {
         <div className="live-clock-box">{currentTime}</div>
         <div className="info-pill-dark">{sessionDay}</div>
         <div className="hor-box">
-          <span className="hor-label">📌 ဟောထုပ်</span>
+          <span className="hor-label">📌 ဟောထိပ်</span>
           <span className="hor-val">{horThout}</span>
         </div>
       </div>
@@ -185,7 +191,7 @@ export default function Home() {
           box-shadow: 0 5px 15px rgba(220, 38, 38, 0.4);
         }
         .live-clock-box {
-          background: #000; color: #38bdf8; font-size: 2.2rem; font-weight: 900; padding: 12px; border-radius: 12px; text-align: center; border: 2px solid #38bdf8; letter-spacing: 2px;
+          background: #000; color: #38bdf8; font-size: 1.9rem; font-weight: 900; padding: 12px; border-radius: 12px; text-align: center; border: 2px solid #38bdf8; letter-spacing: 1px;
         }
         .info-pill-dark {
           background: #1e293b; color: #f8fafc; font-size: 1.6rem; font-weight: 900; padding: 15px; border-radius: 12px; text-align: center; border: 1px solid #475569;
@@ -214,7 +220,7 @@ export default function Home() {
         .phone-banner {
           background: #dc2626; color: #fff; font-weight: 900; font-size: 1.2rem; padding: 10px; border-radius: 12px; margin-bottom: 20px;
         }
-        .live-delay-box {
+        .live-display-box {
           background: #0f172a; color: #fff; border-radius: 20px; padding: 25px 15px; margin-bottom: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.3);
         }
         .live-tag { font-size: 0.95rem; font-weight: bold; color: #f59e0b; letter-spacing: 1px; }
