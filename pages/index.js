@@ -6,6 +6,9 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [currentTime, setCurrentTime] = useState("");
   
+  // Admin မှ ပြင်ဆင်နိုင်သော အချက်အလက်များ
+  const [sessionTitle, setSessionTitle] = useState("4:30 PM LIVE");
+  const [sessionDay, setSessionDay] = useState("တနင်္လာနေ့ ညနေခင်း");
   const [customDate, setCustomDate] = useState("05-10-2026");
   const [pitThee, setPitThee] = useState("5-3-2");
   const [mainNum, setMainNum] = useState("53-57-39");
@@ -61,7 +64,9 @@ export default function Home() {
 
       {showAdmin && (
         <div className="admin-panel">
-          <h3>📌 2D ဂဏန်းနှင့် ရက်စွဲပြင်ဆန်ရန်</h3>
+          <h3>📌 2D အချက်အလက်များ ပြင်ဆင်ရန်</h3>
+          <div className="input-group"><label>ချိန်/ပွဲစဉ်:</label><input type="text" value={sessionTitle} onChange={(e) => setSessionTitle(e.target.value)} /></div>
+          <div className="input-group"><label>နေ့/အမျိုးအစား:</label><input type="text" value={sessionDay} onChange={(e) => setSessionDay(e.target.value)} /></div>
           <div className="input-group"><label>ရက်စွဲ:</label><input type="text" value={customDate} onChange={(e) => setCustomDate(e.target.value)} /></div>
           <div className="input-group"><label>ပိတ်သီး:</label><input type="text" value={pitThee} onChange={(e) => setPitThee(e.target.value)} /></div>
           <div className="input-group"><label>မိန်း:</label><input type="text" value={mainNum} onChange={(e) => setMainNum(e.target.value)} /></div>
@@ -70,19 +75,18 @@ export default function Home() {
         </div>
       )}
 
-      {/* ဘယ်ဘက်ခြမ်း Pro Panel */}
+      {/* ဘယ်ဘက်ခြမ်း (အချိန်၊ ပွဲစဉ်အမည်၊ ဟောထုပ်) */}
       <div className="side-card left-card">
-        <div className="card-header-red">4:30 PM LIVE</div>
+        <div className="card-header-red">{sessionTitle}</div>
         <div className="live-clock-box">{currentTime}</div>
-        <div className="info-pill-dark">တနင်္လာနေ့ ညနေခင်း</div>
-        <div className="info-pill-red">ထွက်ဂဏန်း</div>
+        <div className="info-pill-dark">{sessionDay}</div>
         <div className="hor-box">
-          <span className="hor-label">📌 ဟောထိပ်</span>
+          <span className="hor-label">📌 ဟောထုပ်</span>
           <span className="hor-val">{horThout}</span>
         </div>
       </div>
 
-      {/* အလယ်ဖုန်းစခရင်အကြီး (Pro Mockup) */}
+      {/* အလယ်ဖုန်းစခရင်အကြီး */}
       <div className="phone-container">
         <div className="phone-screen">
           <div className="phone-banner">🔴 MYANMAR 2D LIVE</div>
@@ -103,7 +107,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* ညာဘက်ခြမ်း Pro Panel */}
+      {/* ညာဘက်ခြမ်း (ရက်စွဲ၊ ပိတ်သီး၊ မိန်း၊ အရံ) */}
       <div className="side-card right-card">
         <div className="date-display-box">{customDate}</div>
         
@@ -143,12 +147,12 @@ export default function Home() {
           position: fixed; top: 20px; left: 20px; background: #f59e0b; color: #000; border: none; padding: 10px 20px; font-weight: bold; border-radius: 8px; cursor: pointer; z-index: 99999; font-size: 1rem; box-shadow: 0 4px 10px rgba(0,0,0,0.5);
         }
         .admin-panel {
-          position: fixed; top: 75px; left: 20px; background: #0f172a; border: 2px solid #f59e0b; padding: 15px; border-radius: 12px; z-index: 99999; width: 300px; color: #fff; box-shadow: 0 10px 25px rgba(0,0,0,0.8);
+          position: fixed; top: 75px; left: 20px; background: #0f172a; border: 2px solid #f59e0b; padding: 15px; border-radius: 12px; z-index: 99999; width: 320px; color: #fff; box-shadow: 0 10px 25px rgba(0,0,0,0.8);
         }
         .admin-panel h3 { margin: 0 0 10px 0; color: #facc15; font-size: 1rem; }
         .input-group { display: flex; justify-content: space-between; margin-bottom: 8px; align-items: center; }
-        .input-group label { color: #cbd5e1; font-weight: bold; font-size: 0.9rem; }
-        .input-group input { background: #1e293b; border: 1px solid #475569; color: #fff; padding: 5px 8px; border-radius: 4px; width: 60%; }
+        .input-group label { color: #cbd5e1; font-weight: bold; font-size: 0.85rem; }
+        .input-group input { background: #1e293b; border: 1px solid #475569; color: #fff; padding: 5px 8px; border-radius: 4px; width: 55%; }
 
         /* ဘယ်ဘက်ကတ်ပြား ဒီဇိုင်း */
         .side-card {
@@ -172,16 +176,13 @@ export default function Home() {
           background: #000; color: #38bdf8; font-size: 2.2rem; font-weight: 900; padding: 12px; border-radius: 12px; text-align: center; border: 2px solid #38bdf8; letter-spacing: 2px;
         }
         .info-pill-dark {
-          background: #1e293b; color: #f8fafc; font-size: 1.5rem; font-weight: 900; padding: 12px; border-radius: 12px; text-align: center; border: 1px solid #475569;
-        }
-        .info-pill-red {
-          background: #dc2626; color: #fff; font-size: 1.6rem; font-weight: 900; padding: 12px; border-radius: 12px; text-align: center;
+          background: #1e293b; color: #f8fafc; font-size: 1.6rem; font-weight: 900; padding: 15px; border-radius: 12px; text-align: center; border: 1px solid #475569;
         }
         .hor-box {
-          background: #0f172a; border: 2px solid #f59e0b; padding: 14px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center;
+          background: #0f172a; border: 2px solid #f59e0b; padding: 16px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; margin-top: 10px;
         }
-        .hor-label { font-size: 1.3rem; font-weight: bold; color: #f59e0b; }
-        .hor-val { font-size: 1.8rem; font-weight: 900; color: #fff; letter-spacing: 1px; }
+        .hor-label { font-size: 1.4rem; font-weight: bold; color: #f59e0b; }
+        .hor-val { font-size: 2rem; font-weight: 900; color: #fff; letter-spacing: 1px; }
 
         /* အလယ်ဖုန်းစခရင်အကြီး ဒီဇိုင်း */
         .phone-container {
