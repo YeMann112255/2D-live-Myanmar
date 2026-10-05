@@ -220,7 +220,7 @@ export default function Home() {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          padding: 30px 45px;
+          padding: 25px 35px;
           position: relative;
           font-family: 'Pyidaungsu', sans-serif;
           box-sizing: border-box;
@@ -238,49 +238,49 @@ export default function Home() {
         .input-group input { background: #222; border: 1px solid #555; color: #fff; padding: 5px 8px; border-radius: 4px; width: 55%; }
 
         .side-card {
-          width: 480px;
-          background: rgba(255, 255, 255, 0.4);
+          width: 510px;
+          background: rgba(255, 255, 255, 0.45);
           backdrop-filter: blur(10px);
           border: 4px solid #ffffff;
-          border-radius: 24px;
-          padding: 22px;
+          border-radius: 26px;
+          padding: 24px;
           display: flex;
           flex-direction: column;
-          gap: 15px;
+          gap: 16px;
           box-shadow: 0 25px 50px rgba(0,0,0,0.2);
         }
         
         .top-red-banner {
           background: linear-gradient(135deg, #e60000 0%, #990000 100%);
-          color: #fff; font-size: 2.8rem; font-weight: 900; padding: 12px; border-radius: 16px; text-align: center;
+          color: #fff; font-size: 3.2rem; font-weight: 900; padding: 14px; border-radius: 16px; text-align: center;
           border: 3px solid #ff6666;
           box-shadow: 0 6px 15px rgba(230, 0, 0, 0.4);
           text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
         .live-clock-box {
-          background: #fff; color: #111; font-size: 2.2rem; font-weight: 900; padding: 12px; border-radius: 14px; text-align: center; border: 3px solid #e60000;
+          background: #fff; color: #111; font-size: 2.5rem; font-weight: 900; padding: 14px; border-radius: 14px; text-align: center; border: 3px solid #e60000;
           box-shadow: 0 4px 10px rgba(0,0,0,0.15);
         }
         .red-label-box {
-          background: linear-gradient(90deg, #e60000, #b30000); color: #fff; font-size: 1.8rem; font-weight: 900; padding: 12px; border-radius: 14px; text-align: center;
+          background: linear-gradient(90deg, #e60000, #b30000); color: #fff; font-size: 2rem; font-weight: 900; padding: 14px; border-radius: 14px; text-align: center;
           border: 2px solid #ff6666;
           box-shadow: 0 4px 10px rgba(230, 0, 0, 0.3);
         }
         .youtube-subscribe-tag {
-          background: linear-gradient(90deg, #ff0000, #800000); color: #fff; font-size: 1.4rem; font-weight: 900; padding: 10px; border-radius: 12px; text-align: center;
+          background: linear-gradient(90deg, #ff0000, #800000); color: #fff; font-size: 1.6rem; font-weight: 900; padding: 12px; border-radius: 12px; text-align: center;
           display: flex; align-items: center; justify-content: center; gap: 8px; border: 2px solid #ff8080;
           box-shadow: 0 4px 10px rgba(255,0,0,0.3);
         }
         .horthout-box {
-          background: #fff; border: 4px solid #e60000; border-radius: 16px; padding: 10px 15px; text-align: center; display: flex; justify-content: space-between; align-items: center;
+          background: #fff; border: 4px solid #e60000; border-radius: 16px; padding: 12px 18px; text-align: center; display: flex; justify-content: space-between; align-items: center;
           box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
-        .ht-label { background: #e60000; color: #fff; font-size: 1.4rem; font-weight: 900; padding: 8px 16px; border-radius: 10px; }
-        .ht-val { font-size: 2.8rem; font-weight: 900; color: #cc0000; flex: 1; text-align: center; letter-spacing: 3px; }
+        .ht-label { background: #e60000; color: #fff; font-size: 1.6rem; font-weight: 900; padding: 10px 18px; border-radius: 10px; }
+        .ht-val { font-size: 3.2rem; font-weight: 900; color: #cc0000; flex: 1; text-align: center; letter-spacing: 4px; }
 
         .date-display-box {
           background: linear-gradient(135deg, #e60000 0%, #990000 100%);
-          color: #fff; font-size: 2.5rem; font-weight: 900; padding: 12px; border-radius: 16px; text-align: center; border: 3px solid #ff6666;
+          color: #fff; font-size: 2.8rem; font-weight: 900; padding: 14px; border-radius: 16px; text-align: center; border: 3px solid #ff6666;
           box-shadow: 0 6px 15px rgba(230, 0, 0, 0.4);
         }
 
@@ -288,42 +288,42 @@ export default function Home() {
           background: #fff;
           border: 4px solid #e60000;
           border-radius: 18px;
-          padding: 12px 16px;
+          padding: 14px 18px;
           display: flex;
           flex-direction: column;
-          gap: 8px;
+          gap: 10px;
           box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
         .purple-badge-wrapper {
           text-align: center;
-          margin-top: -28px;
+          margin-top: -32px;
         }
         .purple-circle-badge {
           background: linear-gradient(135deg, #7c3aed 100%, #5b21b6 0%);
           color: #fff;
-          font-size: 1.3rem;
+          font-size: 1.4rem;
           font-weight: 900;
-          padding: 6px 24px;
+          padding: 8px 28px;
           border-radius: 30px;
           border: 3px solid #fff;
           box-shadow: 0 4px 10px rgba(124, 58, 237, 0.4);
           display: inline-block;
         }
         .val-display-pro {
-          font-size: 3rem;
+          font-size: 3.4rem;
           font-weight: 900;
           color: #cc0000;
           text-align: center;
-          letter-spacing: 4px;
-          padding: 4px 0;
+          letter-spacing: 5px;
+          padding: 6px 0;
         }
 
         .phone-container {
-          width: 400px;
-          height: 880px;
+          width: 420px;
+          height: 920px;
           background: #111827;
           border: 8px solid #1f2937;
-          border-radius: 36px;
+          border-radius: 38px;
           padding: 8px;
           box-shadow: 0 30px 70px rgba(0,0,0,0.4);
           display: flex;
@@ -332,8 +332,8 @@ export default function Home() {
         }
         .phone-screen {
           background: #ffffff;
-          border-radius: 28px;
-          padding: 12px 14px;
+          border-radius: 30px;
+          padding: 14px 16px;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
@@ -341,38 +341,38 @@ export default function Home() {
           color: #000;
           box-sizing: border-box;
         }
-        .phone-status-bar { display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; font-weight: bold; }
-        .dynamic-island { width: 90px; height: 16px; background: #000; border-radius: 12px; }
-        .app-header-bar { background: #ffcc00; padding: 6px 12px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: 0.95rem; }
+        .phone-status-bar { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; font-weight: bold; }
+        .dynamic-island { width: 100px; height: 18px; background: #000; border-radius: 12px; }
+        .app-header-bar { background: #ffcc00; padding: 8px 14px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: 1.05rem; }
         .app-logo { color: #000; font-weight: 900; }
-        .app-menu-icons { display: flex; gap: 5px; align-items: center; font-size: 0.75rem; }
-        .badge-2d { background: #16a34a; color: #fff; padding: 1px 5px; border-radius: 4px; font-size: 0.65rem; }
-        .badge-3d { background: #2563eb; color: #fff; padding: 1px 5px; border-radius: 4px; font-size: 0.65rem; }
+        .app-menu-icons { display: flex; gap: 6px; align-items: center; font-size: 0.8rem; }
+        .badge-2d { background: #16a34a; color: #fff; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; }
+        .badge-3d { background: #2563eb; color: #fff; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; }
         
         .live-status-pill {
-          background: #f0fdf4; border: 1px solid #bbf7d0; color: #16a34a; font-size: 0.7rem; font-weight: 900; padding: 3px 8px; border-radius: 20px; display: flex; align-items: center; justify-content: center; gap: 6px; width: fit-content; margin: 0 auto;
+          background: #f0fdf4; border: 1px solid #bbf7d0; color: #16a34a; font-size: 0.8rem; font-weight: 900; padding: 4px 10px; border-radius: 20px; display: flex; align-items: center; justify-content: center; gap: 6px; width: fit-content; margin: 0 auto;
         }
-        .pulsing-dot { width: 7px; height: 7px; background-color: #16a34a; border-radius: 50%; animation: pulse 1.5s infinite; }
+        .pulsing-dot { width: 8px; height: 8px; background-color: #16a34a; border-radius: 50%; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.6); } 70% { box-shadow: 0 0 0 6px rgba(22, 163, 74, 0); } 100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0); } }
 
-        .live-main-display { font-size: 6.5rem; font-weight: 900; color: #16a34a; text-align: center; line-height: 1; margin: 0; text-shadow: 0 4px 12px rgba(22, 163, 74, 0.25); }
-        .update-time-indicator { text-align: center; font-size: 0.75rem; color: #16a34a; font-weight: bold; }
+        .live-main-display { font-size: 7rem; font-weight: 900; color: #16a34a; text-align: center; line-height: 1; margin: 0; text-shadow: 0 4px 12px rgba(22, 163, 74, 0.25); }
+        .update-time-indicator { text-align: center; font-size: 0.8rem; color: #16a34a; font-weight: bold; }
 
-        .cards-group { display: flex; flex-direction: column; gap: 6px; }
-        .result-card-red { background: linear-gradient(135deg, #ff4d4d 0%, #e60000 100%); border-radius: 10px; padding: 6px 12px; color: #fff; box-shadow: 0 4px 10px rgba(230,0,0,0.3); }
-        .card-title-top { text-align: center; font-weight: 900; font-size: 0.85rem; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 2px; margin-bottom: 4px; }
+        .cards-group { display: flex; flex-direction: column; gap: 8px; }
+        .result-card-red { background: linear-gradient(135deg, #ff4d4d 0%, #e60000 100%); border-radius: 12px; padding: 8px 14px; color: #fff; box-shadow: 0 4px 10px rgba(230,0,0,0.3); }
+        .card-title-top { text-align: center; font-weight: 900; font-size: 0.95rem; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 3px; margin-bottom: 5px; }
         .card-sub-grid { display: flex; justify-content: space-between; text-align: center; }
         .sub-col { flex: 1; display: flex; flex-direction: column; }
-        .sub-label { font-size: 0.6rem; opacity: 0.9; font-weight: bold; }
-        .sub-val { font-size: 1.05rem; font-weight: 900; }
-        .highlight-num { font-size: 1.2rem; background: rgba(0,0,0,0.2); border-radius: 5px; }
+        .sub-label { font-size: 0.7rem; opacity: 0.9; font-weight: bold; }
+        .sub-val { font-size: 1.2rem; font-weight: 900; }
+        .highlight-num { font-size: 1.35rem; background: rgba(0,0,0,0.2); border-radius: 6px; }
 
         .phone-subscribe-footer {
-          background: linear-gradient(90deg, #e60000, #990000); color: #fff; border-radius: 8px; padding: 6px; display: flex; justify-content: center; align-items: center; gap: 6px; font-weight: 900; font-size: 0.85rem;
+          background: linear-gradient(90deg, #e60000, #990000); color: #fff; border-radius: 10px; padding: 8px; display: flex; justify-content: center; align-items: center; gap: 8px; font-weight: 900; font-size: 0.95rem;
           box-shadow: 0 4px 10px rgba(230,0,0,0.3);
         }
-        .sub-icon { font-size: 0.9rem; }
-        .sub-bell { font-size: 0.9rem; }
+        .sub-icon { font-size: 1rem; }
+        .sub-bell { font-size: 1rem; }
       `}</style>
     </div>
   );
