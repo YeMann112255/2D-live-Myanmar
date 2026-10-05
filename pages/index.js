@@ -216,10 +216,7 @@ export default function Home() {
         .stream-container {
           width: 1920px;
           height: 1080px;
-          background-color: #ffcc00;
-          background-image: radial-gradient(rgba(0, 0, 0, 0.1) 15%, transparent 16%), radial-gradient(rgba(0, 0, 0, 0.1) 15%, transparent 16%);
-          background-size: 40px 40px;
-          background-position: 0 0, 20px 20px;
+          background: linear-gradient(135deg, #ffdf40 0%, #ffbb00 100%);
           display: flex;
           justify-content: space-between;
           align-items: center;
