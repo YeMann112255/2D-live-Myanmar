@@ -91,7 +91,7 @@ export default function Home() {
         </div>
       )}
 
-      {/* ဘယ်ဘက်ခြမ်း */}
+      {/* ဘယ်ဘက်ခြမ်း (YouTube တွင် ရှင်းလင်းစွာမြင်ရစေရန် ဖောင့်အရွယ်အစား ကြီးထားသည်) */}
       <div className="side-card left-card">
         <div className="card-header-red">{sessionTitle}</div>
         <div className="live-clock-box">{currentTime}</div>
@@ -103,17 +103,15 @@ export default function Home() {
         </div>
       </div>
 
-      {/* အလယ် ဖုန်းပုံစံ (နေရာလွတ်မရှိစေဘဲ Pro ဆန်ဆန် ဖွဲ့စည်းထားသည်) */}
+      {/* အလယ် ဖုန်းပုံစံ */}
       <div className="phone-container">
         <div className="phone-screen">
-          {/* ဖုန်းအပေါ်ပိုင်း Status Bar */}
           <div className="phone-status-bar">
             <span className="carrier">7:00</span>
             <div className="dynamic-island"></div>
             <div className="status-icons">📶 🛜 🔋 49</div>
           </div>
 
-          {/* အက်ပ်ခေါင်းစဉ် */}
           <div className="app-header-bar">
             <span className="app-logo">⭐ 2D live Myanmar</span>
             <div className="app-menu-icons">
@@ -123,13 +121,11 @@ export default function Home() {
             </div>
           </div>
 
-          {/* အသက်ဝင်နေမှုကို ပြသသည့် Live Status Pill */}
           <div className="live-status-pill">
             <span className="pulsing-dot"></span>
             <span>LIVE REAL-TIME UPDATES</span>
           </div>
 
-          {/* ပင်မ Live ဂဏန်းအကြီး */}
           <div className="live-main-display">
             {data?.live?.twod || "57"}
           </div>
@@ -138,9 +134,7 @@ export default function Home() {
             <span>✔ Updated: {data?.live?.update_time || "2026-10-05 16:30:13"}</span>
           </div>
 
-          {/* ပွဲစဉ်ကတ်များအုပ်စု */}
           <div className="cards-group">
-            {/* 12:01 PM ပွဲစဉ်အကွက် */}
             <div className="result-card-red">
               <div className="card-title-top">12:01 PM Result</div>
               <div className="card-sub-grid">
@@ -159,7 +153,6 @@ export default function Home() {
               </div>
             </div>
 
-            {/* 4:30 PM ပွဲစဉ်အကွက် */}
             <div className="result-card-red">
               <div className="card-title-top">4:30 PM Result</div>
               <div className="card-sub-grid">
@@ -179,7 +172,6 @@ export default function Home() {
             </div>
           </div>
 
-          {/* ဖုန်းစခရင်အတွင်း ပါဝင်သော Like & Subscribe ဘောက်စ် */}
           <div className="phone-subscribe-footer">
             <span className="sub-icon">👍</span>
             <span className="sub-text">LIKE & SUBSCRIBE</span>
@@ -189,7 +181,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* ညာဘက်ခြမ်း */}
+      {/* ညာဘက်ခြမ်း (YouTube တွင် ရှင်းလင်းစွာမြင်ရစေရန် ဖောင့်အရွယ်အစား ကြီးထားသည်) */}
       <div className="side-card right-card">
         <div className="date-display-box">{customDate}</div>
         
@@ -219,7 +211,7 @@ export default function Home() {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          padding: 30px 50px;
+          padding: 30px 45px;
           position: relative;
           font-family: 'Pyidaungsu', sans-serif;
           box-sizing: border-box;
@@ -236,49 +228,49 @@ export default function Home() {
         .input-group label { color: #cbd5e1; font-weight: bold; font-size: 0.85rem; }
         .input-group input { background: #1e293b; border: 1px solid #475569; color: #fff; padding: 5px 8px; border-radius: 4px; width: 55%; }
 
+        /* ဘယ်ညာ ဘောက်စ်များကို YouTube တွင် ကြီးမားထင်ရှားစွာ မြင်ရစေရန် ပိုမိုကျယ်ဝန်းစေပြီး ဖောင့်ကြီးထားသည် */
         .side-card {
-          width: 440px;
+          width: 480px;
           background: rgba(15, 23, 42, 0.95);
           backdrop-filter: blur(12px);
-          border: 3px solid rgba(245, 158, 11, 0.7);
-          border-radius: 20px;
-          padding: 18px;
+          border: 3px solid rgba(245, 158, 11, 0.8);
+          border-radius: 24px;
+          padding: 22px;
           display: flex;
           flex-direction: column;
-          gap: 12px;
+          gap: 15px;
           box-shadow: 0 25px 50px rgba(0,0,0,0.85);
         }
         .card-header-red {
           background: linear-gradient(90deg, #dc2626, #991b1b);
-          color: #fff; font-size: 1.8rem; font-weight: 900; padding: 10px; border-radius: 12px; text-align: center;
+          color: #fff; font-size: 2.1rem; font-weight: 900; padding: 12px; border-radius: 14px; text-align: center;
           box-shadow: 0 4px 12px rgba(220, 38, 38, 0.5);
         }
         .live-clock-box {
-          background: #000; color: #38bdf8; font-size: 1.7rem; font-weight: 900; padding: 10px; border-radius: 10px; text-align: center; border: 2px solid #38bdf8;
+          background: #000; color: #38bdf8; font-size: 2rem; font-weight: 900; padding: 12px; border-radius: 12px; text-align: center; border: 2px solid #38bdf8;
         }
         .info-pill-dark {
-          background: #1e293b; color: #f8fafc; font-size: 1.3rem; font-weight: 900; padding: 10px; border-radius: 10px; text-align: center; border: 1px solid #475569;
+          background: #1e293b; color: #f8fafc; font-size: 1.5rem; font-weight: 900; padding: 12px; border-radius: 12px; text-align: center; border: 1px solid #475569;
         }
 
         .data-group-pro {
-          display: flex; flex-direction: column; gap: 4px; background: rgba(30, 41, 59, 0.5); padding: 8px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);
+          display: flex; flex-direction: column; gap: 6px; background: rgba(30, 41, 59, 0.6); padding: 12px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.15);
         }
         .label-badge {
-          font-size: 1.2rem; font-weight: 900; padding: 4px 10px; border-radius: 6px; display: inline-block; width: fit-content; color: #fff;
+          font-size: 1.4rem; font-weight: 900; padding: 6px 14px; border-radius: 8px; display: inline-block; width: fit-content; color: #fff;
         }
         .gold-bg-pro { background: linear-gradient(90deg, #d97706, #b45309); box-shadow: 0 4px 10px rgba(217, 119, 6, 0.4); }
         .red-bg-pro { background: linear-gradient(90deg, #ef4444, #991b1b); box-shadow: 0 4px 10px rgba(239, 68, 68, 0.4); }
 
         .val-display-pro {
-          background: #090d16; font-size: 2.1rem; font-weight: 900; padding: 10px; border-radius: 10px; text-align: center; letter-spacing: 2px; border: 2px solid #334155;
+          background: #090d16; font-size: 2.6rem; font-weight: 900; padding: 14px; border-radius: 12px; text-align: center; letter-spacing: 3px; border: 2px solid #334155;
         }
         .gold-text-pro { color: #facc15; border-color: #d97706; }
         .red-text-pro { color: #f87171; border-color: #ef4444; }
 
-        /* ဖုန်းစခရင် ပုံစံ (နေရာလွတ်မရှိဘဲ မျှတညီညာစေရန် ပြင်ဆင်ထားသည်) */
         .phone-container {
-          width: 420px;
-          height: 900px;
+          width: 400px;
+          height: 880px;
           background: #111827;
           border: 8px solid #1f2937;
           border-radius: 36px;
@@ -349,7 +341,6 @@ export default function Home() {
           height: 7px;
           background-color: #16a34a;
           border-radius: 50%;
-          box-shadow: 0 0 0 rgba(22, 163, 74, 0.4);
           animation: pulse 1.5s infinite;
         }
         @keyframes pulse {
@@ -439,8 +430,8 @@ export default function Home() {
         .sub-bell { font-size: 0.9rem; }
 
         .date-display-box {
-          background: linear-gradient(90deg, #dc2626, #b91c1c);
-          color: #fff; font-size: 1.9rem; font-weight: 900; padding: 10px; border-radius: 12px; text-align: center; border: 2px solid #fca5a5;
+          background: linear-gradient(90deg, #dc2626, #991b1b);
+          color: #fff; font-size: 2.2rem; font-weight: 900; padding: 12px; border-radius: 14px; text-align: center; border: 2px solid #fca5a5;
           box-shadow: 0 4px 12px rgba(220, 38, 38, 0.5);
         }
       `}</style>
