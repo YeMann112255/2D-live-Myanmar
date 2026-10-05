@@ -52,7 +52,7 @@ export default function Home() {
   return (
     <div className="stream-container">
       <Head>
-        <title>2D LIVE MYANMAR</title>
+        <title>2D LIVE MYANMAR - Pro Stream</title>
       </Head>
 
       <button className="admin-toggle-btn" onClick={() => setShowAdmin(!showAdmin)}>
@@ -70,110 +70,167 @@ export default function Home() {
         </div>
       )}
 
-      {/* ဘယ်ဘက်ခြမ်း (အချိန်၊ နေ့စွဲ၊ ဟောထုပ်) */}
-      <div className="left-section">
-        <div className="time-badge">4:30 PM</div>
-        <div className="live-clock">{currentTime}</div>
-        <div className="red-banner">တနင်္လာနေ့ ညနေခင်း</div>
-        <div className="red-banner">ထွက်ဂဏန်း</div>
-        <div className="hor-badge">ဟောထုပ် ➔ {horThout}</div>
+      {/* ဘယ်ဘက်ခြမ်း Pro Panel */}
+      <div className="side-card left-card">
+        <div className="card-header-red">4:30 PM LIVE</div>
+        <div className="live-clock-box">{currentTime}</div>
+        <div className="info-pill-dark">တနင်္လာနေ့ ညနေခင်း</div>
+        <div className="info-pill-red">ထွက်ဂဏန်း</div>
+        <div className="hor-box">
+          <span className="hor-label">📌 ဟောထိပ်</span>
+          <span className="hor-val">{horThout}</span>
+        </div>
       </div>
 
-      {/* အလယ်ဖုန်းစခရင် အကြီး */}
-      <div className="phone-box">
+      {/* အလယ်ဖုန်းစခရင်အကြီး (Pro Mockup) */}
+      <div className="phone-container">
         <div className="phone-screen">
-          <div className="phone-top-bar">Myanmar 2D</div>
-          <div className="big-number">{data?.live?.twod || "57"}</div>
-          <div className="market-row">
-            <span>12:01 PM: <strong>{result12?.twod || "00"}</strong></span>
-            <span>4:30 PM: <strong>{result1630?.twod || "57"}</strong></span>
+          <div className="phone-banner">🔴 MYANMAR 2D LIVE</div>
+          <div className="live-display-box">
+            <span className="live-tag">⚡ လက်ရှိထွက်ပေါ်နေသော ⚡</span>
+            <div className="mega-number">{data?.live?.twod || "57"}</div>
+          </div>
+          <div className="session-grid">
+            <div className="ses-item">
+              <span className="ses-time">12:01 PM</span>
+              <span className="ses-num">{result12?.twod || "00"}</span>
+            </div>
+            <div className="ses-item">
+              <span className="ses-time">4:30 PM</span>
+              <span className="ses-num">{result1630?.twod || "57"}</span>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* ညာဘက်ခြမ်း (ရက်စွဲ၊ ပိတ်သီး၊ မိန်း၊ အရံ) */}
-      <div className="right-section">
-        <div className="date-badge-big">{customDate}</div>
-        <div className="section-title">ယနေ့အတွက်ပိတ်သီး</div>
-        <div className="value-box gold-border">{pitThee}</div>
+      {/* ညာဘက်ခြမ်း Pro Panel */}
+      <div className="side-card right-card">
+        <div className="date-display-box">{customDate}</div>
         
-        <div className="section-title">မိန်း</div>
-        <div className="value-box red-border">{mainNum}</div>
-        
-        <div className="section-title">အရံ</div>
-        <div className="value-box red-border">{subNum}</div>
+        <div className="data-group">
+          <div className="label-badge gold-bg">ယနေ့အတွက်ပိတ်သီး</div>
+          <div className="val-display gold-text">{pitThee}</div>
+        </div>
+
+        <div className="data-group">
+          <div className="label-badge red-bg">မိန်း (Main)</div>
+          <div className="val-display red-text">{mainNum}</div>
+        </div>
+
+        <div className="data-group">
+          <div className="label-badge red-bg">အရံ (Sub)</div>
+          <div className="val-display red-text">{subNum}</div>
+        </div>
       </div>
 
       <style jsx>{`
         .stream-container {
           width: 1920px;
           height: 1080px;
-          background: #facc15; /* ပုံပါအတိုင်း တောက်ပသော အဝါရောင်နောက်ခံ */
+          background: linear-gradient(135deg, #18181b 0%, #09090b 100%);
+          background-image: radial-gradient(circle at 50% 50%, rgba(245, 158, 11, 0.08) 0%, transparent 60%),
+                            linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
           display: flex;
           justify-content: space-between;
           align-items: center;
-          padding: 40px 60px;
+          padding: 50px 70px;
           position: relative;
           font-family: 'Pyidaungsu', sans-serif;
           box-sizing: border-box;
           overflow: hidden;
         }
         .admin-toggle-btn {
-          position: fixed; top: 20px; left: 20px; background: #000; color: #facc15; border: none; padding: 10px 20px; font-weight: bold; border-radius: 8px; cursor: pointer; z-index: 99999; font-size: 1rem;
+          position: fixed; top: 20px; left: 20px; background: #f59e0b; color: #000; border: none; padding: 10px 20px; font-weight: bold; border-radius: 8px; cursor: pointer; z-index: 99999; font-size: 1rem; box-shadow: 0 4px 10px rgba(0,0,0,0.5);
         }
         .admin-panel {
-          position: fixed; top: 75px; left: 20px; background: #0f172a; border: 2px solid #facc15; padding: 15px; border-radius: 12px; z-index: 99999; width: 300px; color: #fff;
+          position: fixed; top: 75px; left: 20px; background: #0f172a; border: 2px solid #f59e0b; padding: 15px; border-radius: 12px; z-index: 99999; width: 300px; color: #fff; box-shadow: 0 10px 25px rgba(0,0,0,0.8);
         }
         .admin-panel h3 { margin: 0 0 10px 0; color: #facc15; font-size: 1rem; }
         .input-group { display: flex; justify-content: space-between; margin-bottom: 8px; align-items: center; }
-        .input-group label { color: #cbd5e1; font-weight: bold; }
+        .input-group label { color: #cbd5e1; font-weight: bold; font-size: 0.9rem; }
         .input-group input { background: #1e293b; border: 1px solid #475569; color: #fff; padding: 5px 8px; border-radius: 4px; width: 60%; }
 
-        /* ဘယ်ဘက်ခြမ်း ဒီဇိုင်း */
-        .left-section {
+        /* ဘယ်ဘက်ကတ်ပြား ဒီဇိုင်း */
+        .side-card {
+          width: 420px;
+          background: rgba(15, 23, 42, 0.85);
+          backdrop-filter: blur(10px);
+          border: 3px solid rgba(245, 158, 11, 0.4);
+          border-radius: 24px;
+          padding: 25px;
           display: flex;
           flex-direction: column;
-          gap: 15px;
-          width: 350px;
+          gap: 16px;
+          box-shadow: 0 15px 35px rgba(0,0,0,0.6);
         }
-        .time-badge { background: #dc2626; color: #fff; font-size: 3rem; font-weight: 900; padding: 10px 20px; border-radius: 15px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
-        .live-clock { background: #fff; color: #000; font-size: 2rem; font-weight: 900; padding: 8px; border-radius: 10px; text-align: center; border: 3px solid #dc2626; }
-        .red-banner { background: #dc2626; color: #fff; font-size: 1.8rem; font-weight: 900; padding: 10px; border-radius: 12px; text-align: center; }
-        .hor-badge { background: #1e293b; color: #facc15; font-size: 1.8rem; font-weight: 900; padding: 12px; border-radius: 12px; text-align: center; border: 3px solid #facc15; }
+        .card-header-red {
+          background: linear-gradient(90deg, #dc2626, #991b1b);
+          color: #fff; font-size: 2rem; font-weight: 900; padding: 12px; border-radius: 14px; text-align: center;
+          box-shadow: 0 5px 15px rgba(220, 38, 38, 0.4);
+        }
+        .live-clock-box {
+          background: #000; color: #38bdf8; font-size: 2.2rem; font-weight: 900; padding: 12px; border-radius: 12px; text-align: center; border: 2px solid #38bdf8; letter-spacing: 2px;
+        }
+        .info-pill-dark {
+          background: #1e293b; color: #f8fafc; font-size: 1.5rem; font-weight: 900; padding: 12px; border-radius: 12px; text-align: center; border: 1px solid #475569;
+        }
+        .info-pill-red {
+          background: #dc2626; color: #fff; font-size: 1.6rem; font-weight: 900; padding: 12px; border-radius: 12px; text-align: center;
+        }
+        .hor-box {
+          background: #0f172a; border: 2px solid #f59e0b; padding: 14px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center;
+        }
+        .hor-label { font-size: 1.3rem; font-weight: bold; color: #f59e0b; }
+        .hor-val { font-size: 1.8rem; font-weight: 900; color: #fff; letter-spacing: 1px; }
 
-        /* အလယ်ဖုန်းစခရင် အကြီး */
-        .phone-box {
-          width: 420px;
+        /* အလယ်ဖုန်းစခရင်အကြီး ဒီဇိုင်း */
+        .phone-container {
+          width: 480px;
           background: #000;
-          border: 8px solid #334155;
-          border-radius: 35px;
-          padding: 15px;
-          box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+          border: 10px solid #1e293b;
+          border-radius: 45px;
+          padding: 16px;
+          box-shadow: 0 20px 60px rgba(0,0,0,0.9);
         }
         .phone-screen {
-          background: linear-gradient(180deg, #fff 0%, #f1f5f9 100%);
-          border-radius: 20px;
-          padding: 20px;
+          background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
+          border-radius: 30px;
+          padding: 25px;
           text-align: center;
           color: #000;
         }
-        .phone-top-bar { font-weight: bold; color: #64748b; margin-bottom: 10px; }
-        .big-number { font-size: 6rem; font-weight: 900; color: #16a34a; line-height: 1; margin: 20px 0; }
-        .market-row { display: flex; justify-content: space-around; background: #e2e8f0; padding: 12px; border-radius: 10px; font-size: 1.1rem; }
+        .phone-banner {
+          background: #dc2626; color: #fff; font-weight: 900; font-size: 1.2rem; padding: 10px; border-radius: 12px; margin-bottom: 20px;
+        }
+        .live-display-box {
+          background: #0f172a; color: #fff; border-radius: 20px; padding: 25px 15px; margin-bottom: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+        .live-tag { font-size: 0.95rem; font-weight: bold; color: #f59e0b; letter-spacing: 1px; }
+        .mega-number { font-size: 7.5rem; font-weight: 900; color: #4ade80; line-height: 1; margin-top: 10px; text-shadow: 0 0 20px rgba(74, 222, 128, 0.4); }
+        .session-grid { display: flex; gap: 12px; }
+        .ses-item { flex: 1; background: #e2e8f0; padding: 14px; border-radius: 14px; display: flex; flex-direction: column; gap: 5px; }
+        .ses-time { font-size: 0.9rem; font-weight: bold; color: #64748b; }
+        .ses-num { font-size: 1.8rem; font-weight: 900; color: #1e293b; }
 
         /* ညာဘက်ခြမ်း ဒီဇိုင်း */
-        .right-section {
-          display: flex;
-          flex-direction: column;
-          gap: 12px;
-          width: 450px;
-          text-align: center;
+        .date-display-box {
+          background: linear-gradient(90deg, #dc2626, #b91c1c);
+          color: #fff; font-size: 2.2rem; font-weight: 900; padding: 14px; border-radius: 14px; text-align: center; border: 2px solid #fca5a5;
+          box-shadow: 0 5px 15px rgba(220, 38, 38, 0.4);
         }
-        .date-badge-big { background: #dc2626; color: #fff; font-size: 2.5rem; font-weight: 900; padding: 10px; border-radius: 15px; border: 4px solid #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
-        .section-title { background: #7c2d12; color: #fff; font-size: 1.4rem; font-weight: 900; padding: 6px; border-radius: 10px; display: inline-block; width: 60%; margin: 0 auto; }
-        .value-box { font-size: 2.8rem; font-weight: 900; padding: 10px; border-radius: 15px; background: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-        .gold-border { color: #b45309; border: 4px solid #f59e0b; }
-        .red-border { color: #dc2626; border: 4px solid #dc2626; }
+        .data-group {
+          display: flex; flex-direction: column; gap: 8px;
+        }
+        .label-badge {
+          font-size: 1.2rem; font-weight: 900; padding: 8px 15px; border-radius: 10px; display: inline-block; width: fit-content; color: #fff;
+        }
+        .gold-bg { background: #b45309; }
+        .red-bg { background: #991b1b; }
+        .val-display {
+          background: #0f172a; font-size: 2.6rem; font-weight: 900; padding: 14px; border-radius: 14px; text-align: center; letter-spacing: 2px; border: 2px solid #334155;
+        }
+        .gold-text { color: #facc15; border-color: #f59e0b; }
+        .red-text { color: #f87171; border-color: #ef4444; }
       `}</style>
     </div>
   );
