@@ -60,12 +60,18 @@ export default function Home() {
   const [sessionDay, setSessionDay] = useState('ညနေပိုင်း');
   const [manualSession, setManualSession] = useState(false);
   const [customDate, setCustomDate] = useState('06-10-2026');
+  
+  // 🎛️ Admin Panel ကနေ အမည်ပြောင်းလဲနိုင်သော ခေါင်းစဉ်အသစ်များ
+  const [labelHorThout, setLabelHorThout] = useState('ဟောထိပ်');
+  const [labelPitThee, setLabelPitThee] = useState('ယနေ့အတွက်ပတ်သီး');
+  const [labelMainNum, setLabelMainNum] = useState('မိန်း (Main)');
+  const [labelSubNum, setLabelSubNum] = useState('အရံ (Sub)');
+
   const [pitThee, setPitThee] = useState('5-3-2');
   const [mainNum, setMainNum] = useState('53-57-39');
   const [subNum, setSubNum] = useState('35-23-25');
   const [horThout, setHorThout] = useState('5-9-8');
 
-  // AI Host & Side Text Controls (Pos X ကို 0 မှ 900 အထိ အကောင်းဆုံး ချိန်ညှိနိုင်ရန်)
   const [enableAvatar, setEnableAvatar] = useState(true);
   const [avatarStatusText, setAvatarStatusText] = useState('ယနေ့အတွက် 2D တိုက်ရိုက်အချက်အလက်များကို အချိန်နဲ့တစ်ပြေးညီ တင်ဆက်ပေးနေပါသည်ခင်ဗျာ...');
   const [hostImageSize, setHostImageSize] = useState('150');
@@ -134,6 +140,12 @@ export default function Home() {
         if (s.sessionTitle !== undefined) setSessionTitle(s.sessionTitle);
         if (s.sessionDay !== undefined) setSessionDay(s.sessionDay);
         if (s.customDate !== undefined) setCustomDate(s.customDate);
+        
+        if (s.labelHorThout !== undefined) setLabelHorThout(s.labelHorThout);
+        if (s.labelPitThee !== undefined) setLabelPitThee(s.labelPitThee);
+        if (s.labelMainNum !== undefined) setLabelMainNum(s.labelMainNum);
+        if (s.labelSubNum !== undefined) setLabelSubNum(s.labelSubNum);
+
         if (s.pitThee !== undefined) setPitThee(s.pitThee);
         if (s.mainNum !== undefined) setMainNum(s.mainNum);
         if (s.subNum !== undefined) setSubNum(s.subNum);
@@ -152,7 +164,6 @@ export default function Home() {
     }
   };
 
-  // 🔴 နေရာပြန်ခုန်ထွက်စေသော setInterval ကို ဖယ်ရှားပြီး ပုံစံအမှန်သို့ ပြင်ဆင်ပြီး
   useEffect(() => {
     fetchSettings();
   }, []);
@@ -164,7 +175,8 @@ export default function Home() {
       headerScale, liveNumScale, resultCardScale, elementSpacing, phonePadding,
       sideCardWidth, sideFontSize, sideValFontSize, sideCardPadding, sideCardGap,
       leftBoxStyle, rightBoxStyle, marqueeText, marqueeSpeed, marqueeBg, marqueeColor, marqueeFontSize,
-      sessionTitle, sessionDay, customDate, pitThee, mainNum, subNum, horThout, customItems,
+      sessionTitle, sessionDay, customDate, labelHorThout, labelPitThee, labelMainNum, labelSubNum,
+      pitThee, mainNum, subNum, horThout, customItems,
       avatarStatusText, enableAvatar, hostImageSize, hostPosX, hostPosY, hostTextWidth, hostTextFontSize
     };
 
@@ -466,14 +478,22 @@ export default function Home() {
               </div>
             ))}
 
-            <div className="section-title">✍️ အဓိက အချက်အလက်များ</div>
+            <div className="section-title">✍️ အဓိက အချက်အလက်နှင့် ခေါင်းစဉ်များ (Monetization Safe)</div>
             <div className="input-group"><label>ပွဲစဉ်:</label><input type="text" value={sessionTitle} onChange={(e) => { setSessionTitle(e.target.value); setManualSession(true); }} /></div>
             <div className="input-group"><label>နေ့/အမျိုးအစား:</label><input type="text" value={sessionDay} onChange={(e) => { setSessionDay(e.target.value); setManualSession(true); }} /></div>
             <div className="input-group"><label>ရက်စွဲ:</label><input type="text" value={customDate} onChange={(e) => setCustomDate(e.target.value)} /></div>
-            <div className="input-group"><label>ပတ်သီး:</label><input type="text" value={pitThee} onChange={(e) => setPitThee(e.target.value)} /></div>
-            <div className="input-group"><label>မိန်း:</label><input type="text" value={mainNum} onChange={(e) => setMainNum(e.target.value)} /></div>
-            <div className="input-group"><label>အရံ:</label><input type="text" value={subNum} onChange={(e) => setSubNum(e.target.value)} /></div>
-            <div className="input-group"><label>ဟောထိပ်:</label><input type="text" value={horThout} onChange={(e) => setHorThout(e.target.value)} /></div>
+            
+            <div className="section-title">🏷️ ဘောက်စ်ခေါင်းစဉ်အမည်များ ပြောင်းရန်</div>
+            <div className="input-group"><label>ဘယ်ဘက် ခေါင်းစဉ် (ဟောထိပ်):</label><input type="text" value={labelHorThout} onChange={(e) => setLabelHorThout(e.target.value)} /></div>
+            <div className="input-group"><label>ညာဘက် (၁) ခေါင်းစဉ်:</label><input type="text" value={labelPitThee} onChange={(e) => setLabelPitThee(e.target.value)} /></div>
+            <div className="input-group"><label>ညာဘက် (၂) ခေါင်းစဉ်:</label><input type="text" value={labelMainNum} onChange={(e) => setLabelMainNum(e.target.value)} /></div>
+            <div className="input-group"><label>ညာဘက် (၃) ခေါင်းစဉ်:</label><input type="text" value={labelSubNum} onChange={(e) => setLabelSubNum(e.target.value)} /></div>
+
+            <div className="section-title">🔢 ဂဏန်းတန်ဖိုးများ</div>
+            <div className="input-group"><label>ဟောထိပ် တန်ဖိုး:</label><input type="text" value={horThout} onChange={(e) => setHorThout(e.target.value)} /></div>
+            <div className="input-group"><label>ပထမတန်ဖိုး:</label><input type="text" value={pitThee} onChange={(e) => setPitThee(e.target.value)} /></div>
+            <div className="input-group"><label>ဒုတိယတန်ဖိုး:</label><input type="text" value={mainNum} onChange={(e) => setMainNum(e.target.value)} /></div>
+            <div className="input-group"><label>တတိယတန်ဖိုး:</label><input type="text" value={subNum} onChange={(e) => setSubNum(e.target.value)} /></div>
           </div>
         </div>
       )}
@@ -513,7 +533,7 @@ export default function Home() {
           <span>▶ SUBSCRIBE</span>
         </div>
         <div className="horthout-box">
-          <span className="ht-label" style={{ fontSize: `${sideFontSize * 0.45}rem` }}>ဟောထိပ်</span>
+          <span className="ht-label" style={{ fontSize: `${sideFontSize * 0.45}rem` }}>{labelHorThout}</span>
           <span className="ht-val" style={{ fontSize: `${sideValFontSize}rem` }}>{horThout}</span>
         </div>
       </div>
@@ -609,15 +629,15 @@ export default function Home() {
       <div className={`side-card right-card style-${rightBoxStyle}`} style={{ width: `${sideCardWidth}px`, padding: `${sideCardPadding}px`, gap: `${sideCardGap}px` }}>
         <div className="date-display-box" style={{ fontSize: `${sideFontSize}rem` }}>{customDate}</div>
         <div className="data-section-group">
-          <div className="purple-badge-wrapper"><span className="purple-circle-badge" style={{ fontSize: `${sideFontSize * 0.38}rem` }}>ယနေ့အတွက်ပတ်သီး</span></div>
+          <div className="purple-badge-wrapper"><span className="purple-circle-badge" style={{ fontSize: `${sideFontSize * 0.38}rem` }}>{labelPitThee}</span></div>
           <div className="val-display-pro" style={{ fontSize: `${sideValFontSize}rem` }}>{pitThee}</div>
         </div>
         <div className="data-section-group">
-          <div className="purple-badge-wrapper"><span className="purple-circle-badge" style={{ fontSize: `${sideFontSize * 0.38}rem` }}>မိန်း (Main)</span></div>
+          <div className="purple-badge-wrapper"><span className="purple-circle-badge" style={{ fontSize: `${sideFontSize * 0.38}rem` }}>{labelMainNum}</span></div>
           <div className="val-display-pro" style={{ fontSize: `${sideValFontSize}rem` }}>{mainNum}</div>
         </div>
         <div className="data-section-group">
-          <div className="purple-badge-wrapper"><span className="purple-circle-badge" style={{ fontSize: `${sideFontSize * 0.38}rem` }}>အရံ (Sub)</span></div>
+          <div className="purple-badge-wrapper"><span className="purple-circle-badge" style={{ fontSize: `${sideFontSize * 0.38}rem` }}>{labelSubNum}</span></div>
           <div className="val-display-pro" style={{ fontSize: `${sideValFontSize}rem` }}>{subNum}</div>
         </div>
       </div>
