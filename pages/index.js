@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 
 const BIN_ID = '6ac4a0a1ffd5d1605351b310'; 
 const MASTER_KEY = '$2a$10$fYB8HrDgeJuhR/ZHy2JVvuz8qs2ShnIW6ZbqQCVATxhB6dJ8NjODa';
-
 const ADMIN_PASSWORD = "112255"; 
 
 export default function Home() {
@@ -67,9 +66,9 @@ export default function Home() {
   const [subNum, setSubNum] = useState('35-23-25');
   const [horThout, setHorThout] = useState('5-9-8');
 
-  // AI Host & Loop Audio States
-  const [enableAvatar, setEnableAvatar] = useState(true);
-  const [avatarStatusText, setAvatarStatusText] = useState('မင်္ဂလာပါခင်ဗျာ၊ ယနေ့အတွက် 2D တိုက်ရိုက်အချက်အလက်များကို တင်ဆက်ပေးနေပါတယ်...');
+  // AI Host & Loop Audio States (မြန်မာလို ပီသစေရန် စာသားကို တိုက်ရိုက်ပြင်ဆင်ထားသည်)
+  const [enableAvatar, setEnableAvatar] - useState(true);
+  const [avatarStatusText, setAvatarStatusText] = useState('မင်္ဂလာပါခင်ဗျာ၊ ယနေ့အတွက် နှစ်ဒီ တိုက်ရိုက်အချက်အလက်များကို တင်ဆက်ပေးနေပါတယ်...');
   const [enableLoopVoice, setEnableLoopVoice] = useState(true);
 
   const [customItems, setCustomItems] = useState([
@@ -103,41 +102,42 @@ export default function Home() {
       const response = await res.json();
       const s = response.record;
       if (s) {
-        if (s.phoneModel) setPhoneModel(s.phoneModel);
-        if (s.phoneWidth) setPhoneWidth(s.phoneWidth);
-        if (s.phoneHeight) setPhoneHeight(s.phoneHeight);
-        if (s.bgType) setBgType(s.bgType);
-        if (s.bgColor1) setBgColor1(s.bgColor1);
-        if (s.bgColor2) setBgColor2(s.bgColor2);
-        if (s.headerMarginTop) setHeaderMarginTop(s.headerMarginTop);
-        if (s.liveNumMarginTop) setLiveNumMarginTop(s.liveNumMarginTop);
-        if (s.resultCardMarginTop) setResultCardMarginTop(s.resultCardMarginTop);
-        if (s.headerScale) setHeaderScale(s.headerScale);
-        if (s.liveNumScale) setLiveNumScale(s.liveNumScale);
-        if (s.resultCardScale) setResultCardScale(s.resultCardScale);
-        if (s.elementSpacing) setElementSpacing(s.elementSpacing);
-        if (s.phonePadding) setPhonePadding(s.phonePadding);
-        if (s.sideCardWidth) setSideCardWidth(s.sideCardWidth);
-        if (s.sideFontSize) setSideFontSize(s.sideFontSize);
-        if (s.sideValFontSize) setSideValFontSize(s.sideValFontSize);
-        if (s.sideCardPadding) setSideCardPadding(s.sideCardPadding);
-        if (s.sideCardGap) setSideCardGap(s.sideCardGap);
-        if (s.leftBoxStyle) setLeftBoxStyle(s.leftBoxStyle);
-        if (s.rightBoxStyle) setRightBoxStyle(s.rightBoxStyle);
-        if (s.marqueeText) setMarqueeText(s.marqueeText);
-        if (s.marqueeSpeed) setMarqueeSpeed(s.marqueeSpeed);
-        if (s.marqueeBg) setMarqueeBg(s.marqueeBg);
-        if (s.marqueeColor) setMarqueeColor(s.marqueeColor);
-        if (s.marqueeFontSize) setMarqueeFontSize(s.marqueeFontSize);
-        if (s.sessionTitle) setSessionTitle(s.sessionTitle);
-        if (s.sessionDay) setSessionDay(s.sessionDay);
-        if (s.customDate) setCustomDate(s.customDate);
-        if (s.pitThee) setPitThee(s.pitThee);
-        if (s.mainNum) setMainNum(s.mainNum);
-        if (s.subNum) setSubNum(s.subNum);
-        if (s.horThout) setHorThout(s.horThout);
-        if (s.customItems) setCustomItems(s.customItems);
-        if (s.avatarStatusText) setAvatarStatusText(s.avatarStatusText);
+        if (s.phoneModel !== undefined) setPhoneModel(s.phoneModel);
+        if (s.phoneWidth !== undefined) setPhoneWidth(s.phoneWidth);
+        if (s.phoneHeight !== undefined) setPhoneHeight(s.phoneHeight);
+        if (s.bgType !== undefined) setBgType(s.bgType);
+        if (s.bgColor1 !== undefined) setBgColor1(s.bgColor1);
+        if (s.bgColor2 !== undefined) setBgColor2(s.bgColor2);
+        if (s.headerMarginTop !== undefined) setHeaderMarginTop(s.headerMarginTop);
+        if (s.liveNumMarginTop !== undefined) setLiveNumMarginTop(s.liveNumMarginTop);
+        if (s.resultCardMarginTop !== undefined) setResultCardMarginTop(s.resultCardMarginTop);
+        if (s.headerScale !== undefined) setHeaderScale(s.headerScale);
+        if (s.liveNumScale !== undefined) setLiveNumScale(s.liveNumScale);
+        if (s.resultCardScale !== undefined) setResultCardScale(s.resultCardScale);
+        if (s.elementSpacing !== undefined) setElementSpacing(s.elementSpacing);
+        if (s.phonePadding !== undefined) setPhonePadding(s.phonePadding);
+        if (s.sideCardWidth !== undefined) setSideCardWidth(s.sideCardWidth);
+        if (s.sideFontSize !== undefined) setSideFontSize(s.sideFontSize);
+        if (s.sideValFontSize !== undefined) setSideValFontSize(s.sideValFontSize);
+        if (s.sideCardPadding !== undefined) setSideCardPadding(s.sideCardPadding);
+        if (s.sideCardGap !== undefined) setSideCardGap(s.sideCardGap);
+        if (s.leftBoxStyle !== undefined) setLeftBoxStyle(s.leftBoxStyle);
+        if (s.rightBoxStyle !== undefined) setRightBoxStyle(s.rightBoxStyle);
+        if (s.marqueeText !== undefined) setMarqueeText(s.marqueeText);
+        if (s.marqueeSpeed !== undefined) setMarqueeSpeed(s.marqueeSpeed);
+        if (s.marqueeBg !== undefined) setMarqueeBg(s.marqueeBg);
+        if (s.marqueeColor !== undefined) setMarqueeColor(s.marqueeColor);
+        if (s.marqueeFontSize !== undefined) setMarqueeFontSize(s.marqueeFontSize);
+        if (s.sessionTitle !== undefined) setSessionTitle(s.sessionTitle);
+        if (s.sessionDay !== undefined) setSessionDay(s.sessionDay);
+        if (s.customDate !== undefined) setCustomDate(s.customDate);
+        if (s.pitThee !== undefined) setPitThee(s.pitThee);
+        if (s.mainNum !== undefined) setMainNum(s.mainNum);
+        if (s.subNum !== undefined) setSubNum(s.subNum);
+        if (s.horThout !== undefined) setHorThout(s.horThout);
+        if (s.customItems !== undefined) setCustomItems(s.customItems);
+        if (s.avatarStatusText !== undefined) setAvatarStatusText(s.avatarStatusText);
+        if (s.enableAvatar !== undefined) setEnableAvatar(s.enableAvatar);
         if (s.enableLoopVoice !== undefined) setEnableLoopVoice(s.enableLoopVoice);
       }
     } catch (err) {
@@ -147,23 +147,25 @@ export default function Home() {
 
   useEffect(() => {
     fetchSettings();
-    const syncInterval = setInterval(fetchSettings, 5000);
+    const syncInterval = setInterval(fetchSettings, 3000);
     return () => clearInterval(syncInterval);
   }, []);
 
-  // Text-to-Speech Voice Loop (သဘာဝကျကျ အသံထွက်စေရန်)
+  // Text-to-Speech Voice Loop (အင်္ဂလိပ် '2D' ကို 'နှစ်ဒီ' ဟု အစားထိုးဖတ်ခိုင်းခြင်းဖြင့် မြန်မာလို ပီသစေရန်)
   useEffect(() => {
-    if (!enableLoopVoice) return;
+    if (!enableLoopVoice || !enableAvatar) return;
 
     let isSpeaking = false;
     const speakLoopText = () => {
       if (!isSpeaking && 'speechSynthesis' in window && avatarStatusText) {
         isSpeaking = true;
-        window.speechSynthesis.cancel(); // ေဟာင်းတာတွေ ရပ်မယ်
+        window.speechSynthesis.cancel(); 
         
-        const utterance = new SpeechSynthesisUtterance(avatarStatusText);
+        // စာသားထဲပါသော 2D ကို မြန်မာလို 'နှစ်ဒီ' ဟု အသံထွက်စေရန် အစားထိုးခြင်း
+        const safeText = avatarStatusText.replace(/2D/g, 'နှစ်ဒီ').replace(/3D/g, 'သုံးဒီ');
+        const utterance = new SpeechSynthesisUtterance(safeText);
         utterance.lang = 'my-MM';
-        utterance.rate = 0.95; // အသံထွက် ပိုရှင်းစေရန် နှုန်းညှိခြင်း
+        utterance.rate = 0.9; 
         utterance.pitch = 1.0;
         
         utterance.onend = () => { isSpeaking = false; };
@@ -174,7 +176,7 @@ export default function Home() {
     };
 
     const timer = setTimeout(speakLoopText, 1000);
-    const loopInterval = setInterval(speakLoopText, 18000);
+    const loopInterval = setInterval(speakLoopText, 15000);
 
     return () => {
       clearTimeout(timer);
@@ -183,7 +185,7 @@ export default function Home() {
         window.speechSynthesis.cancel();
       }
     };
-  }, [enableLoopVoice, avatarStatusText]);
+  }, [enableLoopVoice, enableAvatar, avatarStatusText]);
 
   const handleSaveSettings = async () => {
     const newSettings = {
@@ -193,7 +195,7 @@ export default function Home() {
       sideCardWidth, sideFontSize, sideValFontSize, sideCardPadding, sideCardGap,
       leftBoxStyle, rightBoxStyle, marqueeText, marqueeSpeed, marqueeBg, marqueeColor, marqueeFontSize,
       sessionTitle, sessionDay, customDate, pitThee, mainNum, subNum, horThout, customItems,
-      avatarStatusText, enableLoopVoice
+      avatarStatusText, enableAvatar, enableLoopVoice
     };
 
     try {
@@ -335,7 +337,6 @@ export default function Home() {
 
   return (
     <div className="stream-container" style={customBgStyle} onClick={() => {
-      // ဝင်လာပြီး စခရင်ပေါ် ဘယ်နေရာမဆို နှိပ်လိုက်တာနဲ့ အသံထွက်လာစေရန် Trigger လုပ်ပေးသည်
       if (!audioEnabled && 'speechSynthesis' in window) {
         setAudioEnabled(true);
         window.speechSynthesis.resume();
