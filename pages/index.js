@@ -30,7 +30,7 @@ export default function Home() {
       hours = hours ? hours : 12;
       const formattedHours = String(hours).padStart(2, '0');
 
-      setCurrentTime(`${formattedHours}:${minutes}:${seconds} ${ampm}`);
+      setCurrentTime(`${formattedHours}:${minutes}:${seconds}${ampm}`);
 
       if (myanmarTime.getHours() < 13) {
         setSessionTitle("12:01 PM");
@@ -130,7 +130,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* အလယ် ဖုန်းပုံစံ (အလျားကို သင့်တော်သလို တိုစေပြီး အံဝင်ခွင်ကျဖြစ်အောင် ပြင်ထားသည်) */}
+      {/* အလယ် ဖုန်းပုံစံ (အလျားကို တိုစေပြီး အံဝင်ခွင်ကျဖြစ်အောင် ဖွဲ့စည်းထားသည်) */}
       <div className="phone-container">
         <div className="phone-screen">
           
@@ -281,72 +281,38 @@ export default function Home() {
         .purple-circle-badge { background: linear-gradient(135deg, #7c3aed 100%, #5b21b6 0%); color: #fff; font-size: 1.4rem; font-weight: 900; padding: 8px 28px; border-radius: 30px; border: 3px solid #fff; box-shadow: 0 4px 10px rgba(124, 58, 237, 0.4); display: inline-block; }
         .val-display-pro { font-size: 3.4rem; font-weight: 900; color: #cc0000; text-align: center; letter-spacing: 5px; padding: 6px 0; }
 
-        /* ဖုန်းဖရိန် အမြင့်ကို လျှော့ချထားသည် (880px) */
-        .phone-container { width: 400px; height: 880px; background: #111827; border: 8px solid #1f2937; border-radius: 38px; padding: 8px; box-shadow: 0 30px 70px rgba(0,0,0,0.4); display: flex; flex-direction: column; box-sizing: border-box; }
+        /* ဖုန်းဖရိန် အမြင့်ကို ထပ်မံတိုစေပြီး အံဝင်ခွင်ကျဖြစ်အောင် ပြင်ဆင်ထားသည် (780px) */
+        .phone-container { width: 380px; height: 780px; background: #111827; border: 8px solid #1f2937; border-radius: 36px; padding: 6px; box-shadow: 0 30px 70px rgba(0,0,0,0.4); display: flex; flex-direction: column; box-sizing: border-box; }
         
-        .phone-screen { background: #ffffff; border-radius: 30px; padding: 8px 12px; display: flex; flex-direction: column; justify-content: space-between; height: 100%; color: #000; box-sizing: border-box; }
+        .phone-screen { background: #ffffff; border-radius: 28px; padding: 6px 10px; display: flex; flex-direction: column; justify-content: space-between; height: 100%; color: #000; box-sizing: border-box; }
         
-        .top-section-group { display: flex; flex-direction: column; gap: 4px; }
-        .bottom-section-group { display: flex; flex-direction: column; gap: 5px; }
+        .top-section-group { display: flex; flex-direction: column; gap: 2px; }
+        .bottom-section-group { display: flex; flex-direction: column; gap: 3px; }
 
-        .phone-status-bar { display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; font-weight: bold; }
-        .dynamic-island { width: 90px; height: 16px; background: #000; border-radius: 12px; }
-        .app-header-bar { background: #ffcc00; padding: 4px 10px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: 0.95rem; }
+        .phone-status-bar { display: flex; justify-content: space-between; align-items: center; font-size: 0.7rem; font-weight: bold; }
+        .dynamic-island { width: 80px; height: 14px; background: #000; border-radius: 10px; }
+        .app-header-bar { background: #ffcc00; padding: 3px 8px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: 0.85rem; }
         .app-logo { color: #000; font-weight: 900; }
-        .app-menu-icons { display: flex; gap: 4px; align-items: center; font-size: 0.75rem; }
-        .badge-2d { background: #16a34a; color: #fff; padding: 2px 5px; border-radius: 4px; font-size: 0.65rem; }
-        .badge-3d { background: #2563eb; color: #fff; padding: 2px 5px; border-radius: 4px; font-size: 0.65rem; }
+        .app-menu-icons { display: flex; gap: 3px; align-items: center; font-size: 0.7rem; }
+        .badge-2d { background: #16a34a; color: #fff; padding: 1px 4px; border-radius: 3px; font-size: 0.6rem; }
+        .badge-3d { background: #2563eb; color: #fff; padding: 1px 4px; border-radius: 3px; font-size: 0.6rem; }
         
-        .live-status-pill { background: #f0fdf4; border: 1px solid #bbf7d0; color: #16a34a; font-size: 0.7rem; font-weight: 900; padding: 2px 8px; border-radius: 20px; display: flex; align-items: center; justify-content: center; gap: 6px; width: fit-content; margin: 0 auto; }
-        .pulsing-dot { width: 7px; height: 7px; background-color: #16a34a; border-radius: 50%; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.6); } 70% { box-shadow: 0 0 0 6px rgba(22, 163, 74, 0); } 100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0); } }
+        .live-status-pill { background: #f0fdf4; border: 1px solid #bbf7d0; color: #16a34a; font-size: 0.65rem; font-weight: 900; padding: 1px 6px; border-radius: 20px; display: flex; align-items: center; justify-content: center; gap: 5px; width: fit-content; margin: 0 auto; }
+        .pulsing-dot { width: 6px; height: 6px; background-color: #16a34a; border-radius: 50%; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.6); } 70% { box-shadow: 0 0 0 5px rgba(22, 163, 74, 0); } 100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0); } }
 
-        .live-main-display { font-size: 4.2rem; font-weight: 900; color: #16a34a; text-align: center; line-height: 1; margin: 4px 0; text-shadow: 0 4px 12px rgba(22, 163, 74, 0.25); display: inline-block; width: 100%; animation: heartbeat 1.2s infinite; }
+        .live-main-display { font-size: 3.8rem; font-weight: 900; color: #16a34a; text-align: center; line-height: 1; margin: 2px 0; text-shadow: 0 4px 10px rgba(22, 163, 74, 0.2); display: inline-block; width: 100%; animation: heartbeat 1.2s infinite; }
         @keyframes heartbeat { 0% { transform: scale(1); } 25% { transform: scale(1.05); } 40% { transform: scale(0.97); } 60% { transform: scale(1.02); } 100% { transform: scale(1); } }
 
-        .update-time-indicator-large { text-align: center; font-size: 0.8rem; color: #15803d; font-weight: 700; background: #f0fdf4; border: 1.5px solid #dcfce7; padding: 3px 6px; border-radius: 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .update-time-indicator-large strong { color: #166534; font-size: 0.9rem; }
-        .separator { margin: 0 6px; color: #86efac; }
+        .update-time-indicator-large { text-align: center; font-size: 0.75rem; color: #15803d; font-weight: 700; background: #f0fdf4; border: 1px solid #dcfce7; padding: 2px 4px; border-radius: 5px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .update-time-indicator-large strong { color: #166534; font-size: 0.85rem; }
+        .separator { margin: 0 5px; color: #86efac; }
 
-        .cards-group { display: flex; flex-direction: column; gap: 4px; }
-        .result-card-red { background: linear-gradient(135deg, #ff4d4d 0%, #e60000 100%); border-radius: 8px; padding: 4px 8px; color: #fff; box-shadow: 0 3px 8px rgba(230,0,0,0.3); }
-        .card-title-top { text-align: center; font-weight: 900; font-size: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 1px; margin-bottom: 2px; }
+        .cards-group { display: flex; flex-direction: column; gap: 3px; }
+        .result-card-red { background: linear-gradient(135deg, #ff4d4d 0%, #e60000 100%); border-radius: 6px; padding: 3px 6px; color: #fff; box-shadow: 0 2px 6px rgba(230,0,0,0.3); }
+        .card-title-top { text-align: center; font-weight: 900; font-size: 0.7rem; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 1px; margin-bottom: 1px; }
         .card-sub-grid { display: flex; justify-content: space-between; text-align: center; }
         .sub-col { flex: 1; display: flex; flex-direction: column; }
         .sub-label { font-size: 0.5rem; opacity: 0.9; font-weight: bold; }
-        .sub-val { font-size: 0.9rem; font-weight: 900; }
-        .highlight-num { font-size: 1rem; background: rgba(0,0,0,0.2); border-radius: 4px; padding: 1px 0; }
-
-        .winner-promo-banner {
-          background: linear-gradient(135deg, #7c3aed 0%, #4c1d95 100%);
-          color: #ffdf40;
-          font-size: 0.65rem;
-          font-weight: 900;
-          padding: 4px 6px;
-          border-radius: 6px;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          border: 1.5px solid #c084fc;
-        }
-        .promo-text { color: #fff; font-size: 0.6rem; text-align: center; flex: 1; }
-        .promo-badge { background: #ffdf40; color: #4c1d95; padding: 2px 5px; border-radius: 3px; font-size: 0.55rem; }
-
-        .tip-card-box {
-          background: #fef3c7;
-          border: 1px solid #fde68a;
-          color: #92400e;
-          font-size: 0.6rem;
-          font-weight: bold;
-          text-align: center;
-          padding: 3px 5px;
-          border-radius: 6px;
-        }
-
-        .phone-subscribe-footer { background: linear-gradient(90deg, #e60000, #990000); color: #fff; border-radius: 6px; padding: 4px; display: flex; justify-content: center; align-items: center; gap: 6px; font-weight: 900; font-size: 0.75rem; box-shadow: 0 3px 8px rgba(230,0,0,0.3); }
-        .sub-icon { font-size: 0.75rem; }
-        .sub-bell { font-size: 0.75rem; }
-      `}</style>
-    </div>
-  );
-}
+        .sub-val { font-size: 0.85rem; font-weight: 900; }
+        
