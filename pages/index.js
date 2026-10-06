@@ -8,34 +8,56 @@ export default function Home() {
   const [showAdmin, setShowAdmin] = useState(false);
   const [saveMessage, setSaveMessage] = useState(false);
 
-  // Manual Control States (LocalStorage မှ အရင်ယူမည်၊ မရှိလျှင် Default သုံးမည်)
-  const [phoneWidth, setPhoneWidth] = useState(() => typeof window !== 'undefined' ? localStorage.getItem('phoneWidth') || 380 : 380);
-  const [phoneHeight, setPhoneHeight] = useState(() => typeof window !== 'undefined' ? localStorage.getItem('phoneHeight') || 820 : 820);
-  const [liveFontSize, setLiveFontSize] = useState(() => typeof window !== 'undefined' ? localStorage.getItem('liveFontSize') || 4.5 : 4.5);
-  const [resultTextSize, setResultTextSize] = useState(() => typeof window !== 'undefined' ? localStorage.getItem('resultTextSize') || 1 : 1);
-  const [contentGap, setContentGap] = useState(() => typeof window !== 'undefined' ? localStorage.getItem('contentGap') || 4 : 4);
+  // LocalStorage မှ တန်ဖိုးများကို သေချာခေါ်ယူရန် (Refresh လုပ်လျှင် မပျောက်စေရန်)
+  const [phoneWidth, setPhoneWidth] = useState('380');
+  const [phoneHeight, setPhoneHeight] = useState('820');
+  const [liveFontSize, setLiveFontSize] = useState('4.5');
+  const [resultTextSize, setResultTextSize] = useState('1');
+  const [contentGap, setContentGap] = useState('4');
 
-  // ဘေးဘက် Card များနှင့် Box Style များ
-  const [sideCardWidth, setSideCardWidth] = useState(() => typeof window !== 'undefined' ? localStorage.getItem('sideCardWidth') || 480 : 480);
-  const [sideFontSize, setSideFontSize] = useState(() => typeof window !== 'undefined' ? localStorage.getItem('sideFontSize') || 2.8 : 2.8);
-  const [sideValFontSize, setSideValFontSize] = useState(() => typeof window !== 'undefined' ? localStorage.getItem('sideValFontSize') || 3 : 3);
-  const [sideCardPadding, setSideCardPadding] = useState(() => typeof window !== 'undefined' ? localStorage.getItem('sideCardPadding') || 20 : 20);
+  const [sideCardWidth, setSideCardWidth] = useState('480');
+  const [sideFontSize, setSideFontSize] = useState('2.8');
+  const [sideValFontSize, setSideValFontSize] = useState('3');
+  const [sideCardPadding, setSideCardPadding] = useState('20');
   
-  const [leftBoxStyle, setLeftBoxStyle] = useState(() => typeof window !== 'undefined' ? localStorage.getItem('leftBoxStyle') || 'modern' : 'modern');
-  const [rightBoxStyle, setRightBoxStyle] = useState(() => typeof window !== 'undefined' ? localStorage.getItem('rightBoxStyle') || 'modern' : 'modern');
+  const [leftBoxStyle, setLeftBoxStyle] = useState('modern');
+  const [rightBoxStyle, setRightBoxStyle] = useState('modern');
 
-  // စာသားများနှင့် ပွဲစဉ်များ
-  const [sessionTitle, setSessionTitle] = useState(() => typeof window !== 'undefined' ? localStorage.getItem('sessionTitle') || '4:30 PM' : '4:30 PM');
-  const [sessionDay, setSessionDay] = useState(() => typeof window !== 'undefined' ? localStorage.getItem('sessionDay') || 'ညနေပိုင်း' : 'ညနေပိုင်း');
+  const [sessionTitle, setSessionTitle] = useState('4:30 PM');
+  const [sessionDay, setSessionDay] = useState('ညနေပိုင်း');
   const [manualSession, setManualSession] = useState(false);
 
-  const [customDate, setCustomDate] = useState(() => typeof window !== 'undefined' ? localStorage.getItem('customDate') || '05-10-2026' : '05-10-2026');
-  const [pitThee, setPitThee] = useState(() => typeof window !== 'undefined' ? localStorage.getItem('pitThee') || '5-3-2' : '5-3-2');
-  const [mainNum, setMainNum] = useState(() => typeof window !== 'undefined' ? localStorage.getItem('mainNum') || '53-57-39' : '53-57-39');
-  const [subNum, setSubNum] = useState(() => typeof window !== 'undefined' ? localStorage.getItem('subNum') || '35-23-25' : '35-23-25');
-  const [horThout, setHorThout] = useState(() => typeof window !== 'undefined' ? localStorage.getItem('horThout') || '5-9-8' : '5-9-8');
+  const [customDate, setCustomDate] = useState('05-10-2026');
+  const [pitThee, setPitThee] = useState('5-3-2');
+  const [mainNum, setMainNum] = useState('53-57-39');
+  const [subNum, setSubNum] = useState('35-23-25');
+  const [horThout, setHorThout] = useState('5-9-8');
 
-  // အချက်အလက်များ Save သည့် ဖန်ရှင်
+  // Page Load လုပ်ချိန်တွင် LocalStorage မှ Data များကို ဝင်ဆွဲရန်
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setPhoneWidth(localStorage.getItem('phoneWidth') || '380');
+      setPhoneHeight(localStorage.getItem('phoneHeight') || '820');
+      setLiveFontSize(localStorage.getItem('liveFontSize') || '4.5');
+      setResultTextSize(localStorage.getItem('resultTextSize') || '1');
+      setContentGap(localStorage.getItem('contentGap') || '4');
+      setSideCardWidth(localStorage.getItem('sideCardWidth') || '480');
+      setSideFontSize(localStorage.getItem('sideFontSize') || '2.8');
+      setSideValFontSize(localStorage.getItem('sideValFontSize') || '3');
+      setSideCardPadding(localStorage.getItem('sideCardPadding') || '20');
+      setLeftBoxStyle(localStorage.getItem('leftBoxStyle') || 'modern');
+      setRightBoxStyle(localStorage.getItem('rightBoxStyle') || 'modern');
+      setSessionTitle(localStorage.getItem('sessionTitle') || '4:30 PM');
+      setSessionDay(localStorage.getItem('sessionDay') || 'ညနေပိုင်း');
+      setCustomDate(localStorage.getItem('customDate') || '05-10-2026');
+      setPitThee(localStorage.getItem('pitThee') || '5-3-2');
+      setMainNum(localStorage.getItem('mainNum') || '53-57-39');
+      setSubNum(localStorage.getItem('subNum') || '35-23-25');
+      setHorThout(localStorage.getItem('horThout') || '5-9-8');
+    }
+  }, []);
+
+  // အချက်အလက်များ Save သည့် ဖန်ရှင် (သိမ်းပြီးသည်နှင့် Refresh လုပ်ပေးမည်)
   const handleSaveSettings = () => {
     localStorage.setItem('phoneWidth', phoneWidth);
     localStorage.setItem('phoneHeight', phoneHeight);
@@ -57,7 +79,10 @@ export default function Home() {
     localStorage.setItem('horThout', horThout);
 
     setSaveMessage(true);
-    setTimeout(() => setSaveMessage(false), 2000);
+    setTimeout(() => {
+      setSaveMessage(false);
+      window.location.reload(); // သိမ်းပြီးပါက အလိုအလျောက် Refresh လုပ်ပေးမည်
+    }, 1000);
   };
 
   // မူလအတိုင်း ပြန်လည် Reset လုပ်ရန် ဖန်ရှင်
