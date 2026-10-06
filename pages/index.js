@@ -4,10 +4,29 @@ import { useState, useEffect } from 'react';
 const BIN_ID = '6ac4a0a1ffd5d1605351b310'; 
 const MASTER_KEY = '$2a$10$fYB8HrDgeJuhR/ZHy2JVvuz8qs2ShnIW6ZbqQCVATxhB6dJ8NjODa';
 
+// သတ်မှတ်ထားသော Admin Password (နှစ်သက်ရာ ပြောင်းလဲနိုင်ပါသည်)
+const ADMIN_PASSWORD = "112255"; 
+
 export default function Home() {
   const [data, setData] = useState(null);
   const [showAdmin, setShowAdmin] = useState(false);
   const [saveMessage, setSaveMessage] = useState(false);
+
+  // Admin Panel ဖွင့်ရန် Password စစ်ဆေးသည့် פונกชัน
+  const handleAdminToggle = () => {
+    if (!showAdmin) {
+      let userPassword = prompt("ကျေးဇူးပြု၍ Admin Password ထည့်ပါ:");
+      if (userPassword === null) return; // Cancel နှိပ်လျှင် ရပ်မည်
+      
+      if (userPassword === ADMIN_PASSWORD) {
+        setShowAdmin(true);
+      } else {
+        alert("Password မှားယွင်းနေပါသည်။");
+      }
+    } else {
+      setShowAdmin(false);
+    }
+  };
 
   // Layout & Phone Frame States (Max range increased)
   const [phoneModel, setPhoneModel] = useState('iphone');
@@ -300,7 +319,7 @@ export default function Home() {
         <title>2D LIVE MYANMAR - Ultimate Custom Pro</title>
       </Head>
 
-      <button className="admin-toggle-btn" onClick={() => setShowAdmin(!showAdmin)}>
+      <button className="admin-toggle-btn" onClick={handleAdminToggle}>
         {showAdmin ? "❌ Control Panel ပိတ်မည်" : "⚙️ Pro Control Panel ဖွင့်မည်"}
       </button>
 
@@ -475,7 +494,6 @@ export default function Home() {
           </div>
 
           <div className="live-main-display-wrapper" style={{ marginTop: `${liveNumMarginTop}px` }}>
-            {/* Live ဂဏန်း တုန်ခါခုန်နေသော Effect ပါဝင်သည့် Class (live-bounce-effect) */}
             <div className="live-main-display live-bounce-effect" style={{ fontSize: `${liveNumScale}rem` }}>
               {liveTwod}
             </div>
@@ -588,7 +606,6 @@ export default function Home() {
         .admin-item-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; border-bottom: 1px solid #333; padding-bottom: 4px; font-size: 0.8rem; }
         .del-btn { background: #dc2626; color: #fff; border: none; padding: 3px 8px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 0.75rem; }
 
-        /* Phone Frames */
         .phone-container { background: #111; display: flex; flex-direction: column; box-sizing: border-box; transition: width 0.2s, height 0.2s; box-shadow: 0 25px 50px rgba(0,0,0,0.5); }
         .model-iphone { border: 10px solid #1f2937; border-radius: 40px; }
         .model-samsung { border: 6px solid #374151; border-radius: 24px; }
@@ -611,7 +628,6 @@ export default function Home() {
         .pulsing-dot { width: 6px; height: 6px; background-color: #16a34a; border-radius: 50%; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.6); } 70% { box-shadow: 0 0 0 6px rgba(22, 163, 74, 0); } 100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0); } }
 
-        /* Live ဂဏန်း တုန်ခါခုန်နေသော (Bounce/Vibrate Effect) */
         .live-bounce-effect {
           font-weight: 900;
           color: #16a34a;
@@ -642,7 +658,6 @@ export default function Home() {
         .winner-promo-banner { color: #fff; font-weight: 900; border-radius: 6px; text-align: center; }
         .phone-subscribe-footer { background: linear-gradient(90deg, #e60000, #990000); color: #fff; border-radius: 6px; padding: 6px; text-align: center; font-weight: 900; font-size: 0.8rem; }
 
-        /* Side Cards Styles */
         .side-card { display: flex; flex-direction: column; box-shadow: 0 25px 50px rgba(0,0,0,0.2); box-sizing: border-box; }
         
         .style-modern { background: rgba(255, 255, 255, 0.55); backdrop-filter: blur(12px); border: 4px solid #ffffff; border-radius: 26px; }
@@ -667,7 +682,6 @@ export default function Home() {
         .purple-circle-badge { background: linear-gradient(135deg, #7c3aed 100%, #5b21b6 0%); color: #fff; font-weight: 900; padding: 6px 18px; border-radius: 20px; border: 2px solid #fff; display: inline-block; }
         .val-display-pro { font-weight: 900; color: #cc0000; text-align: center; letter-spacing: 3px; }
 
-        /* Marquee Ticker */
         .marquee-container { position: absolute; bottom: 0; left: 0; width: 100%; padding: 10px 0; overflow: hidden; white-space: nowrap; box-sizing: border-box; z-index: 10; font-weight: bold; }
         .marquee-text { display: inline-block; padding-left: 100%; animation: marquee linear infinite; }
         @keyframes marquee { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
