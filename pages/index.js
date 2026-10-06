@@ -152,10 +152,9 @@ export default function Home() {
     }
   };
 
+  // 🔴 နေရာပြန်ခုန်ထွက်စေသော setInterval ကို ဖယ်ရှားပြီး ပုံစံအမှန်သို့ ပြင်ဆင်ပြီး
   useEffect(() => {
     fetchSettings();
-    const syncInterval = setInterval(fetchSettings, 4000);
-    return () => clearInterval(syncInterval);
   }, []);
 
   const handleSaveSettings = async () => {
@@ -452,7 +451,7 @@ export default function Home() {
             
             <button className="add-item-btn" onClick={handleAddItem}>+ စခရင်ထဲ ထည့်မည်</button>
 
-            <div className="section-title">⚙️️ ထည့်ထားပြီးသား Box/Banner များကို ပြင်ဆင်/ဖျက်ရန်</div>
+            <div className="section-title">⚙ ထည့်ထားပြီးသား Box/Banner များကို ပြင်ဆင်/ဖျက်ရန်</div>
             {customItems.map((item) => (
               <div key={item.id} className="admin-item-customizer-box">
                 <div className="admin-item-row">
