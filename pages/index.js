@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 const BIN_ID = '6ac4a0a1ffd5d1605351b310'; 
 const MASTER_KEY = '$2a$10$fYB8HrDgeJuhR/ZHy2JVvuz8qs2ShnIW6ZbqQCVATxhB6dJ8NjODa';
 
-// သတ်မှတ်ထားသော Admin Password (နှစ်သက်ရာ ပြောင်းလဲနိုင်ပါသည်)
 const ADMIN_PASSWORD = "112255"; 
 
 export default function Home() {
@@ -12,12 +11,10 @@ export default function Home() {
   const [showAdmin, setShowAdmin] = useState(false);
   const [saveMessage, setSaveMessage] = useState(false);
 
-  // Admin Panel ဖွင့်ရန် Password စစ်ဆေးသည့် פונกชัน
   const handleAdminToggle = () => {
     if (!showAdmin) {
       let userPassword = prompt("ကျေးဇူးပြု၍ Admin Password ထည့်ပါ:");
-      if (userPassword === null) return; // Cancel နှိပ်လျှင် ရပ်မည်
-      
+      if (userPassword === null) return;
       if (userPassword === ADMIN_PASSWORD) {
         setShowAdmin(true);
       } else {
@@ -28,29 +25,24 @@ export default function Home() {
     }
   };
 
-  // Layout & Phone Frame States (Max range increased)
   const [phoneModel, setPhoneModel] = useState('iphone');
   const [phoneWidth, setPhoneWidth] = useState('420');
   const [phoneHeight, setPhoneHeight] = useState('880');
   
-  // Custom Background Color & Gradient States
   const [bgType, setBgType] = useState('gradient');
   const [bgColor1, setBgColor1] = useState('#ffdf40');
   const [bgColor2, setBgColor2] = useState('#ffbb00');
 
-  // Individual Object Margins inside Phone Screen
   const [headerMarginTop, setHeaderMarginTop] = useState('0');
   const [liveNumMarginTop, setLiveNumMarginTop] = useState('0');
   const [resultCardMarginTop, setResultCardMarginTop] = useState('0');
   
-  // General Sizing & Live Number Scale (Max increased up to 10rem)
   const [headerScale, setHeaderScale] = useState('1.1');
   const [liveNumScale, setLiveNumScale] = useState('7.0');
   const [resultCardScale, setResultCardScale] = useState('1.1');
   const [elementSpacing, setElementSpacing] = useState('8');
   const [phonePadding, setPhonePadding] = useState('14');
 
-  // Side Cards Positioning & Sizing Controls (Max range increased for larger view)
   const [sideCardWidth, setSideCardWidth] = useState('420');
   const [sideFontSize, setSideFontSize] = useState('2.8');
   const [sideValFontSize, setSideValFontSize] = useState('3.2');
@@ -59,7 +51,6 @@ export default function Home() {
   const [leftBoxStyle, setLeftBoxStyle] = useState('modern');
   const [rightBoxStyle, setRightBoxStyle] = useState('modern');
 
-  // Marquee Customization States
   const [marqueeText, setMarqueeText] = useState('နေ့စဉ်ကံထူးရှင်များအတွက် လက်မလွှတ်တမ်းစောင့်ကြည့်ပါ - VIP Channel ကို Subscribe လုပ်ထားပါ။');
   const [marqueeSpeed, setMarqueeSpeed] = useState('25');
   const [marqueeBg, setMarqueeBg] = useState('#000000');
@@ -75,7 +66,11 @@ export default function Home() {
   const [subNum, setSubNum] = useState('35-23-25');
   const [horThout, setHorThout] = useState('5-9-8');
 
-  // Custom Items with Individual Styling
+  // AI Host & Loop Audio States
+  const [enableAvatar, setEnableAvatar] = useState(true);
+  const [avatarStatusText, setAvatarStatusText] = useState('မင်္ဂလာပါခင်ဗျာ၊ ယနေ့အတွက် 2D တိုက်ရိုက်အချက်အလက်များကို တင်ဆက်ပေးနေပါတယ်...');
+  const [enableLoopVoice, setEnableLoopVoice] = useState(false); // User တွေပါ အသံကြားမည့် Loop စနစ်
+
   const [customItems, setCustomItems] = useState([
     { 
       id: 1, 
@@ -99,53 +94,97 @@ export default function Home() {
   const [newItemPadding, setNewItemPadding] = useState('8');
   const [newItemMarginTop, setNewItemMarginTop] = useState('0');
 
-  // Load Settings from JSONBin
+  // Load Settings and Loop Speech Sync from JSONBin
+  const fetchSettings = async () => {
+    try {
+      const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+        headers: { 'X-Master-Key': MASTER_KEY }
+      });
+      const response = await res.json();
+      const s = response.record;
+      if (s) {
+        if (s.phoneModel) setPhoneModel(s.phoneModel);
+        if (s.phoneWidth) setPhoneWidth(s.phoneWidth);
+        if (s.phoneHeight) setPhoneHeight(s.phoneHeight);
+        if (s.bgType) setBgType(s.bgType);
+        if (s.bgColor1) setBgColor1(s.bgColor1);
+        if (s.bgColor2) setBgColor2(s.bgColor2);
+        if (s.headerMarginTop) setHeaderMarginTop(s.headerMarginTop);
+        if (s.liveNumMarginTop) setLiveNumMarginTop(s.liveNumMarginTop);
+        if (s.resultCardMarginTop) setResultCardMarginTop(s.resultCardMarginTop);
+        if (s.headerScale) setHeaderScale(s.headerScale);
+        if (s.liveNumScale) setLiveNumScale(s.liveNumScale);
+        if (s.resultCardScale) setResultCardScale(s.resultCardScale);
+        if (s.elementSpacing) setElementSpacing(s.elementSpacing);
+        if (s.phonePadding) setPhonePadding(s.phonePadding);
+        if (s.sideCardWidth) setSideCardWidth(s.sideCardWidth);
+        if (s.sideFontSize) setSideFontSize(s.sideFontSize);
+        if (s.sideValFontSize) setSideValFontSize(s.sideValFontSize);
+        if (s.sideCardPadding) setSideCardPadding(s.sideCardPadding);
+        if (s.sideCardGap) setSideCardGap(s.sideCardGap);
+        if (s.leftBoxStyle) setLeftBoxStyle(s.leftBoxStyle);
+        if (s.rightBoxStyle) setRightBoxStyle(s.rightBoxStyle);
+        if (s.marqueeText) setMarqueeText(s.marqueeText);
+        if (s.marqueeSpeed) setMarqueeSpeed(s.marqueeSpeed);
+        if (s.marqueeBg) setMarqueeBg(s.marqueeBg);
+        if (s.marqueeColor) setMarqueeColor(s.marqueeColor);
+        if (s.marqueeFontSize) setMarqueeFontSize(s.marqueeFontSize);
+        if (s.sessionTitle) setSessionTitle(s.sessionTitle);
+        if (s.sessionDay) setSessionDay(s.sessionDay);
+        if (s.customDate) setCustomDate(s.customDate);
+        if (s.pitThee) setPitThee(s.pitThee);
+        if (s.mainNum) setMainNum(s.mainNum);
+        if (s.subNum) setSubNum(s.subNum);
+        if (s.horThout) setHorThout(s.horThout);
+        if (s.customItems) setCustomItems(s.customItems);
+        if (s.avatarStatusText) setAvatarStatusText(s.avatarStatusText);
+        if (s.enableLoopVoice !== undefined) setenableLoopVoice(s.enableLoopVoice);
+      }
+    } catch (err) {
+      console.error('Failed to load settings:', err);
+    }
+  };
+
   useEffect(() => {
-    fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
-      headers: { 'X-Master-Key': MASTER_KEY }
-    })
-      .then(res => res.json())
-      .then(response => {
-        const s = response.record;
-        if (s) {
-          if (s.phoneModel) setPhoneModel(s.phoneModel);
-          if (s.phoneWidth) setPhoneWidth(s.phoneWidth);
-          if (s.phoneHeight) setPhoneHeight(s.phoneHeight);
-          if (s.bgType) setBgType(s.bgType);
-          if (s.bgColor1) setBgColor1(s.bgColor1);
-          if (s.bgColor2) setBgColor2(s.bgColor2);
-          if (s.headerMarginTop) setHeaderMarginTop(s.headerMarginTop);
-          if (s.liveNumMarginTop) setLiveNumMarginTop(s.liveNumMarginTop);
-          if (s.resultCardMarginTop) setResultCardMarginTop(s.resultCardMarginTop);
-          if (s.headerScale) setHeaderScale(s.headerScale);
-          if (s.liveNumScale) setLiveNumScale(s.liveNumScale);
-          if (s.resultCardScale) setResultCardScale(s.resultCardScale);
-          if (s.elementSpacing) setElementSpacing(s.elementSpacing);
-          if (s.phonePadding) setPhonePadding(s.phonePadding);
-          if (s.sideCardWidth) setSideCardWidth(s.sideCardWidth);
-          if (s.sideFontSize) setSideFontSize(s.sideFontSize);
-          if (s.sideValFontSize) setSideValFontSize(s.sideValFontSize);
-          if (s.sideCardPadding) setSideCardPadding(s.sideCardPadding);
-          if (s.sideCardGap) setSideCardGap(s.sideCardGap);
-          if (s.leftBoxStyle) setLeftBoxStyle(s.leftBoxStyle);
-          if (s.rightBoxStyle) setRightBoxStyle(s.rightBoxStyle);
-          if (s.marqueeText) setMarqueeText(s.marqueeText);
-          if (s.marqueeSpeed) setMarqueeSpeed(s.marqueeSpeed);
-          if (s.marqueeBg) setMarqueeBg(s.marqueeBg);
-          if (s.marqueeColor) setMarqueeColor(s.marqueeColor);
-          if (s.marqueeFontSize) setMarqueeFontSize(s.marqueeFontSize);
-          if (s.sessionTitle) setSessionTitle(s.sessionTitle);
-          if (s.sessionDay) setSessionDay(s.sessionDay);
-          if (s.customDate) setCustomDate(s.customDate);
-          if (s.pitThee) setPitThee(s.pitThee);
-          if (s.mainNum) setMainNum(s.mainNum);
-          if (s.subNum) setSubNum(s.subNum);
-          if (s.horThout) setHorThout(s.horThout);
-          if (s.customItems) setCustomItems(s.customItems);
-        }
-      })
-      .catch(err => console.error('Failed to load settings:', err));
+    fetchSettings();
+    // ၅ စက္ကန့်တစ်ကြိမ် Server ထဲက စာသားအပြောင်းအလဲများကို လှမ်းယူမည် (User များအတွက် sync ဖြစ်စေရန်)
+    const syncInterval = setInterval(fetchSettings, 5000);
+    return () => clearInterval(syncInterval);
   }, []);
+
+  // Text-to-Speech Loop for Live Streaming Viewers & Admin
+  useEffect(() => {
+    if (!enableLoopVoice) return;
+
+    let isSpeaking = false;
+    const speakLoopText = () => {
+      if (!isSpeaking && 'speechSynthesis' in window && avatarStatusText) {
+        isSpeaking = true;
+        const utterance = new SpeechSynthesisUtterance(avatarStatusText);
+        utterance.lang = 'my-MM';
+        utterance.rate = 1.0;
+        
+        utterance.onend = () => {
+          isSpeaking = false;
+        };
+        utterance.onerror = () => {
+          isSpeaking = false;
+        };
+
+        window.speechSynthesis.speak(utterance);
+      }
+    };
+
+    speakLoopText();
+    const loopInterval = setInterval(speakLoopText, 15000); // ၁၅ စက္ကန့်တစ်ကြိမ် စာသားကို အသံထွက်ဖြင့် ပြန်ပြောမည် (Loop)
+
+    return () => {
+      clearInterval(loopInterval);
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+    };
+  }, [enableLoopVoice, avatarStatusText]);
 
   const handleSaveSettings = async () => {
     const newSettings = {
@@ -154,7 +193,8 @@ export default function Home() {
       headerScale, liveNumScale, resultCardScale, elementSpacing, phonePadding,
       sideCardWidth, sideFontSize, sideValFontSize, sideCardPadding, sideCardGap,
       leftBoxStyle, rightBoxStyle, marqueeText, marqueeSpeed, marqueeBg, marqueeColor, marqueeFontSize,
-      sessionTitle, sessionDay, customDate, pitThee, mainNum, subNum, horThout, customItems
+      sessionTitle, sessionDay, customDate, pitThee, mainNum, subNum, horThout, customItems,
+      avatarStatusText, enableLoopVoice
     };
 
     try {
@@ -171,8 +211,7 @@ export default function Home() {
         setSaveMessage(true);
         setTimeout(() => {
           setSaveMessage(false);
-          window.location.reload(); 
-        }, 1000);
+        }, 1500);
       } else {
         alert('သိမ်းဆည်းရန် မအောင်မြင်ပါ');
       }
@@ -216,7 +255,6 @@ export default function Home() {
     setCustomItems(customItems.map(item => item.id === id ? { ...item, [property]: value } : item));
   };
 
-  // Robust Live Data Fetcher with multiple fallback endpoints
   const fetchData = async () => {
     const apis = [
       'https://api.thaistock2d.com/live',
@@ -316,7 +354,7 @@ export default function Home() {
   return (
     <div className="stream-container" style={customBgStyle}>
       <Head>
-        <title>2D LIVE MYANMAR - Ultimate Custom Pro</title>
+        <title>2D LIVE MYANMAR - Ultimate Custom Pro with AI Host & Loop Voice</title>
       </Head>
 
       <button className="admin-toggle-btn" onClick={handleAdminToggle}>
@@ -335,6 +373,24 @@ export default function Home() {
           </div>
 
           <div className="admin-scrollable-content">
+            <div className="section-title">🤖 AI Host & Loop Voice ဆက်တင်များ</div>
+            <div className="input-group">
+              <label>AI Host ပြရန်:</label>
+              <input type="checkbox" checked={enableAvatar} onChange={(e) => setEnableAvatar(e.target.checked)} style={{ width: '20px', height: '20px', accentColor: '#22c55e', cursor: 'pointer' }} />
+            </div>
+            <div className="input-group">
+              <label>ဝင်ကြည့်သူများပါ အသံကြားမည့် Loop စနစ်:</label>
+              <input type="checkbox" checked={enableLoopVoice} onChange={(e) => setenableLoopVoice(e.target.checked)} style={{ width: '20px', height: '20px', accentColor: '#22c55e', cursor: 'pointer' }} />
+            </div>
+            <div className="input-group" style={{ flexDirection: 'column', alignItems: 'stretch', gap: '5px' }}>
+              <label>Host အမြဲပြောမည့် စာသား (Loop text):</label>
+              <textarea 
+                value={avatarStatusText} 
+                onChange={(e) => setAvatarStatusText(e.target.value)} 
+                style={{ width: '100%', height: '70px', background: '#222', color: '#fff', border: '1px solid #555', borderRadius: '4px', padding: '6px' }} 
+              />
+            </div>
+
             <div className="section-title">🎨 Background အရောင်များ</div>
             <div className="input-group">
               <label>အရောင်ပုံစံ:</label>
@@ -356,7 +412,7 @@ export default function Home() {
               </div>
             )}
 
-            <div className="section-title">📦 ဘယ်/ညာ Box များနှင့် စတိုင်လ်များ (ပိုကြီးရန်)</div>
+            <div className="section-title">📦 ဘယ်/ညာ Box များနှင့် စတိုင်လ်များ</div>
             <div className="input-group">
               <label>ဘယ်ဘက်စတိုင်:</label>
               <select value={leftBoxStyle} onChange={(e) => setLeftBoxStyle(e.target.value)} className="select-style">
@@ -390,15 +446,15 @@ export default function Home() {
             <div className="input-group"><label>ဖုန်းအမြင့်:</label><input type="range" min="750" max="980" value={phoneHeight} onChange={(e) => setPhoneHeight(e.target.value)} /><span>{phoneHeight}px</span></div>
             <div className="input-group"><label>စခရင် Padding:</label><input type="range" min="6" max="25" value={phonePadding} onChange={(e) => setPhonePadding(e.target.value)} /><span>{phonePadding}px</span></div>
 
-            <div className="section-title">🎯 စခရင်တွင်း Object တစ်ခုချင်း ချိန်ရန် (Precise)</div>
+            <div className="section-title">🎯 စခရင်တွင်း Object တစ်ခုချင်း ချိန်ရန်</div>
             <div className="input-group"><label>Header အနေအထား (Top):</label><input type="range" min="-30" max="50" value={headerMarginTop} onChange={(e) => setHeaderMarginTop(e.target.value)} /><span>{headerMarginTop}px</span></div>
             <div className="input-group"><label>Header အချိုး (Scale):</label><input type="range" min="0.8" max="1.6" step="0.1" value={headerScale} onChange={(e) => setHeaderScale(e.target.value)} /><span>{headerScale}x</span></div>
             
             <div className="input-group"><label>Live ဂဏန်း အနေအထား (Top):</label><input type="range" min="-30" max="50" value={liveNumMarginTop} onChange={(e) => setLiveNumMarginTop(e.target.value)} /><span>{liveNumMarginTop}px</span></div>
-            <div className="input-group"><label>Live ဂဏန်း အရွယ် (ပိုကြီးရန်):</label><input type="range" min="4.0" max="10.0" step="0.2" value={liveNumScale} onChange={(e) => setLiveNumScale(e.target.value)} /><span>{liveNumScale}rem</span></div>
+            <div className="input-group"><label>Live ဂဏန်း အရွယ်:</label><input type="range" min="4.0" max="10.0" step="0.2" value={liveNumScale} onChange={(e) => setLiveNumScale(e.target.value)} /><span>{liveNumScale}rem</span></div>
 
             <div className="input-group"><label>Result Card အနေအထား (Top):</label><input type="range" min="-30" max="50" value={resultCardMarginTop} onChange={(e) => setResultCardMarginTop(e.target.value)} /><span>{resultCardMarginTop}px</span></div>
-            <div className="input-group"><label>Result Card အရွယ် (ပိုကြီးရန်):</label><input type="range" min="0.8" max="1.6" step="0.1" value={resultCardScale} onChange={(e) => setResultCardScale(e.target.value)} /><span>{resultCardScale}x</span></div>
+            <div className="input-group"><label>Result Card အရွယ်:</label><input type="range" min="0.8" max="1.6" step="0.1" value={resultCardScale} onChange={(e) => setResultCardScale(e.target.value)} /><span>{resultCardScale}x</span></div>
 
             <div className="section-title">⚡ အောက်ခြေ စာတန်းပြေး (Marquee)</div>
             <div className="input-group"><label>စာသား:</label><input type="text" value={marqueeText} onChange={(e) => setMarqueeText(e.target.value)} style={{ width: '55%' }} /></div>
@@ -425,7 +481,7 @@ export default function Home() {
             
             <button className="add-item-btn" onClick={handleAddItem}>+ စခရင်ထဲ ထည့်မည်</button>
 
-            <div className="section-title">⚙️ ထည့်ထားပြီးသား Box/Banner များကို တစ်ခုချင်း ပြင်ဆင်/ဖျက်ရန်</div>
+            <div className="section-title">⚙️ ထည့်ထားပြီးသား Box/Banner များကို ပြင်ဆင်/ဖျက်ရန်</div>
             {customItems.map((item) => (
               <div key={item.id} className="admin-item-customizer-box">
                 <div className="admin-item-row">
@@ -464,6 +520,25 @@ export default function Home() {
           <span className="ht-label" style={{ fontSize: `${sideFontSize * 0.45}rem` }}>ဟောထိပ်</span>
           <span className="ht-val" style={{ fontSize: `${sideValFontSize}rem` }}>{horThout}</span>
         </div>
+
+        {enableAvatar && (
+          <div className="ai-avatar-host-box">
+            <div className="avatar-circle-frame">
+              <video 
+                src="/ai-host.mp4" 
+                autoPlay 
+                loop 
+                muted 
+                playsInline 
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+              />
+            </div>
+            <div className="avatar-speech-bubble">
+              <span className="host-title">🎙️️ AI Host ဧည့်ခံဆွေးနွေးသူ:</span>
+              <p>{avatarStatusText}</p>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* အလယ် ဖုန်းပုံစံ */}
@@ -605,6 +680,12 @@ export default function Home() {
         .admin-item-customizer-box { background: #1c1c1c; border: 1px solid #444; border-radius: 8px; padding: 8px 10px; margin-bottom: 8px; }
         .admin-item-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; border-bottom: 1px solid #333; padding-bottom: 4px; font-size: 0.8rem; }
         .del-btn { background: #dc2626; color: #fff; border: none; padding: 3px 8px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 0.75rem; }
+
+        .ai-avatar-host-box { display: flex; align-items: center; gap: 12px; background: rgba(255, 255, 255, 0.9); padding: 10px; border-radius: 14px; border: 2px solid #22c55e; margin-top: auto; }
+        .avatar-circle-frame { width: 65px; height: 65px; border-radius: 50%; overflow: hidden; border: 2px solid #16a34a; flex-shrink: 0; background: #fff; }
+        .avatar-speech-bubble { display: flex; flex-direction: column; gap: 2px; }
+        .host-title { font-size: 0.75rem; font-weight: 900; color: #15803d; }
+        .avatar-speech-bubble p { margin: 0; font-size: 0.8rem; color: #1f2937; font-weight: bold; line-height: 1.2; }
 
         .phone-container { background: #111; display: flex; flex-direction: column; box-sizing: border-box; transition: width 0.2s, height 0.2s; box-shadow: 0 25px 50px rgba(0,0,0,0.5); }
         .model-iphone { border: 10px solid #1f2937; border-radius: 40px; }
