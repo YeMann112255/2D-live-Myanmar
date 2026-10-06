@@ -81,7 +81,7 @@ export default function Home() {
       hours = hours ? hours : 12;
       const formattedHours = String(hours).padStart(2, '0');
 
-      setCurrentTime(`${formattedHours}:${minutes}:${seconds}${ampm}`);
+      setCurrentTime(`${formattedHours}:${minutes}:${seconds} ${ampm}`);
 
       if (!manualSession && !localStorage.getItem('sessionTitle')) {
         if (myanmarTime.getHours() < 13) {
@@ -151,54 +151,57 @@ export default function Home() {
 
       {showAdmin && (
         <div className="admin-panel">
-          <h3>📌 Manual ချိန်ညှိရန် (Save လုပ်နိုင်သည်)</h3>
-          
-          <div className="save-action-box">
-            <button className="save-btn" onClick={handleSaveSettings}>💾 သိမ်းဆည်းမည် (Save)</button>
-            <button className="reset-btn" onClick={handleResetSettings}>🔄 မူလအတိုင်းပြန်လုပ်မည်</button>
-            {saveMessage && <span className="save-alert">✅ သိမ်းဆည်းပြီးပါပြီ!</span>}
+          <div className="admin-header-fixed">
+            <h3>📌 Manual ချိန်ညှိရန် (Save လုပ်နိုင်သည်)</h3>
+            <div className="save-action-box">
+              <button className="save-btn" onClick={handleSaveSettings}>💾 သိမ်းဆည်းမည် (Save)</button>
+              <button className="reset-btn" onClick={handleResetSettings}>🔄 မူလ</button>
+              {saveMessage && <span className="save-alert">✅ သိမ်းဆည်းပြီးပါပြီ!</span>}
+            </div>
           </div>
 
-          <div className="section-title">📱 ဖုန်းအရွယ်အစား ချိန်ရန်</div>
-          <div className="input-group"><label>ဖုန်းအကျယ် (Width):</label><input type="range" min="320" max="500" value={phoneWidth} onChange={(e) => setPhoneWidth(e.target.value)} /><span>{phoneWidth}px</span></div>
-          <div className="input-group"><label>ဖုန်းအမြင့် (Height):</label><input type="range" min="700" max="950" value={phoneHeight} onChange={(e) => setPhoneHeight(e.target.value)} /><span>{phoneHeight}px</span></div>
-          <div className="input-group"><label>Box များအကွာအဝေး:</label><input type="range" min="1" max="15" value={contentGap} onChange={(e) => setContentGap(e.target.value)} /><span>{contentGap}px</span></div>
-          <div className="input-group"><label>Live ဂဏန်းအရွယ်:</label><input type="range" min="3" max="6" step="0.2" value={liveFontSize} onChange={(e) => setLiveFontSize(e.target.value)} /><span>{liveFontSize}rem</span></div>
+          <div className="admin-scrollable-content">
+            <div className="section-title">📱 ဖုန်းအရွယ်အစား ချိန်ရန်</div>
+            <div className="input-group"><label>ဖုန်းအကျယ် (Width):</label><input type="range" min="320" max="500" value={phoneWidth} onChange={(e) => setPhoneWidth(e.target.value)} /><span>{phoneWidth}px</span></div>
+            <div className="input-group"><label>ဖုန်းအမြင့် (Height):</label><input type="range" min="700" max="950" value={phoneHeight} onChange={(e) => setPhoneHeight(e.target.value)} /><span>{phoneHeight}px</span></div>
+            <div className="input-group"><label>Box များအကွာအဝေး:</label><input type="range" min="1" max="15" value={contentGap} onChange={(e) => setContentGap(e.target.value)} /><span>{contentGap}px</span></div>
+            <div className="input-group"><label>Live ဂဏန်းအရွယ်:</label><input type="range" min="3" max="6" step="0.2" value={liveFontSize} onChange={(e) => setLiveFontSize(e.target.value)} /><span>{liveFontSize}rem</span></div>
 
-          <div className="section-title">🎨 ဘေးဘက် Box ပုံစံများ (Styles)</div>
-          <div className="input-group">
-            <label>ဘယ်ဘက် Box ပုံစံ:</label>
-            <select value={leftBoxStyle} onChange={(e) => setLeftBoxStyle(e.target.value)} className="select-style">
-              <option value="modern">Modern (ကြွေရောင်/မှန်ပြواف)</option>
-              <option value="classic">Classic (အနီရောင်စစ်စစ်)</option>
-              <option value="neon">Neon (အလင်းရောင်စိမ့်)</option>
-              <option value="dark">Dark Pro (အမည်းရောင်ဇိမ်ခံ)</option>
-            </select>
+            <div className="section-title">🎨 ဘေးဘက် Box ပုံစံများ (Styles)</div>
+            <div className="input-group">
+              <label>ဘယ်ဘက် Box ပုံစံ:</label>
+              <select value={leftBoxStyle} onChange={(e) => setLeftBoxStyle(e.target.value)} className="select-style">
+                <option value="modern">Modern (ကြွေရောင်/မှန်ပြواف)</option>
+                <option value="classic">Classic (အနီရောင်စစ်စစ်)</option>
+                <option value="neon">Neon (အလင်းရောင်စိမ့်)</option>
+                <option value="dark">Dark Pro (အမည်းရောင်ဇိမ်ခံ)</option>
+              </select>
+            </div>
+            <div className="input-group">
+              <label>ညာဘက် Box ပုံစံ:</label>
+              <select value={rightBoxStyle} onChange={(e) => setRightBoxStyle(e.target.value)} className="select-style">
+                <option value="modern">Modern (ကြွေရောင်/မှန်ပြواف)</option>
+                <option value="classic">Classic (အနီရောင်စစ်စစ်)</option>
+                <option value="neon">Neon (အလင်းရောင်စိမ့်)</option>
+                <option value="dark">Dark Pro (အမည်းရောင်ဇိမ်ခံ)</option>
+              </select>
+            </div>
+
+            <div className="section-title">🎛️ ဘေး Card အရွယ်အစားများ</div>
+            <div className="input-group"><label>ဘေး Card အကျယ်:</label><input type="range" min="350" max="650" value={sideCardWidth} onChange={(e) => setSideCardWidth(e.target.value)} /><span>{sideCardWidth}px</span></div>
+            <div className="input-group"><label>ဘေး Card Padding:</label><input type="range" min="10" max="35" value={sideCardPadding} onChange={(e) => setSideCardPadding(e.target.value)} /><span>{sideCardPadding}px</span></div>
+            <div className="input-group"><label>ခေါင်းစဉ် Font အရွယ်:</label><input type="range" min="1.5" max="4" step="0.1" value={sideFontSize} onChange={(e) => setSideFontSize(e.target.value)} /><span>{sideFontSize}rem</span></div>
+            <div className="input-group"><label>တန်ဖိုး/ဂဏန်း Font:</label><input type="range" min="2" max="4.5" step="0.1" value={sideValFontSize} onChange={(e) => setSideValFontSize(e.target.value)} /><span>{sideValFontSize}rem</span></div>
+
+            <div className="section-title">✏️ စာသားများ ချိန်ရန်</div>
+            <div className="input-group"><label>⏰ ပွဲစဉ်:</label><input type="text" value={sessionTitle} onChange={(e) => { setSessionTitle(e.target.value); setManualSession(true); }} /></div>
+            <div className="input-group"><label>📅 နေ့/အမျိုးအစား:</label><input type="text" value={sessionDay} onChange={(e) => { setSessionDay(e.target.value); setManualSession(true); }} /></div>
+            <div className="input-group"><label>ရက်စွဲ:</label><input type="text" value={customDate} onChange={(e) => setCustomDate(e.target.value)} /></div>
+            <div className="input-group"><label>ပိတ်သီး:</label><input type="text" value={pitThee} onChange={(e) => setPitThee(e.target.value)} /></div>
+            <div className="input-group"><label>မိန်း:</label><input type="text" value={mainNum} onChange={(e) => setMainNum(e.target.value)} /></div>
+            <div className="input-group"><label>အရံ:</label><input type="text" value={subNum} onChange={(e) => setSubNum(e.target.value)} /></div>
+            <div className="input-group"><label>ဟောထိပ်:</label><input type="text" value={horThout} onChange={(e) => setHorThout(e.target.value)} /></div>
           </div>
-          <div className="input-group">
-            <label>ညာဘက် Box ပုံစံ:</label>
-            <select value={rightBoxStyle} onChange={(e) => setRightBoxStyle(e.target.value)} className="select-style">
-              <option value="modern">Modern (ကြွေရောင်/မှန်ပြواف)</option>
-              <option value="classic">Classic (အနီရောင်စစ်စစ်)</option>
-              <option value="neon">Neon (အလင်းရောင်စိမ့်)</option>
-              <option value="dark">Dark Pro (အမည်းရောင်ဇိမ်ခံ)</option>
-            </select>
-          </div>
-
-          <div className="section-title">🎛️ ဘေး Card အရွယ်အစားများ</div>
-          <div className="input-group"><label>ဘေး Card အကျယ်:</label><input type="range" min="350" max="650" value={sideCardWidth} onChange={(e) => setSideCardWidth(e.target.value)} /><span>{sideCardWidth}px</span></div>
-          <div className="input-group"><label>ဘေး Card Padding:</label><input type="range" min="10" max="35" value={sideCardPadding} onChange={(e) => setSideCardPadding(e.target.value)} /><span>{sideCardPadding}px</span></div>
-          <div className="input-group"><label>ခေါင်းစဉ် Font အရွယ်:</label><input type="range" min="1.5" max="4" step="0.1" value={sideFontSize} onChange={(e) => setSideFontSize(e.target.value)} /><span>{sideFontSize}rem</span></div>
-          <div className="input-group"><label>တန်ဖိုး/ဂဏန်း Font:</label><input type="range" min="2" max="4.5" step="0.1" value={sideValFontSize} onChange={(e) => setSideValFontSize(e.target.value)} /><span>{sideValFontSize}rem</span></div>
-
-          <div className="section-title">✏️ စာသားများ ချိန်ရန်</div>
-          <div className="input-group"><label>⏰ ပွဲစဉ်:</label><input type="text" value={sessionTitle} onChange={(e) => { setSessionTitle(e.target.value); setManualSession(true); }} /></div>
-          <div className="input-group"><label>📅 နေ့/အမျိုးအစား:</label><input type="text" value={sessionDay} onChange={(e) => { setSessionDay(e.target.value); setManualSession(true); }} /></div>
-          <div className="input-group"><label>ရက်စွဲ:</label><input type="text" value={customDate} onChange={(e) => setCustomDate(e.target.value)} /></div>
-          <div className="input-group"><label>ပိတ်သီး:</label><input type="text" value={pitThee} onChange={(e) => setPitThee(e.target.value)} /></div>
-          <div className="input-group"><label>မိန်း:</label><input type="text" value={mainNum} onChange={(e) => setMainNum(e.target.value)} /></div>
-          <div className="input-group"><label>အရံ:</label><input type="text" value={subNum} onChange={(e) => setSubNum(e.target.value)} /></div>
-          <div className="input-group"><label>ဟောထိပ်:</label><input type="text" value={horThout} onChange={(e) => setHorThout(e.target.value)} /></div>
         </div>
       )}
 
@@ -346,10 +349,13 @@ export default function Home() {
           position: relative; font-family: 'Pyidaungsu', sans-serif; box-sizing: border-box; overflow: hidden;
         }
         .admin-toggle-btn { position: fixed; top: 20px; left: 20px; background: #000; color: #ffd700; border: none; padding: 10px 20px; font-weight: bold; border-radius: 8px; cursor: pointer; z-index: 99999; font-size: 1rem; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
-        .admin-panel { position: fixed; top: 75px; left: 20px; background: #111; border: 2px solid #ffd700; padding: 15px; border-radius: 12px; z-index: 99999; width: 380px; color: #fff; box-shadow: 0 10px 25px rgba(0,0,0,0.8); max-height: 85vh; overflow-y: auto; }
-        .admin-panel h3 { margin: 0 0 10px 0; color: #ffd700; font-size: 1rem; }
         
-        .save-action-box { display: flex; gap: 8px; margin-bottom: 12px; align-items: center; flex-wrap: wrap; background: #222; padding: 8px; border-radius: 8px; border: 1px dashed #555; }
+        .admin-panel { position: fixed; top: 75px; left: 20px; background: #111; border: 2px solid #ffd700; border-radius: 12px; z-index: 99999; width: 380px; color: #fff; box-shadow: 0 10px 25px rgba(0,0,0,0.8); height: 82vh; display: flex; flex-direction: column; overflow: hidden; }
+        .admin-header-fixed { padding: 15px 15px 10px 15px; background: #111; border-bottom: 1px solid #333; flex-shrink: 0; }
+        .admin-header-fixed h3 { margin: 0 0 8px 0; color: #ffd700; font-size: 1rem; }
+        .admin-scrollable-content { padding: 10px 15px 15px 15px; overflow-y: auto; flex-grow: 1; }
+
+        .save-action-box { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; background: #222; padding: 6px 10px; border-radius: 8px; border: 1px dashed #555; }
         .save-btn { background: #16a34a; color: #fff; border: none; padding: 6px 12px; font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 0.85rem; }
         .reset-btn { background: #dc2626; color: #fff; border: none; padding: 6px 10px; font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 0.8rem; }
         .save-alert { color: #4ade80; font-size: 0.8rem; font-weight: bold; width: 100%; text-align: center; }
@@ -370,4 +376,72 @@ export default function Home() {
         .style-modern .live-clock-box, .style-modern .horthout-box, .style-modern .data-section-group { background: #fff; border: 3px solid #e60000; border-radius: 16px; }
         
         .style-classic { background: #b91c1c; border: 6px solid #fef08a; border-radius: 12px; }
-        .style-classic .top-red-banner, .
+        .style-classic .top-red-banner, .style-classic .date-display-box { background: #7f1d1d; color: #fef08a; border: 3px solid #fef08a; border-radius: 8px; text-align: center; font-weight: 900; padding: 12px; }
+        .style-classic .live-clock-box, .style-classic .horthout-box, .style-classic .data-section-group { background: #fef2f2; border: 3px solid #7f1d1d; border-radius: 8px; color: #7f1d1d; }
+
+        .style-neon { background: rgba(15, 23, 42, 0.85); border: 3px solid #38bdf8; border-radius: 20px; box-shadow: 0 0 25px rgba(56, 189, 248, 0.4); }
+        .style-neon .top-red-banner, .style-neon .date-display-box { background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); color: #e0f2fe; border: 2px solid #38bdf8; border-radius: 12px; text-align: center; font-weight: 900; padding: 12px; text-shadow: 0 0 8px rgba(56,189,248,0.6); }
+        .style-neon .live-clock-box, .style-neon .horthout-box, .style-neon .data-section-group { background: #1e293b; border: 2px solid #38bdf8; border-radius: 12px; color: #f8fafc; }
+        .style-neon .val-display-pro, .style-neon .ht-val { color: #38bdf8 !important; text-shadow: 0 0 10px rgba(56,189,248,0.5); }
+
+        .style-dark { background: #111827; border: 4px solid #4b5563; border-radius: 24px; }
+        .style-dark .top-red-banner, .style-dark .date-display-box { background: #374151; color: #f3f4f6; border: 2px solid #6b7280; border-radius: 14px; text-align: center; font-weight: 900; padding: 12px; }
+        .style-dark .live-clock-box, .style-dark .horthout-box, .style-dark .data-section-group { background: #1f2937; border: 2px solid #4b5563; border-radius: 14px; color: #fff; }
+        .style-dark .val-display-pro, .style-dark .ht-val { color: #facc15 !important; }
+
+        .top-red-banner { font-weight: 900; padding: 12px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .live-clock-box { font-weight: 900; padding: 12px; text-align: center; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .red-label-box { background: linear-gradient(90deg, #e60000, #b30000); color: #fff; font-weight: 900; padding: 12px; border-radius: 12px; text-align: center; border: 2px solid #ff6666; }
+        .youtube-subscribe-tag { background: linear-gradient(90deg, #ff0000, #800000); color: #fff; font-weight: 900; padding: 10px; border-radius: 10px; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; border: 2px solid #ff8080; }
+        .horthout-box { padding: 10px 16px; text-align: center; display: flex; justify-content: space-between; align-items: center; }
+        .ht-label { background: #e60000; color: #fff; font-weight: 900; padding: 8px 14px; border-radius: 8px; }
+        .ht-val { font-weight: 900; color: #cc0000; flex: 1; text-align: center; letter-spacing: 3px; }
+
+        .date-display-box { font-weight: 900; padding: 12px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .data-section-group { padding: 12px 16px; display: flex; flex-direction: column; gap: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .purple-badge-wrapper { text-align: center; margin-top: -28px; }
+        .purple-circle-badge { background: linear-gradient(135deg, #7c3aed 100%, #5b21b6 0%); color: #fff; font-weight: 900; padding: 6px 20px; border-radius: 20px; border: 2px solid #fff; box-shadow: 0 3px 8px rgba(124, 58, 237, 0.4); display: inline-block; }
+        .val-display-pro { font-weight: 900; color: #cc0000; text-align: center; letter-spacing: 4px; padding: 4px 0; }
+
+        .phone-container { background: #111827; border: 8px solid #1f2937; border-radius: 36px; padding: 6px; box-shadow: 0 25px 50px rgba(0,0,0,0.4); display: flex; flex-direction: column; box-sizing: border-box; transition: width 0.2s ease, height 0.2s ease; }
+        .phone-screen { background: #ffffff; border-radius: 28px; padding: 8px 12px; display: flex; flex-direction: column; justify-content: space-between; height: 100%; color: #000; box-sizing: border-box; overflow: hidden; }
+        .top-section-group { display: flex; flex-direction: column; }
+        .bottom-section-group { display: flex; flex-direction: column; }
+
+        .phone-status-bar { display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; font-weight: bold; }
+        .dynamic-island { width: 80px; height: 14px; background: #000; border-radius: 10px; }
+        .app-header-bar { background: #ffcc00; padding: 4px 10px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: 0.9rem; }
+        .app-logo { color: #000; font-weight: 900; }
+        .app-menu-icons { display: flex; gap: 4px; align-items: center; font-size: 0.75rem; }
+        .badge-2d { background: #16a34a; color: #fff; padding: 2px 5px; border-radius: 4px; font-size: 0.7rem; }
+        .badge-3d { background: #2563eb; color: #fff; padding: 2px 5px; border-radius: 4px; font-size: 0.7rem; }
+        
+        .live-status-pill { background: #f0fdf4; border: 1px solid #bbf7d0; color: #16a34a; font-size: 0.75rem; font-weight: 900; padding: 2px 8px; border-radius: 15px; display: flex; align-items: center; justify-content: center; gap: 5px; width: fit-content; margin: 0 auto; }
+        .pulsing-dot { width: 6px; height: 6px; background-color: #16a34a; border-radius: 50%; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.6); } 70% { box-shadow: 0 0 0 6px rgba(22, 163, 74, 0); } 100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0); } }
+
+        .live-main-display { font-weight: 900; color: #16a34a; text-align: center; line-height: 1; margin: 2px 0; text-shadow: 0 4px 15px rgba(22, 163, 74, 0.3); display: inline-block; width: 100%; }
+
+        .update-time-indicator-large { text-align: center; font-size: 0.85rem; color: #15803d; font-weight: 700; background: #f0fdf4; border: 1px solid #dcfce7; padding: 4px 8px; border-radius: 6px; }
+        .update-time-indicator-large strong { color: #166534; }
+        .separator { margin: 0 6px; color: #86efac; }
+
+        .cards-group { display: flex; flex-direction: column; }
+        .result-card-red { background: linear-gradient(135deg, #ff4d4d 0%, #e60000 100%); border-radius: 8px; padding: 4px 8px; color: #fff; border: 1px solid #ff8080; }
+        .card-title-top { text-align: center; font-weight: 900; font-size: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.4); padding-bottom: 1px; margin-bottom: 2px; }
+        .card-sub-grid { display: flex; justify-content: space-between; text-align: center; }
+        .sub-col { flex: 1; display: flex; flex-direction: column; }
+        .sub-label { font-size: 0.6rem; opacity: 0.9; font-weight: bold; }
+        .sub-val { font-weight: 900; }
+        .highlight-num { background: rgba(0,0,0,0.25); border-radius: 4px; padding: 1px 0; }
+
+        .winner-promo-banner { background: linear-gradient(135deg, #7c3aed 0%, #4c1d95 100%); color: #ffdf40; font-weight: 900; padding: 4px 8px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between; }
+        .promo-text { color: #fff; font-size: 0.62rem; text-align: center; flex: 1; }
+        .promo-badge { background: #ffdf40; color: #4c1d95; padding: 1px 5px; border-radius: 3px; font-size: 0.55rem; }
+
+        .tip-card-box { background: #fef3c7; border: 1px solid #fde68a; color: #92400e; font-size: 0.62rem; font-weight: bold; text-align: center; padding: 3px 6px; border-radius: 6px; }
+        .phone-subscribe-footer { background: linear-gradient(90deg, #e60000, #990000); color: #fff; border-radius: 6px; padding: 5px; display: flex; justify-content: center; align-items: center; gap: 6px; font-weight: 900; font-size: 0.75rem; }
+      `}</style>
+    </div>
+  );
+}
