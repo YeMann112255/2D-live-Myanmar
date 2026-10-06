@@ -8,7 +8,7 @@ export default function Home() {
   const [showAdmin, setShowAdmin] = useState(false);
   const [saveMessage, setSaveMessage] = useState(false);
 
-  // LocalStorage မှ တန်ဖိုးများကို သေချာခေါ်ယူရန် (Refresh လုပ်လျှင် မပျောက်စေရန်)
+  // ဆက်တင်တန်ဖိုးများအတွက် State များ
   const [phoneWidth, setPhoneWidth] = useState('380');
   const [phoneHeight, setPhoneHeight] = useState('820');
   const [liveFontSize, setLiveFontSize] = useState('4.5');
@@ -33,62 +33,95 @@ export default function Home() {
   const [subNum, setSubNum] = useState('35-23-25');
   const [horThout, setHorThout] = useState('5-9-8');
 
-  // Page Load လုပ်ချိန်တွင် LocalStorage မှ Data များကို ဝင်ဆွဲရန်
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      setPhoneWidth(localStorage.getItem('phoneWidth') || '380');
-      setPhoneHeight(localStorage.getItem('phoneHeight') || '820');
-      setLiveFontSize(localStorage.getItem('liveFontSize') || '4.5');
-      setResultTextSize(localStorage.getItem('resultTextSize') || '1');
-      setContentGap(localStorage.getItem('contentGap') || '4');
-      setSideCardWidth(localStorage.getItem('sideCardWidth') || '480');
-      setSideFontSize(localStorage.getItem('sideFontSize') || '2.8');
-      setSideValFontSize(localStorage.getItem('sideValFontSize') || '3');
-      setSideCardPadding(localStorage.getItem('sideCardPadding') || '20');
-      setLeftBoxStyle(localStorage.getItem('leftBoxStyle') || 'modern');
-      setRightBoxStyle(localStorage.getItem('rightBoxStyle') || 'modern');
-      setSessionTitle(localStorage.getItem('sessionTitle') || '4:30 PM');
-      setSessionDay(localStorage.getItem('sessionDay') || 'ညနေပိုင်း');
-      setCustomDate(localStorage.getItem('customDate') || '05-10-2026');
-      setPitThee(localStorage.getItem('pitThee') || '5-3-2');
-      setMainNum(localStorage.getItem('mainNum') || '53-57-39');
-      setSubNum(localStorage.getItem('subNum') || '35-23-25');
-      setHorThout(localStorage.getItem('horThout') || '5-9-8');
+  // Server (API) ထံမှ ဆက်တင်များကို ဝင်ဆွဲရန် ဖန်ရှင်
+  const fetchSettings = async () => {
+    try {
+      const res = await fetch('/api/settings');
+      if (res.ok) {
+        const settings = await res.json();
+        if (settings && Object.keys(settings).length > 0) {
+          if (settings.phoneWidth) setPhoneWidth(settings.phoneWidth);
+          if (settings.phoneHeight) setPhoneHeight(settings.phoneHeight);
+          if (settings.liveFontSize) setLiveFontSize(settings.liveFontSize);
+          if (settings.resultTextSize) setResultTextSize(settings.resultTextSize);
+          if (settings.contentGap) setContentGap(settings.contentGap);
+          if (settings.sideCardWidth) setSideCardWidth(settings.sideCardWidth);
+          if (settings.sideFontSize) setSideFontSize(settings.sideFontSize);
+          if (settings.sideValFontSize) setSideValFontSize(settings.sideValFontSize);
+          if (settings.sideCardPadding) setSideCardPadding(settings.sideCardPadding);
+          if (settings.leftBoxStyle) setLeftBoxStyle(settings.leftBoxStyle);
+          if (settings.rightBoxStyle) setRightBoxStyle(settings.rightBoxStyle);
+          if (settings.sessionTitle) setSessionTitle(settings.sessionTitle);
+          if (settings.sessionDay) setSessionDay(settings.sessionDay);
+          if (settings.customDate) setCustomDate(settings.customDate);
+          if (settings.pitThee) setPitThee(settings.pitThee);
+          if (settings.mainNum) setMainNum(settings.mainNum);
+          if (settings.subNum) setSubNum(settings.subNum);
+          if (settings.horThout) setHorThout(settings.horThout);
+        }
+      }
+    } catch (err) {
+      console.error("Failed to load settings:", err);
     }
-  }, []);
-
-  // အချက်အလက်များ Save သည့် ဖန်ရှင် (သိမ်းပြီးသည်နှင့် Refresh လုပ်ပေးမည်)
-  const handleSaveSettings = () => {
-    localStorage.setItem('phoneWidth', phoneWidth);
-    localStorage.setItem('phoneHeight', phoneHeight);
-    localStorage.setItem('liveFontSize', liveFontSize);
-    localStorage.setItem('resultTextSize', resultTextSize);
-    localStorage.setItem('contentGap', contentGap);
-    localStorage.setItem('sideCardWidth', sideCardWidth);
-    localStorage.setItem('sideFontSize', sideFontSize);
-    localStorage.setItem('sideValFontSize', sideValFontSize);
-    localStorage.setItem('sideCardPadding', sideCardPadding);
-    localStorage.setItem('leftBoxStyle', leftBoxStyle);
-    localStorage.setItem('rightBoxStyle', rightBoxStyle);
-    localStorage.setItem('sessionTitle', sessionTitle);
-    localStorage.setItem('sessionDay', sessionDay);
-    localStorage.setItem('customDate', customDate);
-    localStorage.setItem('pitThee', pitThee);
-    localStorage.setItem('mainNum', mainNum);
-    localStorage.setItem('subNum', subNum);
-    localStorage.setItem('horThout', horThout);
-
-    setSaveMessage(true);
-    setTimeout(() => {
-      setSaveMessage(false);
-      window.location.reload(); // သိမ်းပြီးပါက အလိုအလျောက် Refresh လုပ်ပေးမည်
-    }, 1000);
   };
 
-  // မူလအတိုင်း ပြန်လည် Reset လုပ်ရန် ဖန်ရှင်
-  const handleResetSettings = () => {
-    localStorage.clear();
-    window.location.reload();
+  // Page Load လုပ်ချိန်တွင် ဆက်တင်များနှင့် Live Data များကို ဆွဲထုတ်ရန်
+  useEffect(() => {
+    fetchSettings();
+    const settingsInterval = setInterval(fetchSettings, 5000); // 5 စက္ကန့်တစ်ကြိမ် Server ဆက်တင်အသစ် ရှိမရှိ စစ်မည်
+    return () => clearInterval(settingsInterval);
+  }, []);
+
+  // အချက်အလက်များ Save သည့် ဖန်ရှင် (Server အထိ လှမ်းသိမ်းမည်)
+  const handleSaveSettings = async () => {
+    const settingsData = {
+      phoneWidth, phoneHeight, liveFontSize, resultTextSize, contentGap,
+      sideCardWidth, sideFontSize, sideValFontSize, sideCardPadding,
+      leftBoxStyle, rightBoxStyle, sessionTitle, sessionDay,
+      customDate, pitThee, mainNum, subNum, horThout
+    };
+
+    try {
+      const res = await fetch('/api/settings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(settingsData)
+      });
+
+      if (res.ok) {
+        setSaveMessage(true);
+        setTimeout(() => {
+          setSaveMessage(false);
+          window.location.reload();
+        }, 1000);
+      } else {
+        alert('သိမ်းဆည်းရန် မအောင်မြင်ပါ။');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Network Error ဖြစ်ပွားနေပါသည်။');
+    }
+  };
+
+  // မူလအတိုင်း ပြန်လည် Reset လုပ်ရန်
+  const handleResetSettings = async () => {
+    const defaultData = {
+      phoneWidth: '380', phoneHeight: '820', liveFontSize: '4.5', resultTextSize: '1', contentGap: '4',
+      sideCardWidth: '480', sideFontSize: '2.8', sideValFontSize: '3', sideCardPadding: '20',
+      leftBoxStyle: 'modern', rightBoxStyle: 'modern', sessionTitle: '4:30 PM', sessionDay: 'ညနေပိုင်း',
+      customDate: '05-10-2026', pitThee: '5-3-2', mainNum: '53-57-39', subNum: '35-23-25', horThout: '5-9-8'
+    };
+
+    try {
+      await fetch('/api/settings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(defaultData)
+      });
+      window.location.reload();
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   useEffect(() => {
@@ -106,9 +139,9 @@ export default function Home() {
       hours = hours ? hours : 12;
       const formattedHours = String(hours).padStart(2, '0');
 
-      setCurrentTime(`${formattedHours}:${minutes}:${seconds} ${ampm}`);
+      setCurrentTime(`${formattedHours}:${minutes}:${seconds}${ampm}`);
 
-      if (!manualSession && !localStorage.getItem('sessionTitle')) {
+      if (!manualSession) {
         if (myanmarTime.getHours() < 13) {
           setSessionTitle("12:01 PM");
           setSessionDay("မနက်ပိုင်း");
@@ -177,7 +210,7 @@ export default function Home() {
       {showAdmin && (
         <div className="admin-panel">
           <div className="admin-header-fixed">
-            <h3>📌 Manual ချိန်ညှိရန် (Save လုပ်နိုင်သည်)</h3>
+            <h3>📌 Manual ချိန်ညှိရန် (Server သို့ သိမ်းမည်)</h3>
             <div className="save-action-box">
               <button className="save-btn" onClick={handleSaveSettings}>💾 သိမ်းဆည်းမည် (Save)</button>
               <button className="reset-btn" onClick={handleResetSettings}>🔄 မူလ</button>
@@ -218,7 +251,7 @@ export default function Home() {
             <div className="input-group"><label>ခေါင်းစဉ် Font အရွယ်:</label><input type="range" min="1.5" max="4" step="0.1" value={sideFontSize} onChange={(e) => setSideFontSize(e.target.value)} /><span>{sideFontSize}rem</span></div>
             <div className="input-group"><label>တန်ဖိုး/ဂဏန်း Font:</label><input type="range" min="2" max="4.5" step="0.1" value={sideValFontSize} onChange={(e) => setSideValFontSize(e.target.value)} /><span>{sideValFontSize}rem</span></div>
 
-            <div className="section-title">✏️ စာသားများ ချိန်ရန်</div>
+            <div className="section-title">✏️️ စာသားများ ချိန်ရန်</div>
             <div className="input-group"><label>⏰ ပွဲစဉ်:</label><input type="text" value={sessionTitle} onChange={(e) => { setSessionTitle(e.target.value); setManualSession(true); }} /></div>
             <div className="input-group"><label>📅 နေ့/အမျိုးအစား:</label><input type="text" value={sessionDay} onChange={(e) => { setSessionDay(e.target.value); setManualSession(true); }} /></div>
             <div className="input-group"><label>ရက်စွဲ:</label><input type="text" value={customDate} onChange={(e) => setCustomDate(e.target.value)} /></div>
@@ -282,191 +315,4 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="bottom-section-group" style={{ gap: `${contentGap}px` }}>
-            <div className="cards-group" style={{ gap: `${contentGap}px` }}>
-              <div className="result-card-red">
-                <div className="card-title-top">12:01 PM Result</div>
-                <div className="card-sub-grid">
-                  <div className="sub-col">
-                    <span className="sub-label">SET</span>
-                    <span className="sub-val" style={{ fontSize: `${resultTextSize}rem` }}>{result12?.set || "--"}</span>
-                  </div>
-                  <div className="sub-col">
-                    <span className="sub-label">Value</span>
-                    <span className="sub-val" style={{ fontSize: `${resultTextSize}rem` }}>{result12?.value || "--"}</span>
-                  </div>
-                  <div className="sub-col">
-                    <span className="sub-label">2D</span>
-                    <span className="sub-val highlight-num" style={{ fontSize: `${resultTextSize * 1.15}rem` }}>{result12?.twod || "--"}</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="result-card-red">
-                <div className="card-title-top">4:30 PM Result</div>
-                <div className="card-sub-grid">
-                  <div className="sub-col">
-                    <span className="sub-label">SET</span>
-                    <span className="sub-val" style={{ fontSize: `${resultTextSize}rem` }}>{result1630?.set || "--"}</span>
-                  </div>
-                  <div className="sub-col">
-                    <span className="sub-label">Value</span>
-                    <span className="sub-val" style={{ fontSize: `${resultTextSize}rem` }}>{result1630?.value || "--"}</span>
-                  </div>
-                  <div className="sub-col">
-                    <span className="sub-label">2D</span>
-                    <span className="sub-val highlight-num" style={{ fontSize: `${resultTextSize * 1.15}rem` }}>{result1630?.twod || "--"}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="winner-promo-banner">
-              <span className="promo-icon">🎉</span>
-              <span className="promo-text">နေ့စဉ်ကံထူးရှင်များအတွက် လက်မလွှတ်တမ်းစောင့်ကြည့်ပါ</span>
-              <span className="promo-badge">WIN</span>
-            </div>
-
-            <div className="tip-card-box">
-              <span>💡 အချက်အလက်အမြန်ဆုံးကြည့်ရန် Channel ကို Subscribe လုပ်ပါ</span>
-            </div>
-
-            <div className="phone-subscribe-footer">
-              <span className="sub-icon">👍</span>
-              <span className="sub-text">LIKE & SUBSCRIBE</span>
-              <span className="sub-bell">🔔</span>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      {/* ညာဘက်ခြမ်း */}
-      <div className={`side-card right-card style-${rightBoxStyle}`} style={{ width: `${sideCardWidth}px`, padding: `${sideCardPadding}px` }}>
-        <div className="date-display-box" style={{ fontSize: `${sideFontSize}rem` }}>{customDate}</div>
-        
-        <div className="data-section-group">
-          <div className="purple-badge-wrapper">
-            <span className="purple-circle-badge" style={{ fontSize: `${sideFontSize * 0.4}rem` }}>ယနေ့အတွက်ပတ်သီး</span>
-          </div>
-          <div className="val-display-pro" style={{ fontSize: `${sideValFontSize}rem` }}>{pitThee}</div>
-        </div>
-
-        <div className="data-section-group">
-          <div className="purple-badge-wrapper">
-            <span className="purple-circle-badge" style={{ fontSize: `${sideFontSize * 0.4}rem` }}>မိန်း (Main)</span>
-          </div>
-          <div className="val-display-pro" style={{ fontSize: `${sideValFontSize}rem` }}>{mainNum}</div>
-        </div>
-
-        <div className="data-section-group">
-          <div className="purple-badge-wrapper">
-            <span className="purple-circle-badge" style={{ fontSize: `${sideFontSize * 0.4}rem` }}>အရံ (Sub)</span>
-          </div>
-          <div className="val-display-pro" style={{ fontSize: `${sideValFontSize}rem` }}>{subNum}</div>
-        </div>
-      </div>
-
-      <style jsx>{`
-        .stream-container {
-          width: 1920px; height: 1080px; background: linear-gradient(135deg, #ffdf40 0%, #ffbb00 100%);
-          display: flex; justify-content: space-between; align-items: center; padding: 20px 35px;
-          position: relative; font-family: 'Pyidaungsu', sans-serif; box-sizing: border-box; overflow: hidden;
-        }
-        .admin-toggle-btn { position: fixed; top: 20px; left: 20px; background: #000; color: #ffd700; border: none; padding: 10px 20px; font-weight: bold; border-radius: 8px; cursor: pointer; z-index: 99999; font-size: 1rem; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
-        
-        .admin-panel { position: fixed; top: 75px; left: 20px; background: #111; border: 2px solid #ffd700; border-radius: 12px; z-index: 99999; width: 380px; color: #fff; box-shadow: 0 10px 25px rgba(0,0,0,0.8); height: 82vh; display: flex; flex-direction: column; overflow: hidden; }
-        .admin-header-fixed { padding: 15px 15px 10px 15px; background: #111; border-bottom: 1px solid #333; flex-shrink: 0; }
-        .admin-header-fixed h3 { margin: 0 0 8px 0; color: #ffd700; font-size: 1rem; }
-        .admin-scrollable-content { padding: 10px 15px 15px 15px; overflow-y: auto; flex-grow: 1; }
-
-        .save-action-box { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; background: #222; padding: 6px 10px; border-radius: 8px; border: 1px dashed #555; }
-        .save-btn { background: #16a34a; color: #fff; border: none; padding: 6px 12px; font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 0.85rem; }
-        .reset-btn { background: #dc2626; color: #fff; border: none; padding: 6px 10px; font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 0.8rem; }
-        .save-alert { color: #4ade80; font-size: 0.8rem; font-weight: bold; width: 100%; text-align: center; }
-
-        .section-title { font-size: 0.85rem; color: #60a5fa; font-weight: bold; margin: 12px 0 6px 0; border-bottom: 1px dashed #444; padding-bottom: 3px; }
-        .input-group { display: flex; justify-content: space-between; margin-bottom: 8px; align-items: center; font-size: 0.85rem; }
-        .input-group label { color: #ccc; font-weight: bold; }
-        .input-group input[type="text"] { background: #222; border: 1px solid #555; color: #fff; padding: 4px 8px; border-radius: 4px; width: 48%; }
-        .input-group input[type="range"] { width: 38%; accent-color: #ffd700; }
-        .input-group span { color: #ffd700; font-weight: bold; font-size: 0.8rem; width: 45px; text-align: right; }
-        .select-style { background: #222; border: 1px solid #555; color: #ffd700; padding: 4px 8px; border-radius: 4px; width: 50%; font-weight: bold; }
-
-        /* Box Style Presets */
-        .side-card { display: flex; flex-direction: column; gap: 14px; box-shadow: 0 25px 50px rgba(0,0,0,0.2); transition: all 0.2s ease; box-sizing: border-box; }
-        
-        .style-modern { background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(12px); border: 4px solid #ffffff; border-radius: 26px; }
-        .style-modern .top-red-banner, .style-modern .date-display-box { background: linear-gradient(135deg, #e60000 0%, #990000 100%); color: #fff; border: 3px solid #ff6666; border-radius: 16px; text-align: center; font-weight: 900; padding: 12px; }
-        .style-modern .live-clock-box, .style-modern .horthout-box, .style-modern .data-section-group { background: #fff; border: 3px solid #e60000; border-radius: 16px; }
-        
-        .style-classic { background: #b91c1c; border: 6px solid #fef08a; border-radius: 12px; }
-        .style-classic .top-red-banner, .style-classic .date-display-box { background: #7f1d1d; color: #fef08a; border: 3px solid #fef08a; border-radius: 8px; text-align: center; font-weight: 900; padding: 12px; }
-        .style-classic .live-clock-box, .style-classic .horthout-box, .style-classic .data-section-group { background: #fef2f2; border: 3px solid #7f1d1d; border-radius: 8px; color: #7f1d1d; }
-
-        .style-neon { background: rgba(15, 23, 42, 0.85); border: 3px solid #38bdf8; border-radius: 20px; box-shadow: 0 0 25px rgba(56, 189, 248, 0.4); }
-        .style-neon .top-red-banner, .style-neon .date-display-box { background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); color: #e0f2fe; border: 2px solid #38bdf8; border-radius: 12px; text-align: center; font-weight: 900; padding: 12px; text-shadow: 0 0 8px rgba(56,189,248,0.6); }
-        .style-neon .live-clock-box, .style-neon .horthout-box, .style-neon .data-section-group { background: #1e293b; border: 2px solid #38bdf8; border-radius: 12px; color: #f8fafc; }
-        .style-neon .val-display-pro, .style-neon .ht-val { color: #38bdf8 !important; text-shadow: 0 0 10px rgba(56,189,248,0.5); }
-
-        .style-dark { background: #111827; border: 4px solid #4b5563; border-radius: 24px; }
-        .style-dark .top-red-banner, .style-dark .date-display-box { background: #374151; color: #f3f4f6; border: 2px solid #6b7280; border-radius: 14px; text-align: center; font-weight: 900; padding: 12px; }
-        .style-dark .live-clock-box, .style-dark .horthout-box, .style-dark .data-section-group { background: #1f2937; border: 2px solid #4b5563; border-radius: 14px; color: #fff; }
-        .style-dark .val-display-pro, .style-dark .ht-val { color: #facc15 !important; }
-
-        .top-red-banner { font-weight: 900; padding: 12px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-        .live-clock-box { font-weight: 900; padding: 12px; text-align: center; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        .red-label-box { background: linear-gradient(90deg, #e60000, #b30000); color: #fff; font-weight: 900; padding: 12px; border-radius: 12px; text-align: center; border: 2px solid #ff6666; }
-        .youtube-subscribe-tag { background: linear-gradient(90deg, #ff0000, #800000); color: #fff; font-weight: 900; padding: 10px; border-radius: 10px; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; border: 2px solid #ff8080; }
-        .horthout-box { padding: 10px 16px; text-align: center; display: flex; justify-content: space-between; align-items: center; }
-        .ht-label { background: #e60000; color: #fff; font-weight: 900; padding: 8px 14px; border-radius: 8px; }
-        .ht-val { font-weight: 900; color: #cc0000; flex: 1; text-align: center; letter-spacing: 3px; }
-
-        .date-display-box { font-weight: 900; padding: 12px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-        .data-section-group { padding: 12px 16px; display: flex; flex-direction: column; gap: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        .purple-badge-wrapper { text-align: center; margin-top: -28px; }
-        .purple-circle-badge { background: linear-gradient(135deg, #7c3aed 100%, #5b21b6 0%); color: #fff; font-weight: 900; padding: 6px 20px; border-radius: 20px; border: 2px solid #fff; box-shadow: 0 3px 8px rgba(124, 58, 237, 0.4); display: inline-block; }
-        .val-display-pro { font-weight: 900; color: #cc0000; text-align: center; letter-spacing: 4px; padding: 4px 0; }
-
-        .phone-container { background: #111827; border: 8px solid #1f2937; border-radius: 36px; padding: 6px; box-shadow: 0 25px 50px rgba(0,0,0,0.4); display: flex; flex-direction: column; box-sizing: border-box; transition: width 0.2s ease, height 0.2s ease; }
-        .phone-screen { background: #ffffff; border-radius: 28px; padding: 8px 12px; display: flex; flex-direction: column; justify-content: space-between; height: 100%; color: #000; box-sizing: border-box; overflow: hidden; }
-        .top-section-group { display: flex; flex-direction: column; }
-        .bottom-section-group { display: flex; flex-direction: column; }
-
-        .phone-status-bar { display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; font-weight: bold; }
-        .dynamic-island { width: 80px; height: 14px; background: #000; border-radius: 10px; }
-        .app-header-bar { background: #ffcc00; padding: 4px 10px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: 0.9rem; }
-        .app-logo { color: #000; font-weight: 900; }
-        .app-menu-icons { display: flex; gap: 4px; align-items: center; font-size: 0.75rem; }
-        .badge-2d { background: #16a34a; color: #fff; padding: 2px 5px; border-radius: 4px; font-size: 0.7rem; }
-        .badge-3d { background: #2563eb; color: #fff; padding: 2px 5px; border-radius: 4px; font-size: 0.7rem; }
-        
-        .live-status-pill { background: #f0fdf4; border: 1px solid #bbf7d0; color: #16a34a; font-size: 0.75rem; font-weight: 900; padding: 2px 8px; border-radius: 15px; display: flex; align-items: center; justify-content: center; gap: 5px; width: fit-content; margin: 0 auto; }
-        .pulsing-dot { width: 6px; height: 6px; background-color: #16a34a; border-radius: 50%; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.6); } 70% { box-shadow: 0 0 0 6px rgba(22, 163, 74, 0); } 100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0); } }
-
-        .live-main-display { font-weight: 900; color: #16a34a; text-align: center; line-height: 1; margin: 2px 0; text-shadow: 0 4px 15px rgba(22, 163, 74, 0.3); display: inline-block; width: 100%; }
-
-        .update-time-indicator-large { text-align: center; font-size: 0.85rem; color: #15803d; font-weight: 700; background: #f0fdf4; border: 1px solid #dcfce7; padding: 4px 8px; border-radius: 6px; }
-        .update-time-indicator-large strong { color: #166534; }
-        .separator { margin: 0 6px; color: #86efac; }
-
-        .cards-group { display: flex; flex-direction: column; }
-        .result-card-red { background: linear-gradient(135deg, #ff4d4d 0%, #e60000 100%); border-radius: 8px; padding: 4px 8px; color: #fff; border: 1px solid #ff8080; }
-        .card-title-top { text-align: center; font-weight: 900; font-size: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.4); padding-bottom: 1px; margin-bottom: 2px; }
-        .card-sub-grid { display: flex; justify-content: space-between; text-align: center; }
-        .sub-col { flex: 1; display: flex; flex-direction: column; }
-        .sub-label { font-size: 0.6rem; opacity: 0.9; font-weight: bold; }
-        .sub-val { font-weight: 900; }
-        .highlight-num { background: rgba(0,0,0,0.25); border-radius: 4px; padding: 1px 0; }
-
-        .winner-promo-banner { background: linear-gradient(135deg, #7c3aed 0%, #4c1d95 100%); color: #ffdf40; font-weight: 900; padding: 4px 8px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between; }
-        .promo-text { color: #fff; font-size: 0.62rem; text-align: center; flex: 1; }
-        .promo-badge { background: #ffdf40; color: #4c1d95; padding: 1px 5px; border-radius: 3px; font-size: 0.55rem; }
-
-        .tip-card-box { background: #fef3c7; border: 1px solid #fde68a; color: #92400e; font-size: 0.62rem; font-weight: bold; text-align: center; padding: 3px 6px; border-radius: 6px; }
-        .phone-subscribe-footer { background: linear-gradient(90deg, #e60000, #990000); color: #fff; border-radius: 6px; padding: 5px; display: flex; justify-content: center; align-items: center; gap: 6px; font-weight: 900; font-size: 0.75rem; }
-      `}</style>
-    </div>
-  );
-}
+          <div className="bottom-section-group" style={{ gap: `${
