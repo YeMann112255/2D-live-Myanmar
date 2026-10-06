@@ -130,7 +130,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* အလယ် ဖုန်းပုံစံ (အလျားကို တိုစေပြီး အံဝင်ခွင်ကျဖြစ်အောင် ဖွဲ့စည်းထားသည်) */}
+      {/* အလယ် ဖုန်းပုံစံ (ဖုန်းစခရင်ကို ပိုကြီးအောင် ချဲ့ထားသည်) */}
       <div className="phone-container">
         <div className="phone-screen">
           
@@ -167,7 +167,7 @@ export default function Home() {
             </div>
           </div>
 
-          {/* အောက်ပိုင်း Result နှင့် အချက်အလက်များ */}
+          {/* အောက်ပိုင်း Result နှင့် အချက်အလက်များ (Pro ဆန်ဆန် ကြီးမားထင်ရှားစေရန် ဖွဲ့စည်းထားသည်) */}
           <div className="bottom-section-group">
             <div className="cards-group">
               <div className="result-card-red">
@@ -256,7 +256,7 @@ export default function Home() {
       <style jsx>{`
         .stream-container {
           width: 1920px; height: 1080px; background: linear-gradient(135deg, #ffdf40 0%, #ffbb00 100%);
-          display: flex; justify-content: space-between; align-items: center; padding: 25px 35px;
+          display: flex; justify-content: space-between; align-items: center; padding: 20px 35px;
           position: relative; font-family: 'Pyidaungsu', sans-serif; box-sizing: border-box; overflow: hidden;
         }
         .admin-toggle-btn { position: fixed; top: 20px; left: 20px; background: #000; color: #ffd700; border: none; padding: 10px 20px; font-weight: bold; border-radius: 8px; cursor: pointer; z-index: 99999; font-size: 1rem; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
@@ -281,38 +281,31 @@ export default function Home() {
         .purple-circle-badge { background: linear-gradient(135deg, #7c3aed 100%, #5b21b6 0%); color: #fff; font-size: 1.4rem; font-weight: 900; padding: 8px 28px; border-radius: 30px; border: 3px solid #fff; box-shadow: 0 4px 10px rgba(124, 58, 237, 0.4); display: inline-block; }
         .val-display-pro { font-size: 3.4rem; font-weight: 900; color: #cc0000; text-align: center; letter-spacing: 5px; padding: 6px 0; }
 
-        /* ဖုန်းဖရိန် အမြင့်ကို ထပ်မံတိုစေပြီး အံဝင်ခွင်ကျဖြစ်အောင် ပြင်ဆင်ထားသည် (780px) */
-        .phone-container { width: 380px; height: 780px; background: #111827; border: 8px solid #1f2937; border-radius: 36px; padding: 6px; box-shadow: 0 30px 70px rgba(0,0,0,0.4); display: flex; flex-direction: column; box-sizing: border-box; }
+        /* ဖုန်းဖရိန် အမြင့်ကို 940px အထိ ချဲ့ပေးထားပြီး Live ဂဏန်းနှင့် Result Box များကို ပိုမိုကြီးမားထင်ရှားစေသည် */
+        .phone-container { width: 420px; height: 940px; background: #111827; border: 10px solid #1f2937; border-radius: 42px; padding: 8px; box-shadow: 0 30px 70px rgba(0,0,0,0.4); display: flex; flex-direction: column; box-sizing: border-box; }
         
-        .phone-screen { background: #ffffff; border-radius: 28px; padding: 6px 10px; display: flex; flex-direction: column; justify-content: space-between; height: 100%; color: #000; box-sizing: border-box; }
+        .phone-screen { background: #ffffff; border-radius: 32px; padding: 10px 14px; display: flex; flex-direction: column; justify-content: space-between; height: 100%; color: #000; box-sizing: border-box; }
         
-        .top-section-group { display: flex; flex-direction: column; gap: 2px; }
-        .bottom-section-group { display: flex; flex-direction: column; gap: 3px; }
+        .top-section-group { display: flex; flex-direction: column; gap: 8px; }
+        .bottom-section-group { display: flex; flex-direction: column; gap: 8px; }
 
-        .phone-status-bar { display: flex; justify-content: space-between; align-items: center; font-size: 0.7rem; font-weight: bold; }
-        .dynamic-island { width: 80px; height: 14px; background: #000; border-radius: 10px; }
-        .app-header-bar { background: #ffcc00; padding: 3px 8px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: 0.85rem; }
+        .phone-status-bar { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; font-weight: bold; }
+        .dynamic-island { width: 90px; height: 18px; background: #000; border-radius: 12px; }
+        .app-header-bar { background: #ffcc00; padding: 6px 12px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: 1rem; }
         .app-logo { color: #000; font-weight: 900; }
-        .app-menu-icons { display: flex; gap: 3px; align-items: center; font-size: 0.7rem; }
-        .badge-2d { background: #16a34a; color: #fff; padding: 1px 4px; border-radius: 3px; font-size: 0.6rem; }
-        .badge-3d { background: #2563eb; color: #fff; padding: 1px 4px; border-radius: 3px; font-size: 0.6rem; }
+        .app-menu-icons { display: flex; gap: 6px; align-items: center; font-size: 0.85rem; }
+        .badge-2d { background: #16a34a; color: #fff; padding: 2px 6px; border-radius: 4px; font-size: 0.75rem; }
+        .badge-3d { background: #2563eb; color: #fff; padding: 2px 6px; border-radius: 4px; font-size: 0.75rem; }
         
-        .live-status-pill { background: #f0fdf4; border: 1px solid #bbf7d0; color: #16a34a; font-size: 0.65rem; font-weight: 900; padding: 1px 6px; border-radius: 20px; display: flex; align-items: center; justify-content: center; gap: 5px; width: fit-content; margin: 0 auto; }
-        .pulsing-dot { width: 6px; height: 6px; background-color: #16a34a; border-radius: 50%; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.6); } 70% { box-shadow: 0 0 0 5px rgba(22, 163, 74, 0); } 100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0); } }
+        .live-status-pill { background: #f0fdf4; border: 1px solid #bbf7d0; color: #16a34a; font-size: 0.8rem; font-weight: 900; padding: 3px 10px; border-radius: 20px; display: flex; align-items: center; justify-content: center; gap: 6px; width: fit-content; margin: 0 auto; }
+        .pulsing-dot { width: 8px; height: 8px; background-color: #16a34a; border-radius: 50%; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.6); } 70% { box-shadow: 0 0 0 6px rgba(22, 163, 74, 0); } 100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0); } }
 
-        .live-main-display { font-size: 3.8rem; font-weight: 900; color: #16a34a; text-align: center; line-height: 1; margin: 2px 0; text-shadow: 0 4px 10px rgba(22, 163, 74, 0.2); display: inline-block; width: 100%; animation: heartbeat 1.2s infinite; }
+        .live-main-display { font-size: 5.5rem; font-weight: 900; color: #16a34a; text-align: center; line-height: 1; margin: 6px 0; text-shadow: 0 4px 15px rgba(22, 163, 74, 0.3); display: inline-block; width: 100%; animation: heartbeat 1.2s infinite; }
         @keyframes heartbeat { 0% { transform: scale(1); } 25% { transform: scale(1.05); } 40% { transform: scale(0.97); } 60% { transform: scale(1.02); } 100% { transform: scale(1); } }
 
-        .update-time-indicator-large { text-align: center; font-size: 0.75rem; color: #15803d; font-weight: 700; background: #f0fdf4; border: 1px solid #dcfce7; padding: 2px 4px; border-radius: 5px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-        .update-time-indicator-large strong { color: #166534; font-size: 0.85rem; }
-        .separator { margin: 0 5px; color: #86efac; }
+        .update-time-indicator-large { text-align: center; font-size: 0.95rem; color: #15803d; font-weight: 700; background: #f0fdf4; border: 1px solid #dcfce7; padding: 6px 10px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .update-time-indicator-large strong { color: #166534; font-size: 1.05rem; }
+        .separator { margin: 0 8px; color: #86efac; }
 
-        .cards-group { display: flex; flex-direction: column; gap: 3px; }
-        .result-card-red { background: linear-gradient(135deg, #ff4d4d 0%, #e60000 100%); border-radius: 6px; padding: 3px 6px; color: #fff; box-shadow: 0 2px 6px rgba(230,0,0,0.3); }
-        .card-title-top { text-align: center; font-weight: 900; font-size: 0.7rem; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 1px; margin-bottom: 1px; }
-        .card-sub-grid { display: flex; justify-content: space-between; text-align: center; }
-        .sub-col { flex: 1; display: flex; flex-direction: column; }
-        .sub-label { font-size: 0.5rem; opacity: 0.9; font-weight: bold; }
-        .sub-val { font-size: 0.85rem; font-weight: 900; }
-        
+        .cards-group { display: flex
