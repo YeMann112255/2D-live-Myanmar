@@ -9,7 +9,6 @@ export default function Home() {
   const [data, setData] = useState(null);
   const [showAdmin, setShowAdmin] = useState(false);
   const [saveMessage, setSaveMessage] = useState(false);
-  const [audioEnabled, setAudioEnabled] = useState(false);
 
   const handleAdminToggle = () => {
     if (!showAdmin) {
@@ -66,10 +65,10 @@ export default function Home() {
   const [subNum, setSubNum] = useState('35-23-25');
   const [horThout, setHorThout] = useState('5-9-8');
 
-  // AI Host & Loop Audio States (မြန်မာလို ပီသစေရန် စာသားကို တိုက်ရိုက်ပြင်ဆင်ထားသည်)
-  const [enableAvatar, setEnableAvatar] - useState(true);
-  const [avatarStatusText, setAvatarStatusText] = useState('မင်္ဂလာပါခင်ဗျာ၊ ယနေ့အတွက် နှစ်ဒီ တိုက်ရိုက်အချက်အလက်များကို တင်ဆက်ပေးနေပါတယ်...');
-  const [enableLoopVoice, setEnableLoopVoice] = useState(true);
+  // AI Host & Live Text States (အသံမပါတော့ဘဲ စာသားဖြင့်သာ တင်ဆက်ရန်)
+  const [enableAvatar, setEnableAvatar] = useState(true);
+  const [avatarStatusText, setAvatarStatusText] = useState('ယနေ့အတွက် 2D တိုက်ရိုက်အချက်အလက်များကို အချိန်နဲ့တစ်ပြေးညီ တင်ဆက်ပေးနေပါသည်ခင်ဗျာ...');
+  const [hostImageSize, setHostImageSize] = useState('180');
 
   const [customItems, setCustomItems] = useState([
     { 
@@ -138,7 +137,7 @@ export default function Home() {
         if (s.customItems !== undefined) setCustomItems(s.customItems);
         if (s.avatarStatusText !== undefined) setAvatarStatusText(s.avatarStatusText);
         if (s.enableAvatar !== undefined) setEnableAvatar(s.enableAvatar);
-        if (s.enableLoopVoice !== undefined) setEnableLoopVoice(s.enableLoopVoice);
+        if (s.hostImageSize !== undefined) setHostImageSize(s.hostImageSize);
       }
     } catch (err) {
       console.error('Failed to load settings:', err);
@@ -151,42 +150,6 @@ export default function Home() {
     return () => clearInterval(syncInterval);
   }, []);
 
-  // Text-to-Speech Voice Loop (အင်္ဂလိပ် '2D' ကို 'နှစ်ဒီ' ဟု အစားထိုးဖတ်ခိုင်းခြင်းဖြင့် မြန်မာလို ပီသစေရန်)
-  useEffect(() => {
-    if (!enableLoopVoice || !enableAvatar) return;
-
-    let isSpeaking = false;
-    const speakLoopText = () => {
-      if (!isSpeaking && 'speechSynthesis' in window && avatarStatusText) {
-        isSpeaking = true;
-        window.speechSynthesis.cancel(); 
-        
-        // စာသားထဲပါသော 2D ကို မြန်မာလို 'နှစ်ဒီ' ဟု အသံထွက်စေရန် အစားထိုးခြင်း
-        const safeText = avatarStatusText.replace(/2D/g, 'နှစ်ဒီ').replace(/3D/g, 'သုံးဒီ');
-        const utterance = new SpeechSynthesisUtterance(safeText);
-        utterance.lang = 'my-MM';
-        utterance.rate = 0.9; 
-        utterance.pitch = 1.0;
-        
-        utterance.onend = () => { isSpeaking = false; };
-        utterance.onerror = () => { isSpeaking = false; };
-
-        window.speechSynthesis.speak(utterance);
-      }
-    };
-
-    const timer = setTimeout(speakLoopText, 1000);
-    const loopInterval = setInterval(speakLoopText, 15000);
-
-    return () => {
-      clearTimeout(timer);
-      clearInterval(loopInterval);
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-      }
-    };
-  }, [enableLoopVoice, enableAvatar, avatarStatusText]);
-
   const handleSaveSettings = async () => {
     const newSettings = {
       phoneModel, phoneWidth, phoneHeight, bgType, bgColor1, bgColor2,
@@ -195,7 +158,7 @@ export default function Home() {
       sideCardWidth, sideFontSize, sideValFontSize, sideCardPadding, sideCardGap,
       leftBoxStyle, rightBoxStyle, marqueeText, marqueeSpeed, marqueeBg, marqueeColor, marqueeFontSize,
       sessionTitle, sessionDay, customDate, pitThee, mainNum, subNum, horThout, customItems,
-      avatarStatusText, enableAvatar, enableLoopVoice
+      avatarStatusText, enableAvatar, hostImageSize
     };
 
     try {
@@ -336,12 +299,7 @@ export default function Home() {
   };
 
   return (
-    <div className="stream-container" style={customBgStyle} onClick={() => {
-      if (!audioEnabled && 'speechSynthesis' in window) {
-        setAudioEnabled(true);
-        window.speechSynthesis.resume();
-      }
-    }}>
+    <div className="stream-container" style={customBgStyle}>
       <Head>
         <title>2D LIVE MYANMAR - Ultimate Custom Pro with Big AI Host</title>
       </Head>
@@ -362,17 +320,17 @@ export default function Home() {
           </div>
 
           <div className="admin-scrollable-content">
-            <div className="section-title">🤖 AI Host & Loop Voice ဆက်တင်များ</div>
+            <div className="section-title">🤖 AI Host & Live Text ဆက်တင်များ</div>
             <div className="input-group">
               <label>AI Host ကြီးပြရန်:</label>
               <input type="checkbox" checked={enableAvatar} onChange={(e) => setEnableAvatar(e.target.checked)} style={{ width: '20px', height: '20px', accentColor: '#22c55e', cursor: 'pointer' }} />
             </div>
             <div className="input-group">
-              <label>အသံထွက်စနစ် (Loop Voice):</label>
-              <input type="checkbox" checked={enableLoopVoice} onChange={(e) => setEnableLoopVoice(e.target.checked)} style={{ width: '20px', height: '20px', accentColor: '#22c55e', cursor: 'pointer' }} />
+              <label>AI Host ပုံအရွယ်အစား:</label>
+              <input type="range" min="120" max="320" value={hostImageSize} onChange={(e) => setHostImageSize(e.target.value)} /><span>{hostImageSize}px</span>
             </div>
             <div className="input-group" style={{ flexDirection: 'column', alignItems: 'stretch', gap: '5px' }}>
-              <label>Host ပြောမည့် စာသားအပြည့်အစုံ:</label>
+              <label>ဘေးတွင်ပြမည့် တင်ဆက်မှု စာသား:</label>
               <textarea 
                 value={avatarStatusText} 
                 onChange={(e) => setAvatarStatusText(e.target.value)} 
@@ -511,11 +469,11 @@ export default function Home() {
         </div>
       </div>
 
-      {/* အလယ် ဖုန်းပုံစံ နှင့် ဘေးပတ်လည်တွင် ကြီးမားသော AI Host */}
+      {/* အလယ် ဖုန်းပုံစံ နှင့် ဘေးပတ်လည်တွင် ကြီးမားသော AI Host (ဘောက်စ်များကို အုပ်မိုးနိုင်ရန် ဇယားအလွှာမြှင့်ထားသည်) */}
       <div className="center-stream-wrapper">
         {enableAvatar && (
           <div className="big-ai-host-floating-box">
-            <div className="big-avatar-circle-frame">
+            <div className="big-avatar-circle-frame" style={{ width: `${hostImageSize}px`, height: `${hostImageSize}px` }}>
               <video 
                 src="/ai-host.mp4" 
                 autoPlay 
@@ -526,7 +484,7 @@ export default function Home() {
               />
             </div>
             <div className="big-avatar-speech-bubble">
-              <span className="host-title-big">🎙 AI Live Host ဧည့်ခံသူ:</span>
+              <span className="host-title-big">🎙 AI Host:</span>
               <p>{avatarStatusText}</p>
             </div>
           </div>
@@ -672,18 +630,22 @@ export default function Home() {
         .admin-item-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; border-bottom: 1px solid #333; padding-bottom: 4px; font-size: 0.8rem; }
         .del-btn { background: #dc2626; color: #fff; border: none; padding: 3px 8px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 0.75rem; }
 
-        .center-stream-wrapper { display: flex; align-items: center; gap: 20px; justify-content: center; }
+        .center-stream-wrapper { display: flex; align-items: center; gap: 20px; justify-content: center; position: relative; z-index: 50; }
+        
+        /* ကြီးမားသော AI Host ပုံနှင့် ဘေးမှ အနေတော်စာသားဘောက်စ် (ဘေးဘောက်စ်များကို အုပ်မိုးစေရန် z-index မြှင့်ထားသည်) */
         .big-ai-host-floating-box { 
           display: flex; flex-direction: column; align-items: center; gap: 10px; 
-          background: rgba(255, 255, 255, 0.95); padding: 15px; border-radius: 20px; 
-          border: 3px solid #16a34a; box-shadow: 0 15px 35px rgba(0,0,0,0.3); width: 220px; text-align: center; 
+          background: rgba(255, 255, 255, 0.98); padding: 18px; border-radius: 20px; 
+          border: 3px solid #16a34a; box-shadow: 0 20px 45px rgba(0,0,0,0.4); 
+          width: 250px; text-align: center; position: absolute; left: -140px; top: 50%; 
+          transform: translateY(-50%); z-index: 100; 
         }
-        .big-avatar-circle-frame { width: 120px; height: 120px; border-radius: 50%; overflow: hidden; border: 4px solid #16a34a; background: #fff; }
-        .big-avatar-speech-bubble { display: flex; flex-direction: column; gap: 4px; }
-        .host-title-big { font-size: 0.85rem; font-weight: 900; color: #15803d; }
-        .big-avatar-speech-bubble p { margin: 0; font-size: 0.85rem; color: #1f2937; font-weight: bold; line-height: 1.3; }
+        .big-avatar-circle-frame { border-radius: 50%; overflow: hidden; border: 4px solid #16a34a; background: #fff; box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
+        .big-avatar-speech-bubble { display: flex; flex-direction: column; gap: 4px; width: 100%; }
+        .host-title-big { font-size: 0.8rem; font-weight: 900; color: #15803d; }
+        .big-avatar-speech-bubble p { margin: 0; font-size: 0.85rem; color: #1f2937; font-weight: bold; line-height: 1.35; }
 
-        .phone-container { background: #111; display: flex; flex-direction: column; box-sizing: border-box; transition: width 0.2s, height 0.2s; box-shadow: 0 25px 50px rgba(0,0,0,0.5); }
+        .phone-container { background: #111; display: flex; flex-direction: column; box-sizing: border-box; transition: width 0.2s, height 0.2s; box-shadow: 0 25px 50px rgba(0,0,0,0.5); z-index: 20; }
         .model-iphone { border: 10px solid #1f2937; border-radius: 40px; }
         .model-samsung { border: 6px solid #374151; border-radius: 24px; }
         .model-redmi { border: 4px solid #4b5563; border-radius: 12px; }
@@ -735,7 +697,7 @@ export default function Home() {
         .winner-promo-banner { color: #fff; font-weight: 900; border-radius: 6px; text-align: center; }
         .phone-subscribe-footer { background: linear-gradient(90deg, #e60000, #990000); color: #fff; border-radius: 6px; padding: 6px; text-align: center; font-weight: 900; font-size: 0.8rem; }
 
-        .side-card { display: flex; flex-direction: column; box-shadow: 0 25px 50px rgba(0,0,0,0.2); box-sizing: border-box; }
+        .side-card { display: flex; flex-direction: column; box-shadow: 0 25px 50px rgba(0,0,0,0.2); box-sizing: border-box; z-index: 10; }
         
         .style-modern { background: rgba(255, 255, 255, 0.55); backdrop-filter: blur(12px); border: 4px solid #ffffff; border-radius: 26px; }
         .style-modern .top-red-banner, .style-modern .date-display-box { background: linear-gradient(135deg, #e60000 0%, #990000 100%); color: #fff; border: 3px solid #ff6666; border-radius: 16px; text-align: center; font-weight: 900; padding: 14px; }
