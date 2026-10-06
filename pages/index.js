@@ -10,6 +10,7 @@ export default function Home() {
   const [data, setData] = useState(null);
   const [showAdmin, setShowAdmin] = useState(false);
   const [saveMessage, setSaveMessage] = useState(false);
+  const [audioEnabled, setAudioEnabled] = useState(false); // User အသံဖွင့်ရန် ခလုတ်အတွက်
 
   const handleAdminToggle = () => {
     if (!showAdmin) {
@@ -69,7 +70,7 @@ export default function Home() {
   // AI Host & Loop Audio States
   const [enableAvatar, setEnableAvatar] = useState(true);
   const [avatarStatusText, setAvatarStatusText] = useState('မင်္ဂလာပါခင်ဗျာ၊ ယနေ့အတွက် 2D တိုက်ရိုက်အချက်အလက်များကို တင်ဆက်ပေးနေပါတယ်...');
-  const [enableLoopVoice, setEnableLoopVoice] = useState(false); // User တွေပါ အသံကြားမည့် Loop စနစ်
+  const [enableLoopVoice, setEnableLoopVoice] = useState(false);
 
   const [customItems, setCustomItems] = useState([
     { 
@@ -94,7 +95,6 @@ export default function Home() {
   const [newItemPadding, setNewItemPadding] = useState('8');
   const [newItemMarginTop, setNewItemMarginTop] = useState('0');
 
-  // Load Settings and Loop Speech Sync from JSONBin
   const fetchSettings = async () => {
     try {
       const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
@@ -138,7 +138,7 @@ export default function Home() {
         if (s.horThout) setHorThout(s.horThout);
         if (s.customItems) setCustomItems(s.customItems);
         if (s.avatarStatusText) setAvatarStatusText(s.avatarStatusText);
-        if (s.enableLoopVoice !== undefined) setenableLoopVoice(s.enableLoopVoice);
+        if (s.enableLoopVoice !== undefined) setEnableLoopVoice(s.enableLoopVoice);
       }
     } catch (err) {
       console.error('Failed to load settings:', err);
@@ -147,14 +147,13 @@ export default function Home() {
 
   useEffect(() => {
     fetchSettings();
-    // ၅ စက္ကန့်တစ်ကြိမ် Server ထဲက စာသားအပြောင်းအလဲများကို လှမ်းယူမည် (User များအတွက် sync ဖြစ်စေရန်)
     const syncInterval = setInterval(fetchSettings, 5000);
     return () => clearInterval(syncInterval);
   }, []);
 
-  // Text-to-Speech Loop for Live Streaming Viewers & Admin
+  // Text-to-Speech Loop (User က အသံဖွင့်ခလုတ် နှိပ်ထားမှသာ အလုပ်လုပ်မည်)
   useEffect(() => {
-    if (!enableLoopVoice) return;
+    if (!enableLoopVoice || !audioEnabled) return;
 
     let isSpeaking = false;
     const speakLoopText = () => {
@@ -164,19 +163,15 @@ export default function Home() {
         utterance.lang = 'my-MM';
         utterance.rate = 1.0;
         
-        utterance.onend = () => {
-          isSpeaking = false;
-        };
-        utterance.onerror = () => {
-          isSpeaking = false;
-        };
+        utterance.onend = () => { isSpeaking = false; };
+        utterance.onerror = () => { isSpeaking = false; };
 
         window.speechSynthesis.speak(utterance);
       }
     };
 
     speakLoopText();
-    const loopInterval = setInterval(speakLoopText, 15000); // ၁၅ စက္ကန့်တစ်ကြိမ် စာသားကို အသံထွက်ဖြင့် ပြန်ပြောမည် (Loop)
+    const loopInterval = setInterval(speakLoopText, 15000);
 
     return () => {
       clearInterval(loopInterval);
@@ -184,7 +179,7 @@ export default function Home() {
         window.speechSynthesis.cancel();
       }
     };
-  }, [enableLoopVoice, avatarStatusText]);
+  }, [enableLoopVoice, audioEnabled, avatarStatusText]);
 
   const handleSaveSettings = async () => {
     const newSettings = {
@@ -209,9 +204,7 @@ export default function Home() {
 
       if (response.ok) {
         setSaveMessage(true);
-        setTimeout(() => {
-          setSaveMessage(false);
-        }, 1500);
+        setTimeout(() => setSaveMessage(false), 1500);
       } else {
         alert('သိမ်းဆည်းရန် မအောင်မြင်ပါ');
       }
@@ -222,14 +215,8 @@ export default function Home() {
   };
 
   const handleAddItem = () => {
-    if (!newItemTitle && newItemType === 'box') {
-      alert('Box ခေါင်းစဉ် ထည့်ပါ။');
-      return;
-    }
-    if (!newItemTitle && newItemType === 'banner') {
-      alert('Banner စာသား ထည့်ပါ။');
-      return;
-    }
+    if (!newItemTitle && newItemType === 'box') { alert('Box ခေါင်းစဉ် ထည့်ပါ။'); return; }
+    if (!newItemTitle && newItemType === 'banner') { alert('Banner စာသား ထည့်ပါ။'); return; }
     const newItem = {
       id: Date.now(),
       type: newItemType,
@@ -267,14 +254,8 @@ export default function Home() {
       try {
         const res = await fetch(api);
         const json = await res.json();
-        if (json) {
-          setData(json);
-          fetched = true;
-          break;
-        }
-      } catch (err) {
-        continue;
-      }
+        if (json) { setData(json); fetched = true; break; }
+      } catch (err) { continue; }
     }
 
     if (!fetched) {
@@ -282,9 +263,7 @@ export default function Home() {
         const resInternal = await fetch('/api/live');
         const jsonInternal = await resInternal.json();
         setData(jsonInternal);
-      } catch (e) {
-        console.error('All live data sources failed:', e);
-      }
+      } catch (e) { console.error('All live data sources failed:', e); }
     }
   };
 
@@ -314,7 +293,6 @@ export default function Home() {
 
     updateDateTime();
     const timeInterval = setInterval(updateDateTime, 1000);
-    
     fetchData();
     const dataInterval = setInterval(fetchData, 3000);
 
@@ -354,8 +332,19 @@ export default function Home() {
   return (
     <div className="stream-container" style={customBgStyle}>
       <Head>
-        <title>2D LIVE MYANMAR - Ultimate Custom Pro with AI Host & Loop Voice</title>
+        <title>2D LIVE MYANMAR - Ultimate Custom Pro with Big AI Host</title>
       </Head>
+
+      {/* ဝင်ရောက်လာသူများ အသံထွက်စေရန် အစမ်းခလုတ် (Browser Audio Policy ဖြေရှင်းရန်) */}
+      {!audioEnabled && (
+        <div className="audio-prompt-overlay" onClick={() => setAudioEnabled(true)}>
+          <div className="audio-prompt-box">
+            <h2>🔊 2D Live သို့ ကြိုဆိုပါတယ်</h2>
+            <p>အသံနှင့် AI Host အပြည့်အစုံ ကြည့်ရှုရန် ဤနေရာကို နှိပ်ပါ</p>
+            <button className="enable-audio-btn">စတင်ရန် (Click to Start)</button>
+          </div>
+        </div>
+      )}
 
       <button className="admin-toggle-btn" onClick={handleAdminToggle}>
         {showAdmin ? "❌ Control Panel ပိတ်မည်" : "⚙️ Pro Control Panel ဖွင့်မည်"}
@@ -375,12 +364,12 @@ export default function Home() {
           <div className="admin-scrollable-content">
             <div className="section-title">🤖 AI Host & Loop Voice ဆက်တင်များ</div>
             <div className="input-group">
-              <label>AI Host ပြရန်:</label>
+              <label>AI Host ကြီးပြရန်:</label>
               <input type="checkbox" checked={enableAvatar} onChange={(e) => setEnableAvatar(e.target.checked)} style={{ width: '20px', height: '20px', accentColor: '#22c55e', cursor: 'pointer' }} />
             </div>
             <div className="input-group">
               <label>ဝင်ကြည့်သူများပါ အသံကြားမည့် Loop စနစ်:</label>
-              <input type="checkbox" checked={enableLoopVoice} onChange={(e) => setenableLoopVoice(e.target.checked)} style={{ width: '20px', height: '20px', accentColor: '#22c55e', cursor: 'pointer' }} />
+              <input type="checkbox" checked={enableLoopVoice} onChange={(e) => setEnableLoopVoice(e.target.checked)} style={{ width: '20px', height: '20px', accentColor: '#22c55e', cursor: 'pointer' }} />
             </div>
             <div className="input-group" style={{ flexDirection: 'column', alignItems: 'stretch', gap: '5px' }}>
               <label>Host အမြဲပြောမည့် စာသား (Loop text):</label>
@@ -407,7 +396,7 @@ export default function Home() {
             {bgType === 'gradient' && (
               <div className="input-group">
                 <label>အရောင် (၂):</label>
-                <input type="color" value={bgColor2} onChange={(e) => setbgColor2(e.target.value)} style={{ width: '45px', height: '26px', border: 'none', background: 'none', cursor: 'pointer' }} />
+                <input type="color" value={bgColor2} onChange={(e) => setBgColor2(e.target.value)} style={{ width: '45px', height: '26px', border: 'none', background: 'none', cursor: 'pointer' }} />
                 <span>{bgColor2}</span>
               </div>
             )}
@@ -508,7 +497,7 @@ export default function Home() {
         </div>
       )}
 
-      {/* ဘယ်ဘက်ခြမ်း */}
+      {/* ဘယ်ဘက်ခြမ်း (AI Host ကြီးကို ဤနေရာမှ ဖြုတ်ထုတ်လိုက်ပြီး သီးသန့် အပြင်ဘက်သို့ ထုတ်ထားသည်) */}
       <div className={`side-card left-card style-${leftBoxStyle}`} style={{ width: `${sideCardWidth}px`, padding: `${sideCardPadding}px`, gap: `${sideCardGap}px` }}>
         <div className="top-red-banner" style={{ fontSize: `${sideFontSize}rem` }}>{sessionTitle}</div>
         <div className="live-clock-box" style={{ fontSize: `${sideFontSize * 0.75}rem` }}>{currentTime}</div>
@@ -520,10 +509,13 @@ export default function Home() {
           <span className="ht-label" style={{ fontSize: `${sideFontSize * 0.45}rem` }}>ဟောထိပ်</span>
           <span className="ht-val" style={{ fontSize: `${sideValFontSize}rem` }}>{horThout}</span>
         </div>
+      </div>
 
+      {/* အလယ် ဖုန်းပုံစံ နှင့် ဘေးပတ်လည်တွင် ကြီးမားသော AI Host အသစ် */}
+      <div className="center-stream-wrapper">
         {enableAvatar && (
-          <div className="ai-avatar-host-box">
-            <div className="avatar-circle-frame">
+          <div className="big-ai-host-floating-box">
+            <div className="big-avatar-circle-frame">
               <video 
                 src="/ai-host.mp4" 
                 autoPlay 
@@ -533,96 +525,95 @@ export default function Home() {
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
               />
             </div>
-            <div className="avatar-speech-bubble">
-              <span className="host-title">🎙️️ AI Host ဧည့်ခံဆွေးနွေးသူ:</span>
+            <div className="big-avatar-speech-bubble">
+              <span className="host-title-big">🎙 AI Live Host ဧည့်ခံသူ:</span>
               <p>{avatarStatusText}</p>
             </div>
           </div>
         )}
-      </div>
 
-      {/* အလယ် ဖုန်းပုံစံ */}
-      <div className={`phone-container model-${phoneModel}`} style={{ width: `${phoneWidth}px`, height: `${phoneHeight}px` }}>
-        <div className="phone-screen" style={{ gap: `${elementSpacing}px`, padding: `${phonePadding}px` }}>
-          
-          <div className="top-section-group" style={{ gap: `${elementSpacing}px`, transform: `scale(${headerScale})`, transformOrigin: 'top center', marginTop: `${headerMarginTop}px` }}>
-            <div className="phone-status-bar">
-              <span className="carrier">7:00</span>
-              {phoneModel === 'iphone' && <div className="iphone-dynamic-island"></div>}
-              {phoneModel === 'samsung' && <div className="samsung-punch-hole"></div>}
-              {phoneModel === 'redmi' && <div className="redmi-notch"></div>}
-              <div className="status-icons">📶 🔋</div>
-            </div>
-
-            <div className="app-header-bar">
-              <span className="app-logo">⭐ 2D live Myanmar</span>
-              <div className="app-menu-icons">
-                <span className="badge-2d">2D</span>
-                <span className="badge-3d">3D</span>
+        <div className={`phone-container model-${phoneModel}`} style={{ width: `${phoneWidth}px`, height: `${phoneHeight}px` }}>
+          <div className="phone-screen" style={{ gap: `${elementSpacing}px`, padding: `${phonePadding}px` }}>
+            
+            <div className="top-section-group" style={{ gap: `${elementSpacing}px`, transform: `scale(${headerScale})`, transformOrigin: 'top center', marginTop: `${headerMarginTop}px` }}>
+              <div className="phone-status-bar">
+                <span className="carrier">7:00</span>
+                {phoneModel === 'iphone' && <div className="iphone-dynamic-island"></div>}
+                {phoneModel === 'samsung' && <div className="samsung-punch-hole"></div>}
+                {phoneModel === 'redmi' && <div className="redmi-notch"></div>}
+                <div className="status-icons">📶 🔋</div>
               </div>
-            </div>
 
-            <div className="live-status-pill">
-              <span className="pulsing-dot"></span>
-              <span>{isPausedTime ? "12:01 PM CLOSED (PAUSED)" : "LIVE REAL-TIME UPDATES"}</span>
-            </div>
-          </div>
-
-          <div className="live-main-display-wrapper" style={{ marginTop: `${liveNumMarginTop}px` }}>
-            <div className="live-main-display live-bounce-effect" style={{ fontSize: `${liveNumScale}rem` }}>
-              {liveTwod}
-            </div>
-
-            <div className="update-time-indicator-large">
-              <span>SET: <strong>{liveSet}</strong></span>
-              <span className="separator">|</span>
-              <span>Value: <strong>{liveVal}</strong></span>
-            </div>
-          </div>
-
-          <div className="bottom-section-group" style={{ gap: `${elementSpacing}px`, transform: `scale(${resultCardScale})`, transformOrigin: 'center center', marginTop: `${resultCardMarginTop}px` }}>
-            <div className="cards-group" style={{ gap: `${elementSpacing}px` }}>
-              <div className="result-card-dynamic">
-                <div className="card-title-top">12:01 PM Result</div>
-                <div className="card-sub-grid">
-                  <div className="sub-col"><span className="sub-label">SET</span><span className="sub-val">{result12?.set || "--"}</span></div>
-                  <div className="sub-col"><span className="sub-label">Value</span><span className="sub-val">{result12?.value || "--"}</span></div>
-                  <div className="sub-col"><span className="sub-label">2D</span><span className="sub-val highlight-num">{result12?.twod || "--"}</span></div>
+              <div className="app-header-bar">
+                <span className="app-logo">⭐ 2D live Myanmar</span>
+                <div className="app-menu-icons">
+                  <span className="badge-2d">2D</span>
+                  <span className="badge-3d">3D</span>
                 </div>
               </div>
 
-              <div className="result-card-dynamic">
-                <div className="card-title-top">4:30 PM Result</div>
-                <div className="card-sub-grid">
-                  <div className="sub-col"><span className="sub-label">SET</span><span className="sub-val">{result1630?.set || "--"}</span></div>
-                  <div className="sub-col"><span className="sub-label">Value</span><span className="sub-val">{result1630?.value || "--"}</span></div>
-                  <div className="sub-col"><span className="sub-label">2D</span><span className="sub-val highlight-num">{result1630?.twod || "--"}</span></div>
+              <div className="live-status-pill">
+                <span className="pulsing-dot"></span>
+                <span>{isPausedTime ? "12:01 PM CLOSED (PAUSED)" : "LIVE REAL-TIME UPDATES"}</span>
+              </div>
+            </div>
+
+            <div className="live-main-display-wrapper" style={{ marginTop: `${liveNumMarginTop}px` }}>
+              <div className="live-main-display live-bounce-effect" style={{ fontSize: `${liveNumScale}rem` }}>
+                {liveTwod}
+              </div>
+
+              <div className="update-time-indicator-large">
+                <span>SET: <strong>{liveSet}</strong></span>
+                <span className="separator">|</span>
+                <span>Value: <strong>{liveVal}</strong></span>
+              </div>
+            </div>
+
+            <div className="bottom-section-group" style={{ gap: `${elementSpacing}px`, transform: `scale(${resultCardScale})`, transformOrigin: 'center center', marginTop: `${resultCardMarginTop}px` }}>
+              <div className="cards-group" style={{ gap: `${elementSpacing}px` }}>
+                <div className="result-card-dynamic">
+                  <div className="card-title-top">12:01 PM Result</div>
+                  <div className="card-sub-grid">
+                    <div className="sub-col"><span className="sub-label">SET</span><span className="sub-val">{result12?.set || "--"}</span></div>
+                    <div className="sub-col"><span className="sub-label">Value</span><span className="sub-val">{result12?.value || "--"}</span></div>
+                    <div className="sub-col"><span className="sub-label">2D</span><span className="sub-val highlight-num">{result12?.twod || "--"}</span></div>
+                  </div>
+                </div>
+
+                <div className="result-card-dynamic">
+                  <div className="card-title-top">4:30 PM Result</div>
+                  <div className="card-sub-grid">
+                    <div className="sub-col"><span className="sub-label">SET</span><span className="sub-val">{result1630?.set || "--"}</span></div>
+                    <div className="sub-col"><span className="sub-label">Value</span><span className="sub-val">{result1630?.value || "--"}</span></div>
+                    <div className="sub-col"><span className="sub-label">2D</span><span className="sub-val highlight-num">{result1630?.twod || "--"}</span></div>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            {customItems.map((item) => (
-              <div 
-                key={item.id} 
-                className={item.type === 'box' ? "result-card-dynamic" : "winner-promo-banner"} 
-                style={{ 
-                  background: item.bg || (item.type === 'box' ? '#2563eb' : '#7c3aed'), 
-                  color: item.color || '#fff',
-                  fontSize: `${item.fontSize || 0.95}rem`,
-                  padding: `${item.padding || 8}px 10px`,
-                  marginTop: `${item.marginTop || 0}px`
-                }}
-              >
-                {item.type === 'box' && <div className="card-title-top" style={{ fontSize: `${(item.fontSize || 0.95) * 0.95}rem` }}>{item.title}</div>}
-                <div style={{ textAlign: 'center' }}>{item.type === 'banner' ? item.text : item.sub}</div>
+              {customItems.map((item) => (
+                <div 
+                  key={item.id} 
+                  className={item.type === 'box' ? "result-card-dynamic" : "winner-promo-banner"} 
+                  style={{ 
+                    background: item.bg || (item.type === 'box' ? '#2563eb' : '#7c3aed'), 
+                    color: item.color || '#fff',
+                    fontSize: `${item.fontSize || 0.95}rem`,
+                    padding: `${item.padding || 8}px 10px`,
+                    marginTop: `${item.marginTop || 0}px`
+                  }}
+                >
+                  {item.type === 'box' && <div className="card-title-top" style={{ fontSize: `${(item.fontSize || 0.95) * 0.95}rem` }}>{item.title}</div>}
+                  <div style={{ textAlign: 'center' }}>{item.type === 'banner' ? item.text : item.sub}</div>
+                </div>
+              ))}
+
+              <div className="phone-subscribe-footer">
+                <span>🔔 LIKE & SUBSCRIBE 🔔</span>
               </div>
-            ))}
-
-            <div className="phone-subscribe-footer">
-              <span>🔔 LIKE & SUBSCRIBE 🔔</span>
             </div>
-          </div>
 
+          </div>
         </div>
       </div>
 
@@ -657,6 +648,22 @@ export default function Home() {
           position: relative; font-family: 'Pyidaungsu', sans-serif; box-sizing: border-box; overflow: hidden;
         }
 
+        .audio-prompt-overlay {
+          position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85);
+          z-index: 999999; display: flex; justify-content: center; align-items: center; backdrop-filter: blur(8px);
+        }
+        .audio-prompt-box {
+          background: #1e1e1e; border: 3px solid #ffd700; padding: 30px 40px; border-radius: 16px;
+          text-align: center; color: #fff; box-shadow: 0 15px 35px rgba(0,0,0,0.9); max-width: 450px;
+        }
+        .audio-prompt-box h2 { color: #ffd700; margin-top: 0; font-size: 1.5rem; }
+        .audio-prompt-box p { color: #ccc; font-size: 1rem; margin-bottom: 20px; }
+        .enable-audio-btn {
+          background: #16a34a; color: #fff; border: none; padding: 12px 25px; font-size: 1.1rem;
+          font-weight: bold; border-radius: 8px; cursor: pointer; box-shadow: 0 4px 12px rgba(22,163,74,0.5);
+        }
+        .enable-audio-btn:hover { background: #15803d; }
+
         .admin-toggle-btn { position: fixed; top: 20px; left: 20px; background: #000; color: #ffd700; border: none; padding: 10px 20px; font-weight: bold; border-radius: 8px; cursor: pointer; z-index: 99999; font-size: 1rem; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
         .admin-panel { position: fixed; top: 75px; left: 20px; background: #111; border: 2px solid #ffd700; border-radius: 12px; z-index: 99999; width: 440px; color: #fff; box-shadow: 0 10px 25px rgba(0,0,0,0.8); height: 82vh; display: flex; flex-direction: column; overflow: hidden; }
         .admin-header-fixed { padding: 15px; background: #111; border-bottom: 1px solid #333; flex-shrink: 0; }
@@ -681,11 +688,17 @@ export default function Home() {
         .admin-item-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; border-bottom: 1px solid #333; padding-bottom: 4px; font-size: 0.8rem; }
         .del-btn { background: #dc2626; color: #fff; border: none; padding: 3px 8px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 0.75rem; }
 
-        .ai-avatar-host-box { display: flex; align-items: center; gap: 12px; background: rgba(255, 255, 255, 0.9); padding: 10px; border-radius: 14px; border: 2px solid #22c55e; margin-top: auto; }
-        .avatar-circle-frame { width: 65px; height: 65px; border-radius: 50%; overflow: hidden; border: 2px solid #16a34a; flex-shrink: 0; background: #fff; }
-        .avatar-speech-bubble { display: flex; flex-direction: column; gap: 2px; }
-        .host-title { font-size: 0.75rem; font-weight: 900; color: #15803d; }
-        .avatar-speech-bubble p { margin: 0; font-size: 0.8rem; color: #1f2937; font-weight: bold; line-height: 1.2; }
+        /* ကြီးမားသော AI Host Floating Box (စခရင်အလယ် ဖုန်းဘောင်ဘေးတွင် ကြီးကြီးမားမားပြရန်) */
+        .center-stream-wrapper { display: flex; align-items: center; gap: 20px; justify-content: center; }
+        .big-ai-host-floating-box { 
+          display: flex; flex-direction: column; align-items: center; gap: 10px; 
+          background: rgba(255, 255, 255, 0.95); padding: 15px; border-radius: 20px; 
+          border: 3px solid #16a34a; box-shadow: 0 15px 35px rgba(0,0,0,0.3); width: 220px; text-align: center; 
+        }
+        .big-avatar-circle-frame { width: 120px; height: 120px; border-radius: 50%; overflow: hidden; border: 4px solid #16a34a; background: #fff; }
+        .big-avatar-speech-bubble { display: flex; flex-direction: column; gap: 4px; }
+        .host-title-big { font-size: 0.85rem; font-weight: 900; color: #15803d; }
+        .big-avatar-speech-bubble p { margin: 0; font-size: 0.85rem; color: #1f2937; font-weight: bold; line-height: 1.3; }
 
         .phone-container { background: #111; display: flex; flex-direction: column; box-sizing: border-box; transition: width 0.2s, height 0.2s; box-shadow: 0 25px 50px rgba(0,0,0,0.5); }
         .model-iphone { border: 10px solid #1f2937; border-radius: 40px; }
