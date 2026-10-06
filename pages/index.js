@@ -7,17 +7,23 @@ export default function Home() {
   const [currentTime, setCurrentTime] = useState("");
   const [showAdmin, setShowAdmin] = useState(false);
 
-  // Manual Control States (ဖုန်းအရွယ်အစားနှင့် နေရာရွှေ့ရန်)
+  // Manual Control States (ဖုန်းနှင့် ဘေးဘက် Card များ ချိန်ရန်)
   const [phoneWidth, setPhoneWidth] = useState(420);
   const [phoneHeight, setPhoneHeight] = useState(940);
   const [liveFontSize, setLiveFontSize] = useState(5.5);
   const [resultTextSize, setResultTextSize] = useState(1.2);
-  const [contentGap, setContentGap] = useState(8); // အထဲက box တွေ အကွာအဝေး/အပေါ်အောက်ရွှေ့ရန်
+  const [contentGap, setContentGap] = useState(8);
+
+  // ဘေးဘက် Card များနှင့် Font များကို Manual ချိန်ရန် States
+  const [sideCardWidth, setSideCardWidth] = useState(510);
+  const [sideFontSize, setSideFontSize] = useState(3.2); // ဘက်ဘက်ကြီးများ၏ စာသားအရွယ်အစား
+  const [sideValFontSize, setSideValFontSize] = useState(3.4); // ဂဏန်း/တန်ဖိုးများ၏ အရွယ်အစား
+  const [sideCardPadding, setSideCardPadding] = useState(24);
 
   // ချိန်/ပွဲစဉ် (ကိုယ်တိုင်ပြောင်းနိုင်ရန်နှင့် Auto ရန်)
   const [sessionTitle, setSessionTitle] = useState("4:30 PM");
   const [sessionDay, setSessionDay] = useState("ညနေပိုင်း");
-  const [manualSession, setManualSession] = useState(false); // ကိုယ်တိုင်ပြင်ထားလျှင် Auto မပြောင်းတော့ရန်
+  const [manualSession, setManualSession] = useState(false);
 
   const [customDate, setCustomDate] = useState("05-10-2026");
   const [pitThee, setPitThee] = useState("5-3-2");
@@ -42,7 +48,6 @@ export default function Home() {
 
       setCurrentTime(`${formattedHours}:${minutes}:${seconds} ${ampm}`);
 
-      // Manual မလုပ်ထားမှသာ အလိုအလျောက်ပြောင်းမည်
       if (!manualSession) {
         if (myanmarTime.getHours() < 13) {
           setSessionTitle("12:01 PM");
@@ -78,10 +83,7 @@ export default function Home() {
   };
 
   const resultsArray = Array.isArray(data) ? data : (data?.result || data?.data?.result || []);
-  
-  const getResult = (timeStr) => {
-    return resultsArray.find(r => r.open_time && r.open_time.includes(timeStr));
-  };
+  const getResult = (timeStr) => resultsArray.find(r => r.open_time && r.open_time.includes(timeStr));
 
   const result12 = getResult("12:01");
   const result1630 = getResult("16:30");
@@ -90,7 +92,6 @@ export default function Home() {
   const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
   const myanmarTime = new Date(utc + (3600000 * 6.5));
   const totalMinutes = myanmarTime.getHours() * 60 + myanmarTime.getMinutes();
-  
   const isPausedTime = totalMinutes >= (12 * 60 + 2) && totalMinutes < (14 * 60);
 
   let liveTwod = data?.live?.twod || data?.data?.live?.twod || "33";
@@ -110,30 +111,37 @@ export default function Home() {
       </Head>
 
       <button className="admin-toggle-btn" onClick={() => setShowAdmin(!showAdmin)}>
-        {showAdmin ? "⚙️ ပြီးပြီ" : "⚙️ စခရင်နှင့် ဇယားများ ချိန်ရန်"}
+        {showAdmin ? "⚙️ ပြီးပြီ" : "⚙️ စခရင်၊ ဘေးဘတ်များနှင့် စာသားများ ချိန်ရန်"}
       </button>
 
       {showAdmin && (
         <div className="admin-panel">
           <h3>📌 Manual ချိန်ညှိရန် (Pro Controls)</h3>
-          <div className="input-group"><label>📱 ဖုန်းအကျယ် (Width):</label><input type="range" min="320" max="600" value={phoneWidth} onChange={(e) => setPhoneWidth(e.target.value)} /><span>{phoneWidth}px</span></div>
-          <div className="input-group"><label>📱 ဖုန်းအမြင့် (Height):</label><input type="range" min="650" max="1020" value={phoneHeight} onChange={(e) => setPhoneHeight(e.target.value)} /><span>{phoneHeight}px</span></div>
-          <div className="input-group"><label>🔄 Box များအကွာအဝေး:</label><input type="range" min="2" max="25" value={contentGap} onChange={(e) => setContentGap(e.target.value)} /><span>{contentGap}px</span></div>
-          <div className="input-group"><label>🔢 Live ဂဏန်းအရွယ်:</label><input type="range" min="3" max="7" step="0.2" value={liveFontSize} onChange={(e) => setLiveFontSize(e.target.value)} /><span>{liveFontSize}rem</span></div>
-          <div className="input-group"><label>📊 Result စာသားအရွယ်:</label><input type="range" min="0.8" max="2" step="0.1" value={resultTextSize} onChange={(e) => setResultTextSize(e.target.value)} /><span>{resultTextSize}rem</span></div>
           
-          <hr style={{borderColor: '#444', margin: '10px 0'}}/>
-          
+          <div className="section-title">📱 ဖုန်းအရွယ်အစား ချိန်ရန်</div>
+          <div className="input-group"><label>ဖုန်းအကျယ် (Width):</label><input type="range" min="320" max="600" value={phoneWidth} onChange={(e) => setPhoneWidth(e.target.value)} /><span>{phoneWidth}px</span></div>
+          <div className="input-group"><label>ဖုန်းအမြင့် (Height):</label><input type="range" min="650" max="1020" value={phoneHeight} onChange={(e) => setPhoneHeight(e.target.value)} /><span>{phoneHeight}px</span></div>
+          <div className="input-group"><label>Box များအကွာအဝေး:</label><input type="range" min="2" max="25" value={contentGap} onChange={(e) => setContentGap(e.target.value)} /><span>{contentGap}px</span></div>
+          <div className="input-group"><label>Live ဂဏန်းအရွယ်:</label><input type="range" min="3" max="7" step="0.2" value={liveFontSize} onChange={(e) => setLiveFontSize(e.target.value)} /><span>{liveFontSize}rem</span></div>
+          <div className="input-group"><label>Result စာသားအရွယ်:</label><input type="range" min="0.8" max="2" step="0.1" value={resultTextSize} onChange={(e) => setResultTextSize(e.target.value)} /><span>{resultTextSize}rem</span></div>
+
+          <div className="section-title">🎛️ ဘေးဘက် Card & Font များ ချိန်ရန်</div>
+          <div className="input-group"><label>ဘေး Card အကျယ်:</label><input type="range" min="350" max="700" value={sideCardWidth} onChange={(e) => setSideCardWidth(e.target.value)} /><span>{sideCardWidth}px</span></div>
+          <div className="input-group"><label>ဘေး Card Padding:</label><input type="range" min="10" max="40" value={sideCardPadding} onChange={(e) => setSideCardPadding(e.target.value)} /><span>{sideCardPadding}px</span></div>
+          <div className="input-group"><label>ဘေးခေါင်းစဉ် Font အရွယ်:</label><input type="range" min="1.5" max="5" step="0.1" value={sideFontSize} onChange={(e) => setSideFontSize(e.target.value)} /><span>{sideFontSize}rem</span></div>
+          <div className="input-group"><label>ဘေးတန်ဖိုး/ဂဏန်း Font:</label><input type="range" min="2" max="5" step="0.1" value={sideValFontSize} onChange={(e) => setSideValFontSize(e.target.value)} /><span>{sideValFontSize}rem</span></div>
+
+          <div className="section-title">✏️ စာသားနှင့် အချက်အလက်များ ချိန်ရန်</div>
           <div className="input-group">
-            <label>⏰ ချိန်/ပွဲစဉ် (Manual):</label>
+            <label>⏰ ချိန်/ပွဲစဉ်:</label>
             <input type="text" value={sessionTitle} onChange={(e) => { setSessionTitle(e.target.value); setManualSession(true); }} />
           </div>
           <div className="input-group">
-            <label>📅 နေ့/အမျိုးအစား (Manual):</label>
+            <label>📅 နေ့/အမျိုးအစား:</label>
             <input type="text" value={sessionDay} onChange={(e) => { setSessionDay(e.target.value); setManualSession(true); }} />
           </div>
           {manualSession && (
-            <button style={{width:'100%', background:'#16a34a', color:'#fff', border:'none', padding:'5px', borderRadius:'4px', cursor:'pointer', marginBottom:'8px', fontWeight:'bold'}} onClick={() => setManualSession(false)}>
+            <button className="auto-reset-btn" onClick={() => setManualSession(false)}>
               🔄 Auto စနစ်သို့ ပြန်ပြောင်းမည်
             </button>
           )}
@@ -147,27 +155,26 @@ export default function Home() {
       )}
 
       {/* ဘယ်ဘက်ခြမ်း */}
-      <div className="side-card left-card">
-        <div className="top-red-banner">{sessionTitle}</div>
-        <div className="live-clock-box">{currentTime}</div>
-        <div className="red-label-box">{sessionDay}</div>
+      <div className="side-card left-card" style={{ width: `${sideCardWidth}px`, padding: `${sideCardPadding}px` }}>
+        <div className="top-red-banner" style={{ fontSize: `${sideFontSize}rem` }}>{sessionTitle}</div>
+        <div className="live-clock-box" style={{ fontSize: `${sideFontSize * 0.8}rem` }}>{currentTime}</div>
+        <div className="red-label-box" style={{ fontSize: `${sideFontSize * 0.7}rem` }}>{sessionDay}</div>
         
-        <div className="youtube-subscribe-tag">
+        <div className="youtube-subscribe-tag" style={{ fontSize: `${sideFontSize * 0.55}rem` }}>
           <span className="yt-icon">▶</span>
           <span className="yt-text">SUBSCRIBE</span>
         </div>
 
         <div className="horthout-box">
-          <span className="ht-label">ဟောထိပ်</span>
-          <span className="ht-val">{horThout}</span>
+          <span className="ht-label" style={{ fontSize: `${sideFontSize * 0.55}rem` }}>ဟောထိပ်</span>
+          <span className="ht-val" style={{ fontSize: `${sideValFontSize}rem` }}>{horThout}</span>
         </div>
       </div>
 
-      {/* အလယ် ဖုန်းပုံစံ (အကျယ်၊ အမြင့်နှင့် အကွာအဝေးများကို ကိုယ်တိုင်ချိန်နိုင်သည်)[span_2](start_span)[span_2](end_span)[span_3](start_span)[span_3](end_span) */}
+      {/* အလယ် ဖုန်းပုံစံ */}
       <div className="phone-container" style={{ width: `${phoneWidth}px`, height: `${phoneHeight}px` }}>
         <div className="phone-screen" style={{ gap: `${contentGap}px` }}>
           
-          {/* အပေါ်ပိုင်း */}
           <div className="top-section-group" style={{ gap: `${contentGap}px` }}>
             <div className="phone-status-bar">
               <span className="carrier">7:00</span>
@@ -200,7 +207,6 @@ export default function Home() {
             </div>
           </div>
 
-          {/* အောက်ပိုင်း Result နှင့် အချက်အလက်များ */}
           <div className="bottom-section-group" style={{ gap: `${contentGap}px` }}>
             <div className="cards-group" style={{ gap: `${contentGap}px` }}>
               <div className="result-card-red">
@@ -261,28 +267,28 @@ export default function Home() {
       </div>
 
       {/* ညာဘက်ခြမ်း */}
-      <div className="side-card right-card">
-        <div className="date-display-box">{customDate}</div>
+      <div className="side-card right-card" style={{ width: `${sideCardWidth}px`, padding: `${sideCardPadding}px` }}>
+        <div className="date-display-box" style={{ fontSize: `${sideFontSize}rem` }}>{customDate}</div>
         
         <div className="data-section-group">
           <div className="purple-badge-wrapper">
-            <span className="purple-circle-badge">ယနေ့အတွက်ပတ်သီး</span>
+            <span className="purple-circle-badge" style={{ fontSize: `${sideFontSize * 0.45}rem` }}>ယနေ့အတွက်ပတ်သီး</span>
           </div>
-          <div className="val-display-pro">{pitThee}</div>
+          <div className="val-display-pro" style={{ fontSize: `${sideValFontSize}rem` }}>{pitThee}</div>
         </div>
 
         <div className="data-section-group">
           <div className="purple-badge-wrapper">
-            <span className="purple-circle-badge">မိန်း (Main)</span>
+            <span className="purple-circle-badge" style={{ fontSize: `${sideFontSize * 0.45}rem` }}>မိန်း (Main)</span>
           </div>
-          <div className="val-display-pro">{mainNum}</div>
+          <div className="val-display-pro" style={{ fontSize: `${sideValFontSize}rem` }}>{mainNum}</div>
         </div>
 
         <div className="data-section-group">
           <div className="purple-badge-wrapper">
-            <span className="purple-circle-badge">အရံ (Sub)</span>
+            <span className="purple-circle-badge" style={{ fontSize: `${sideFontSize * 0.45}rem` }}>အရံ (Sub)</span>
           </div>
-          <div className="val-display-pro">{subNum}</div>
+          <div className="val-display-pro" style={{ fontSize: `${sideValFontSize}rem` }}>{subNum}</div>
         </div>
       </div>
 
@@ -293,33 +299,33 @@ export default function Home() {
           position: relative; font-family: 'Pyidaungsu', sans-serif; box-sizing: border-box; overflow: hidden;
         }
         .admin-toggle-btn { position: fixed; top: 20px; left: 20px; background: #000; color: #ffd700; border: none; padding: 10px 20px; font-weight: bold; border-radius: 8px; cursor: pointer; z-index: 99999; font-size: 1rem; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
-        .admin-panel { position: fixed; top: 75px; left: 20px; background: #111; border: 2px solid #ffd700; padding: 15px; border-radius: 12px; z-index: 99999; width: 340px; color: #fff; box-shadow: 0 10px 25px rgba(0,0,0,0.8); max-height: 85vh; overflow-y: auto; }
+        .admin-panel { position: fixed; top: 75px; left: 20px; background: #111; border: 2px solid #ffd700; padding: 15px; border-radius: 12px; z-index: 99999; width: 360px; color: #fff; box-shadow: 0 10px 25px rgba(0,0,0,0.8); max-height: 85vh; overflow-y: auto; }
         .admin-panel h3 { margin: 0 0 10px 0; color: #ffd700; font-size: 1rem; }
+        .section-title { font-size: 0.85rem; color: #60a5fa; font-weight: bold; margin: 12px 0 6px 0; border-bottom: 1px dashed #444; padding-bottom: 3px; }
         .input-group { display: flex; justify-content: space-between; margin-bottom: 8px; align-items: center; font-size: 0.85rem; }
         .input-group label { color: #ccc; font-weight: bold; }
         .input-group input[type="text"] { background: #222; border: 1px solid #555; color: #fff; padding: 4px 8px; border-radius: 4px; width: 50%; }
         .input-group input[type="range"] { width: 40%; accent-color: #ffd700; }
         .input-group span { color: #ffd700; font-weight: bold; font-size: 0.8rem; width: 45px; text-align: right; }
+        .auto-reset-btn { width: 100%; background: #16a34a; color: #fff; border: none; padding: 5px; border-radius: 4px; cursor: pointer; margin-bottom: 8px; font-weight: bold; }
 
-        .side-card { width: 510px; background: rgba(255, 255, 255, 0.45); backdrop-filter: blur(10px); border: 4px solid #ffffff; border-radius: 26px; padding: 24px; display: flex; flex-direction: column; gap: 16px; box-shadow: 0 25px 50px rgba(0,0,0,0.2); }
-        .top-red-banner { background: linear-gradient(135deg, #e60000 0%, #990000 100%); color: #fff; font-size: 3.2rem; font-weight: 900; padding: 14px; border-radius: 16px; text-align: center; border: 3px solid #ff6666; box-shadow: 0 6px 15px rgba(230, 0, 0, 0.4); text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
-        .live-clock-box { background: #fff; color: #111; font-size: 2.5rem; font-weight: 900; padding: 14px; border-radius: 14px; text-align: center; border: 3px solid #e60000; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
-        .red-label-box { background: linear-gradient(90deg, #e60000, #b30000); color: #fff; font-size: 2rem; font-weight: 900; padding: 14px; border-radius: 14px; text-align: center; border: 2px solid #ff6666; box-shadow: 0 4px 10px rgba(230, 0, 0, 0.3); }
-        .youtube-subscribe-tag { background: linear-gradient(90deg, #ff0000, #800000); color: #fff; font-size: 1.6rem; font-weight: 900; padding: 12px; border-radius: 12px; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; border: 2px solid #ff8080; box-shadow: 0 4px 10px rgba(255,0,0,0.3); }
+        .side-card { background: rgba(255, 255, 255, 0.45); backdrop-filter: blur(10px); border: 4px solid #ffffff; border-radius: 26px; display: flex; flex-direction: column; gap: 16px; box-shadow: 0 25px 50px rgba(0,0,0,0.2); transition: width 0.2s ease, padding 0.2s ease; }
+        .top-red-banner { background: linear-gradient(135deg, #e60000 0%, #990000 100%); color: #fff; font-weight: 900; padding: 14px; border-radius: 16px; text-align: center; border: 3px solid #ff6666; box-shadow: 0 6px 15px rgba(230, 0, 0, 0.4); text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+        .live-clock-box { background: #fff; color: #111; font-weight: 900; padding: 14px; border-radius: 14px; text-align: center; border: 3px solid #e60000; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+        .red-label-box { background: linear-gradient(90deg, #e60000, #b30000); color: #fff; font-weight: 900; padding: 14px; border-radius: 14px; text-align: center; border: 2px solid #ff6666; box-shadow: 0 4px 10px rgba(230, 0, 0, 0.3); }
+        .youtube-subscribe-tag { background: linear-gradient(90deg, #ff0000, #800000); color: #fff; font-weight: 900; padding: 12px; border-radius: 12px; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; border: 2px solid #ff8080; box-shadow: 0 4px 10px rgba(255,0,0,0.3); }
         .horthout-box { background: #fff; border: 4px solid #e60000; border-radius: 16px; padding: 12px 18px; text-align: center; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-        .ht-label { background: #e60000; color: #fff; font-size: 1.6rem; font-weight: 900; padding: 10px 18px; border-radius: 10px; }
-        .ht-val { font-size: 3.2rem; font-weight: 900; color: #cc0000; flex: 1; text-align: center; letter-spacing: 4px; }
+        .ht-label { background: #e60000; color: #fff; font-weight: 900; padding: 10px 18px; border-radius: 10px; }
+        .ht-val { font-weight: 900; color: #cc0000; flex: 1; text-align: center; letter-spacing: 4px; }
 
-        .date-display-box { background: linear-gradient(135deg, #e60000 0%, #990000 100%); color: #fff; font-size: 2.8rem; font-weight: 900; padding: 14px; border-radius: 16px; text-align: center; border: 3px solid #ff6666; box-shadow: 0 6px 15px rgba(230, 0, 0, 0.4); }
+        .date-display-box { background: linear-gradient(135deg, #e60000 0%, #990000 100%); color: #fff; font-weight: 900; padding: 14px; border-radius: 16px; text-align: center; border: 3px solid #ff6666; box-shadow: 0 6px 15px rgba(230, 0, 0, 0.4); }
         .data-section-group { background: #fff; border: 4px solid #e60000; border-radius: 18px; padding: 14px 18px; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
         .purple-badge-wrapper { text-align: center; margin-top: -32px; }
-        .purple-circle-badge { background: linear-gradient(135deg, #7c3aed 100%, #5b21b6 0%); color: #fff; font-size: 1.4rem; font-weight: 900; padding: 8px 28px; border-radius: 30px; border: 3px solid #fff; box-shadow: 0 4px 10px rgba(124, 58, 237, 0.4); display: inline-block; }
-        .val-display-pro { font-size: 3.4rem; font-weight: 900; color: #cc0000; text-align: center; letter-spacing: 5px; padding: 6px 0; }
+        .purple-circle-badge { background: linear-gradient(135deg, #7c3aed 100%, #5b21b6 0%); color: #fff; font-weight: 900; padding: 8px 28px; border-radius: 30px; border: 3px solid #fff; box-shadow: 0 4px 10px rgba(124, 58, 237, 0.4); display: inline-block; }
+        .val-display-pro { font-weight: 900; color: #cc0000; text-align: center; letter-spacing: 5px; padding: 6px 0; }
 
         .phone-container { background: #111827; border: 10px solid #1f2937; border-radius: 42px; padding: 8px; box-shadow: 0 30px 70px rgba(0,0,0,0.4); display: flex; flex-direction: column; box-sizing: border-box; transition: width 0.2s ease, height 0.2s ease; }
-        
         .phone-screen { background: #ffffff; border-radius: 32px; padding: 10px 14px; display: flex; flex-direction: column; justify-content: space-between; height: 100%; color: #000; box-sizing: border-box; }
-        
         .top-section-group { display: flex; flex-direction: column; }
         .bottom-section-group { display: flex; flex-direction: column; }
 
@@ -351,31 +357,11 @@ export default function Home() {
         .sub-val { font-weight: 900; }
         .highlight-num { background: rgba(0,0,0,0.25); border-radius: 6px; padding: 2px 0; }
 
-        .winner-promo-banner {
-          background: linear-gradient(135deg, #7c3aed 0%, #4c1d95 100%);
-          color: #ffdf40;
-          font-weight: 900;
-          padding: 6px 10px;
-          border-radius: 8px;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          border: 1px solid #c084fc;
-        }
+        .winner-promo-banner { background: linear-gradient(135deg, #7c3aed 0%, #4c1d95 100%); color: #ffdf40; font-weight: 900; padding: 6px 10px; border-radius: 8px; display: flex; align-items: center; justify-content: space-between; border: 1px solid #c084fc; }
         .promo-text { color: #fff; font-size: 0.68rem; text-align: center; flex: 1; }
         .promo-badge { background: #ffdf40; color: #4c1d95; padding: 2px 6px; border-radius: 4px; font-size: 0.6rem; }
 
-        .tip-card-box {
-          background: #fef3c7;
-          border: 1px solid #fde68a;
-          color: #92400e;
-          font-size: 0.68rem;
-          font-weight: bold;
-          text-align: center;
-          padding: 5px 8px;
-          border-radius: 8px;
-        }
-
+        .tip-card-box { background: #fef3c7; border: 1px solid #fde68a; color: #92400e; font-size: 0.68rem; font-weight: bold; text-align: center; padding: 5px 8px; border-radius: 8px; }
         .phone-subscribe-footer { background: linear-gradient(90deg, #e60000, #990000); color: #fff; border-radius: 8px; padding: 6px; display: flex; justify-content: center; align-items: center; gap: 8px; font-weight: 900; font-size: 0.85rem; box-shadow: 0 4px 10px rgba(230,0,0,0.3); }
         .sub-icon { font-size: 0.85rem; }
         .sub-bell { font-size: 0.85rem; }
