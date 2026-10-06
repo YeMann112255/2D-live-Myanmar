@@ -55,7 +55,6 @@ export default function Home() {
   const [leftBoxStyle, setLeftBoxStyle] = useState('modern');
   const [rightBoxStyle, setRightBoxStyle] = useState('modern');
 
-  // New Toggles & Positions for Left/Right Boxes & 3-Day Result Box
   const [showLeftBox, setShowLeftBox] = useState(true);
   const [leftBoxPosX, setLeftBoxPosX] = useState('40');
   const [leftBoxPosY, setLeftBoxPosY] = useState('0');
@@ -98,17 +97,21 @@ export default function Home() {
   const [hostTextWidth, setHostTextWidth] = useState('160'); 
   const [hostTextFontSize, setHostTextFontSize] = useState('0.85'); 
 
+  // Custom Items (Boxes / Banners) with Width & Height Controls
   const [customItems, setCustomItems] = useState([
     { 
       id: 1, 
-      type: 'banner', 
-      title: '', 
-      text: 'ဈေးကွက်အချက်အလက်များကို အချိန်နှင့်တပြေးညီ လေ့လာရန်', 
-      bg: '#7c3aed', 
+      type: 'box', 
+      title: 'အထူးသတိပေးချက်', 
+      text: '', 
+      sub: 'ဈေးကွက်အချက်အလက်များကို လေ့လာရန်',
+      bg: '#2563eb', 
       color: '#ffffff', 
       fontSize: '0.95', 
       padding: '8', 
-      marginTop: '0' 
+      marginTop: '0',
+      width: '100%',
+      height: 'auto'
     }
   ]);
 
@@ -120,6 +123,8 @@ export default function Home() {
   const [newItemFontSize, setNewItemFontSize] = useState('0.95');
   const [newItemPadding, setNewItemPadding] = useState('8');
   const [newItemMarginTop, setNewItemMarginTop] = useState('0');
+  const [newItemWidth, setNewItemWidth] = useState('100%');
+  const [newItemHeight, setNewItemHeight] = useState('auto');
 
   const fetchSettings = async () => {
     try {
@@ -253,7 +258,9 @@ export default function Home() {
       color: newItemColor,
       fontSize: newItemFontSize,
       padding: newItemPadding,
-      marginTop: newItemMarginTop
+      marginTop: newItemMarginTop,
+      width: newItemWidth,
+      height: newItemHeight
     };
     setCustomItems([...customItems, newItem]);
     setNewItemTitle('');
@@ -320,7 +327,8 @@ export default function Home() {
     updateDateTime();
     const timeInterval = setInterval(updateDateTime, 1000);
     fetchData();
-    const dataInterval = setInterval(fetchData, 3000);
+    // Request မကုန်စေရန် ၁၀ စက္ကန့်တစ်ကြိမ် သို့ တိုးမြှင့်ထားသည်
+    const dataInterval = setInterval(fetchData, 10000);
 
     return () => {
       clearInterval(timeInterval);
@@ -361,7 +369,6 @@ export default function Home() {
         <title>Market Analytics Live - Pro Studio</title>
       </Head>
 
-      {/* Background Floating Stock Exchange Animation */}
       {showBgStock && (
         <div className="bg-stock-ticker-container" style={{ opacity: bgStockOpacity }}>
           <div className="bg-stock-track" style={{ animationDuration: `${bgStockSpeed}s` }}>
@@ -452,7 +459,6 @@ export default function Home() {
 
             <div className="section-title">📦 ဘယ်/ညာ Box များနှင့် ထိန်းချုပ်မှုများ</div>
             
-            {/* Left Box Controls */}
             <div style={{ background: '#1a1a1a', padding: '8px', borderRadius: '6px', marginBottom: '8px', border: '1px solid #333' }}>
               <div className="input-group">
                 <label style={{ color: '#4ade80' }}>ဘယ်ဘက် Box ပြရန်:</label>
@@ -469,7 +475,6 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right Box Controls */}
             <div style={{ background: '#1a1a1a', padding: '8px', borderRadius: '6px', marginBottom: '8px', border: '1px solid #333' }}>
               <div className="input-group">
                 <label style={{ color: '#4ade80' }}>ညာဘက် Box ပြရန်:</label>
@@ -486,7 +491,6 @@ export default function Home() {
               </div>
             </div>
 
-            {/* 3-Day Result Box Controls */}
             <div style={{ background: '#1a1a1a', padding: '8px', borderRadius: '6px', marginBottom: '8px', border: '1px solid #333' }}>
               <div className="input-group">
                 <label style={{ color: '#f87171' }}>သုံးရက်စာ Result Box ပြရန်:</label>
@@ -554,7 +558,7 @@ export default function Home() {
             <div className="input-group"><label>နောက်ခံအရောင်:</label><input type="color" value={marqueeBg} onChange={(e) => setMarqueeBg(e.target.value)} style={{ width: '45px', height: '24px', border: 'none', background: 'none', cursor: 'pointer' }} /></div>
             <div className="input-group"><label>စာသားအရောင်:</label><input type="color" value={marqueeColor} onChange={(e) => setMarqueeColor(e.target.value)} style={{ width: '45px', height: '24px', border: 'none', background: 'none', cursor: 'pointer' }} /></div>
 
-            <div className="section-title">📦 Box / Banner အသစ်ထပ်ထည့်ရန်</div>
+            <div className="section-title">📦 Box / Banner အသစ်ထပ်ထည့်ရန် (အကျယ်/အမြင့် ချိန်နိုင်သည်)</div>
             <div className="input-group">
               <label>အမျိုးအစား:</label>
               <select value={newItemType} onChange={(e) => setNewItemType(e.target.value)} className="select-style">
@@ -564,6 +568,8 @@ export default function Home() {
             </div>
             <div className="input-group"><label>ခေါင်းစဉ်/စာသား:</label><input type="text" value={newItemTitle} onChange={(e) => setNewItemTitle(e.target.value)} placeholder="ဥပမာ - ဈေးကွက်သုံးသပ်ချက်" /></div>
             <div className="input-group"><label>အသေးစိတ်:</label><input type="text" value={newItemSub} onChange={(e) => setNewItemSub(e.target.value)} placeholder="ဥပမာ - ဆက်သွယ်ရန်" /></div>
+            <div className="input-group"><label>ဘောက်စ်အကျယ် (Width):</label><input type="text" value={newItemWidth} onChange={(e) => setNewItemWidth(e.target.value)} placeholder="ဥပမာ - 100% သို့မဟုတ် 300px" style={{ width: '50%' }} /></div>
+            <div className="input-group"><label>ဘောက်စ်အမြင့် (Height):</label><input type="text" value={newItemHeight} onChange={(e) => setNewItemHeight(e.target.value)} placeholder="ဥပမာ - auto သို့မဟုတ် 100px" style={{ width: '50%' }} /></div>
             <div className="input-group"><label>နောက်ခံအရောင်:</label><input type="color" value={newItemBg} onChange={(e) => setNewItemBg(e.target.value)} style={{ width: '45px', height: '24px', border: 'none', background: 'none', cursor: 'pointer' }} /></div>
             <div className="input-group"><label>စာသားအရောင်:</label><input type="color" value={newItemColor} onChange={(e) => setNewItemColor(e.target.value)} style={{ width: '45px', height: '24px', border: 'none', background: 'none', cursor: 'pointer' }} /></div>
             <div className="input-group"><label>ဖောင့်အရွယ် (rem):</label><input type="range" min="0.6" max="2.0" step="0.05" value={newItemFontSize} onChange={(e) => setNewItemFontSize(e.target.value)} /><span>{newItemFontSize}</span></div>
@@ -572,13 +578,15 @@ export default function Home() {
             
             <button className="add-item-btn" onClick={handleAddItem}>+ စခရင်ထဲ ထည့်မည်</button>
 
-            <div className="section-title">⚙ ထည့်ထားပြီးသား Box/Banner များကို ပြင်ဆင်/ဖျက်ရန်</div>
+            <div className="section-title">⚙ ထည့်ထားပြီးသား Box များကို အရွယ်အစား/အကျယ်အမြင့် ချိန်ရန်</div>
             {customItems.map((item) => (
               <div key={item.id} className="admin-item-customizer-box">
                 <div className="admin-item-row">
                   <span style={{ fontWeight: 'bold', color: '#ffd700' }}>{item.title || item.text}</span>
                   <button onClick={() => handleDeleteItem(item.id)} className="del-btn">ဖျက်ရန်</button>
                 </div>
+                <div className="input-group"><label>အကျယ် (Width):</label><input type="text" value={item.width || '100%'} onChange={(e) => handleUpdateItemProperty(item.id, 'width', e.target.value)} style={{ width: '50%' }} /></div>
+                <div className="input-group"><label>အမြင့် (Height):</label><input type="text" value={item.height || 'auto'} onChange={(e) => handleUpdateItemProperty(item.id, 'height', e.target.value)} style={{ width: '50%' }} /></div>
                 <div className="input-group"><label>နောက်ခံအရောင်:</label><input type="color" value={item.bg || '#2563eb'} onChange={(e) => handleUpdateItemProperty(item.id, 'bg', e.target.value)} style={{ width: '40px', height: '22px', border: 'none', background: 'none', cursor: 'pointer' }} /></div>
                 <div className="input-group"><label>စာသားအရောင်:</label><input type="color" value={item.color || '#ffffff'} onChange={(e) => handleUpdateItemProperty(item.id, 'color', e.target.value)} style={{ width: '40px', height: '22px', border: 'none', background: 'none', cursor: 'pointer' }} /></div>
                 <div className="input-group"><label>ဖောင့်အရွယ်:</label><input type="range" min="0.6" max="2.0" step="0.05" value={item.fontSize || '0.95'} onChange={(e) => handleUpdateItemProperty(item.id, 'fontSize', e.target.value)} /><span>{item.fontSize || '0.95'}</span></div>
@@ -587,7 +595,7 @@ export default function Home() {
               </div>
             ))}
 
-            <div className="section-title">✍️ အဓိက အချက်အလက်နှင့် ခေါင်းစဉ်များ (Monetization Safe)</div>
+            <div className="section-title">✍️ အဓိက အချက်အလက်နှင့် ခေါင်းစဉ်များ</div>
             <div className="input-group"><label>ပွဲစဉ်:</label><input type="text" value={sessionTitle} onChange={(e) => { setSessionTitle(e.target.value); setManualSession(true); }} /></div>
             <div className="input-group"><label>နေ့/အမျိုးအစား:</label><input type="text" value={sessionDay} onChange={(e) => { setSessionDay(e.target.value); setManualSession(true); }} /></div>
             <div className="input-group"><label>ရက်စွဲ:</label><input type="text" value={customDate} onChange={(e) => setCustomDate(e.target.value)} /></div>
@@ -607,7 +615,6 @@ export default function Home() {
         </div>
       )}
 
-      {/* AI Host နေရာလွတ်လပ်စွာ ရွှေ့နိုင်ရန် */}
       {enableAvatar && (
         <div 
           className="side-ai-host-wrapper" 
@@ -633,7 +640,6 @@ export default function Home() {
         </div>
       )}
 
-      {/* ဘယ်ဘက်ခြမ်း Card */}
       {showLeftBox && (
         <div 
           className={`side-card left-card style-${leftBoxStyle}`} 
@@ -659,7 +665,6 @@ export default function Home() {
         </div>
       )}
 
-      {/* အလယ် ဖုန်းပုံစံ */}
       <div className="center-stream-wrapper">
         <div className={`phone-container model-${phoneModel}`} style={{ width: `${phoneWidth}px`, height: `${phoneHeight}px` }}>
           <div className="phone-screen" style={{ gap: `${elementSpacing}px`, padding: `${phonePadding}px` }}>
@@ -720,6 +725,7 @@ export default function Home() {
                 </div>
               </div>
 
+              {/* Custom Items with Custom Width & Height Controls */}
               {customItems.map((item) => (
                 <div 
                   key={item.id} 
@@ -729,7 +735,11 @@ export default function Home() {
                     color: item.color || '#fff',
                     fontSize: `${item.fontSize || 0.95}rem`,
                     padding: `${item.padding || 8}px 10px`,
-                    marginTop: `${item.marginTop || 0}px`
+                    marginTop: `${item.marginTop || 0}px`,
+                    width: item.width || '100%',
+                    height: item.height || 'auto',
+                    boxSizing: 'border-box',
+                    alignSelf: 'center'
                   }}
                 >
                   {item.type === 'box' && <div className="card-title-top" style={{ fontSize: `${(item.fontSize || 0.95) * 0.95}rem` }}>{item.title}</div>}
@@ -746,7 +756,6 @@ export default function Home() {
         </div>
       </div>
 
-      {/* ညာဘက်ခြမ်း Card (သို့မဟုတ် သုံးရက်စာ Result Box) */}
       {showRightBox && (
         <div 
           className={`side-card right-card style-${rightBoxStyle}`} 
@@ -775,7 +784,6 @@ export default function Home() {
         </div>
       )}
 
-      {/* ညာဘက်ခြမ်း ပိတ်ထားသည့်အချိန် သုံးရက်စာ Result ပြသရန် သီးသန့် Box */}
       {showThreeDayBox && (
         <div 
           className={`side-card right-card style-${rightBoxStyle}`} 
@@ -801,7 +809,6 @@ export default function Home() {
         </div>
       )}
 
-      {/* Custom Marquee Ticker */}
       <div className="marquee-container" style={{ background: marqueeBg, borderTop: `2px solid ${marqueeColor}` }}>
         <div className="marquee-text" style={{ animationDuration: `${marqueeSpeed}s`, color: marqueeColor, fontSize: `${marqueeFontSize}rem` }}>
           {marqueeText}
@@ -815,7 +822,6 @@ export default function Home() {
           position: relative; font-family: 'Pyidaungsu', sans-serif; box-sizing: border-box; overflow: hidden;
         }
 
-        /* Background Floating Stock Exchange Ticker Animation */
         .bg-stock-ticker-container {
           position: absolute;
           top: 0; left: 0; width: 100%; height: 100%;
