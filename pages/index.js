@@ -56,7 +56,6 @@ export default function Home() {
     try {
       const res = await fetch('/api/live');
       const json = await res.json();
-      // API က Array တိုက်ရိုက်ပေးတာပဲဖြစ်ဖြစ်၊ Object နဲ့လာတာပဲဖြစ်ဖြစ် အဆင်ပြေအောင် ယူခြင်း
       setData(json);
     } catch (err) {
       console.error(err);
@@ -65,7 +64,7 @@ export default function Home() {
     }
   };
 
-  // Result Array ထဲမှ အချိန်အလိုက် (12:01 သို့မဟုတ် 16:30) ရှာဖွေခြင်း
+  // Result Array နှင့် Live ဒေတာများကို ရယူခြင်း
   const resultsArray = Array.isArray(data) ? data : (data?.result || data?.data?.result || []);
   
   const getResult = (timeStr) => {
@@ -75,8 +74,24 @@ export default function Home() {
   const result12 = getResult("12:01");
   const result1630 = getResult("16:30");
 
-  // Live 2D ဂဏန်းရယူရန်
-  const liveTwod = data?.live?.twod || data?.data?.live?.twod || (resultsArray.length > 0 ? resultsArray[resultsArray.length - 1]?.twod : "33");
+  // မြန်မာစံတော်ချိန်ကို တွက်ချက်ပြီး 12:02 မှ 14:00 အတွင်း ဟုတ်မဟုတ် စစ်ဆေးခြင်း
+  const now = new Date();
+  const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+  const myanmarTime = new Date(utc + (3600000 * 6.5));
+  const totalMinutes = myanmarTime.getHours() * 60 + myanmarTime.getMinutes();
+  const isPausedTime = totalMinutes >= (12 * 60 + 2) && totalMinutes < (14 * 0); // 12:02 မှ 14:00 ထိ
+
+  // Live ဂဏန်း၊ SET နှင့် Value များကို အချိန်အပေါ်မူတည်၍ ပြသရန်
+  let liveTwod = data?.live?.twod || data?.data?.live?.twod || "33";
+  let liveSet = data?.live?.set || data?.data?.live?.set || "1,572.80";
+  let liveVal = data?.live?.value || data?.data?.live?.value || "31,350.28";
+
+  // 12:01 ထွက်ပြီး နေ့လည် ၂ နာရီအတွင်း ဖြစ်နေပါက 12:01 result ဖြင့် ငြိမ်နေစေရန်
+  if (isPausedTime && result12) {
+    liveTwod = result12.twod || liveTwod;
+    liveSet = result12.set || liveSet;
+    liveVal = result12.value || liveVal;
+  }
 
   return (
     <div className="stream-container">
@@ -138,7 +153,7 @@ export default function Home() {
 
           <div className="live-status-pill">
             <span className="pulsing-dot"></span>
-            <span>LIVE REAL-TIME UPDATES</span>
+            <span>{isPausedTime ? "12:01 PM CLOSED" : "LIVE REAL-TIME UPDATES"}</span>
           </div>
 
           {/* ခုန်နေသည့် Animation ပါသော Live ဂဏန်းအကြီး */}
@@ -147,7 +162,7 @@ export default function Home() {
           </div>
 
           <div className="update-time-indicator">
-            <span>✔ Updated: {data?.live?.update_time || "2026-10-05 16:30:13"}</span>
+            <span>✔ SET: {liveSet} | Value: {liveVal}</span>
           </div>
 
           <div className="cards-group">
@@ -368,7 +383,6 @@ export default function Home() {
         .pulsing-dot { width: 8px; height: 8px; background-color: #16a34a; border-radius: 50%; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.6); } 70% { box-shadow: 0 0 0 6px rgba(22, 163, 74, 0); } 100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0); } }
 
-        /* လိုင်းပေါ်တွင် ဂဏန်းအကြီး ခုန်နေစေရန် (Heartbeat Animation) */
         .live-main-display {
           font-size: 6rem;
           font-weight: 900;
