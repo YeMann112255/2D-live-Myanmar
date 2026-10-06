@@ -30,7 +30,7 @@ export default function Home() {
       hours = hours ? hours : 12;
       const formattedHours = String(hours).padStart(2, '0');
 
-      setCurrentTime(`${formattedHours}:${minutes}:${seconds} ${ampm}`);
+      setCurrentTime(`${formattedHours}:${minutes}:${seconds}${ampm}`);
 
       if (myanmarTime.getHours() < 13) {
         setSessionTitle("12:01 PM");
@@ -64,7 +64,6 @@ export default function Home() {
     }
   };
 
-  // Result Array နှင့် Live ဒေတာများကို ရယူခြင်း
   const resultsArray = Array.isArray(data) ? data : (data?.result || data?.data?.result || []);
   
   const getResult = (timeStr) => {
@@ -74,19 +73,19 @@ export default function Home() {
   const result12 = getResult("12:01");
   const result1630 = getResult("16:30");
 
-  // မြန်မာစံတော်ချိန်ကို တွက်ချက်ပြီး 12:02 မှ 14:00 အတွင်း ဟုတ်မဟုတ် စစ်ဆေးခြင်း
   const now = new Date();
   const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
   const myanmarTime = new Date(utc + (3600000 * 6.5));
   const totalMinutes = myanmarTime.getHours() * 60 + myanmarTime.getMinutes();
-  const isPausedTime = totalMinutes >= (12 * 60 + 2) && totalMinutes < (14 * 0); // 12:02 မှ 14:00 ထိ
+  
+  // 12:02 မှ 14:00 အတွင်း Live ကို ရပ်ထားရန်
+  const isPausedTime = totalMinutes >= (12 * 60 + 2) && totalMinutes < (14 * 0);
 
-  // Live ဂဏန်း၊ SET နှင့် Value များကို အချိန်အပေါ်မူတည်၍ ပြသရန်
   let liveTwod = data?.live?.twod || data?.data?.live?.twod || "33";
   let liveSet = data?.live?.set || data?.data?.live?.set || "1,572.80";
   let liveVal = data?.live?.value || data?.data?.live?.value || "31,350.28";
 
-  // 12:01 ထွက်ပြီး နေ့လည် ၂ နာရီအတွင်း ဖြစ်နေပါက 12:01 result ဖြင့် ငြိမ်နေစေရန်
+  // 12:01 Result ထွက်ပြီးပါက Live တွင် Result တန်ဖိုးအတိုင်း အတိအကျ ငြိမ်နေစေရန်
   if (isPausedTime && result12) {
     liveTwod = result12.twod || liveTwod;
     liveSet = result12.set || liveSet;
@@ -156,13 +155,16 @@ export default function Home() {
             <span>{isPausedTime ? "12:01 PM CLOSED" : "LIVE REAL-TIME UPDATES"}</span>
           </div>
 
-          {/* ခုန်နေသည့် Animation ပါသော Live ဂဏန်းအကြီး */}
+          {/* Live ဂဏန်းအကြီး */}
           <div className="live-main-display">
             {liveTwod}
           </div>
 
-          <div className="update-time-indicator">
-            <span>✔ SET: {liveSet} | Value: {liveVal}</span>
+          {/* ကြီးမားထင်ရှားသော SET နှင့် Value ပြသရန် */}
+          <div className="update-time-indicator-large">
+            <span>SET: <strong>{liveSet}</strong></span>
+            <span className="separator">|</span>
+            <span>Value: <strong>{liveVal}</strong></span>
           </div>
 
           <div className="cards-group">
@@ -242,133 +244,34 @@ export default function Home() {
 
       <style jsx>{`
         .stream-container {
-          width: 1920px;
-          height: 1080px;
-          background: linear-gradient(135deg, #ffdf40 0%, #ffbb00 100%);
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 25px 35px;
-          position: relative;
-          font-family: 'Pyidaungsu', sans-serif;
-          box-sizing: border-box;
-          overflow: hidden;
+          width: 1920px; height: 1080px; background: linear-gradient(135deg, #ffdf40 0%, #ffbb00 100%);
+          display: flex; justify-content: space-between; align-items: center; padding: 25px 35px;
+          position: relative; font-family: 'Pyidaungsu', sans-serif; box-sizing: border-box; overflow: hidden;
         }
-        .admin-toggle-btn {
-          position: fixed; top: 20px; left: 20px; background: #000; color: #ffd700; border: none; padding: 10px 20px; font-weight: bold; border-radius: 8px; cursor: pointer; z-index: 99999; font-size: 1rem; box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-        }
-        .admin-panel {
-          position: fixed; top: 75px; left: 20px; background: #111; border: 2px solid #ffd700; padding: 15px; border-radius: 12px; z-index: 99999; width: 320px; color: #fff; box-shadow: 0 10px 25px rgba(0,0,0,0.8);
-        }
+        .admin-toggle-btn { position: fixed; top: 20px; left: 20px; background: #000; color: #ffd700; border: none; padding: 10px 20px; font-weight: bold; border-radius: 8px; cursor: pointer; z-index: 99999; font-size: 1rem; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        .admin-panel { position: fixed; top: 75px; left: 20px; background: #111; border: 2px solid #ffd700; padding: 15px; border-radius: 12px; z-index: 99999; width: 320px; color: #fff; box-shadow: 0 10px 25px rgba(0,0,0,0.8); }
         .admin-panel h3 { margin: 0 0 10px 0; color: #ffd700; font-size: 1rem; }
         .input-group { display: flex; justify-content: space-between; margin-bottom: 8px; align-items: center; }
         .input-group label { color: #ccc; font-weight: bold; font-size: 0.85rem; }
         .input-group input { background: #222; border: 1px solid #555; color: #fff; padding: 5px 8px; border-radius: 4px; width: 55%; }
 
-        .side-card {
-          width: 510px;
-          background: rgba(255, 255, 255, 0.45);
-          backdrop-filter: blur(10px);
-          border: 4px solid #ffffff;
-          border-radius: 26px;
-          padding: 24px;
-          display: flex;
-          flex-direction: column;
-          gap: 16px;
-          box-shadow: 0 25px 50px rgba(0,0,0,0.2);
-        }
-        
-        .top-red-banner {
-          background: linear-gradient(135deg, #e60000 0%, #990000 100%);
-          color: #fff; font-size: 3.2rem; font-weight: 900; padding: 14px; border-radius: 16px; text-align: center;
-          border: 3px solid #ff6666;
-          box-shadow: 0 6px 15px rgba(230, 0, 0, 0.4);
-          text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-        .live-clock-box {
-          background: #fff; color: #111; font-size: 2.5rem; font-weight: 900; padding: 14px; border-radius: 14px; text-align: center; border: 3px solid #e60000;
-          box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-        }
-        .red-label-box {
-          background: linear-gradient(90deg, #e60000, #b30000); color: #fff; font-size: 2rem; font-weight: 900; padding: 14px; border-radius: 14px; text-align: center;
-          border: 2px solid #ff6666;
-          box-shadow: 0 4px 10px rgba(230, 0, 0, 0.3);
-        }
-        .youtube-subscribe-tag {
-          background: linear-gradient(90deg, #ff0000, #800000); color: #fff; font-size: 1.6rem; font-weight: 900; padding: 12px; border-radius: 12px; text-align: center;
-          display: flex; align-items: center; justify-content: center; gap: 8px; border: 2px solid #ff8080;
-          box-shadow: 0 4px 10px rgba(255,0,0,0.3);
-        }
-        .horthout-box {
-          background: #fff; border: 4px solid #e60000; border-radius: 16px; padding: 12px 18px; text-align: center; display: flex; justify-content: space-between; align-items: center;
-          box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
+        .side-card { width: 510px; background: rgba(255, 255, 255, 0.45); backdrop-filter: blur(10px); border: 4px solid #ffffff; border-radius: 26px; padding: 24px; display: flex; flex-direction: column; gap: 16px; box-shadow: 0 25px 50px rgba(0,0,0,0.2); }
+        .top-red-banner { background: linear-gradient(135deg, #e60000 0%, #990000 100%); color: #fff; font-size: 3.2rem; font-weight: 900; padding: 14px; border-radius: 16px; text-align: center; border: 3px solid #ff6666; box-shadow: 0 6px 15px rgba(230, 0, 0, 0.4); text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+        .live-clock-box { background: #fff; color: #111; font-size: 2.5rem; font-weight: 900; padding: 14px; border-radius: 14px; text-align: center; border: 3px solid #e60000; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+        .red-label-box { background: linear-gradient(90deg, #e60000, #b30000); color: #fff; font-size: 2rem; font-weight: 900; padding: 14px; border-radius: 14px; text-align: center; border: 2px solid #ff6666; box-shadow: 0 4px 10px rgba(230, 0, 0, 0.3); }
+        .youtube-subscribe-tag { background: linear-gradient(90deg, #ff0000, #800000); color: #fff; font-size: 1.6rem; font-weight: 900; padding: 12px; border-radius: 12px; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; border: 2px solid #ff8080; box-shadow: 0 4px 10px rgba(255,0,0,0.3); }
+        .horthout-box { background: #fff; border: 4px solid #e60000; border-radius: 16px; padding: 12px 18px; text-align: center; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
         .ht-label { background: #e60000; color: #fff; font-size: 1.6rem; font-weight: 900; padding: 10px 18px; border-radius: 10px; }
         .ht-val { font-size: 3.2rem; font-weight: 900; color: #cc0000; flex: 1; text-align: center; letter-spacing: 4px; }
 
-        .date-display-box {
-          background: linear-gradient(135deg, #e60000 0%, #990000 100%);
-          color: #fff; font-size: 2.8rem; font-weight: 900; padding: 14px; border-radius: 16px; text-align: center; border: 3px solid #ff6666;
-          box-shadow: 0 6px 15px rgba(230, 0, 0, 0.4);
-        }
+        .date-display-box { background: linear-gradient(135deg, #e60000 0%, #990000 100%); color: #fff; font-size: 2.8rem; font-weight: 900; padding: 14px; border-radius: 16px; text-align: center; border: 3px solid #ff6666; box-shadow: 0 6px 15px rgba(230, 0, 0, 0.4); }
+        .data-section-group { background: #fff; border: 4px solid #e60000; border-radius: 18px; padding: 14px 18px; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .purple-badge-wrapper { text-align: center; margin-top: -32px; }
+        .purple-circle-badge { background: linear-gradient(135deg, #7c3aed 100%, #5b21b6 0%); color: #fff; font-size: 1.4rem; font-weight: 900; padding: 8px 28px; border-radius: 30px; border: 3px solid #fff; box-shadow: 0 4px 10px rgba(124, 58, 237, 0.4); display: inline-block; }
+        .val-display-pro { font-size: 3.4rem; font-weight: 900; color: #cc0000; text-align: center; letter-spacing: 5px; padding: 6px 0; }
 
-        .data-section-group {
-          background: #fff;
-          border: 4px solid #e60000;
-          border-radius: 18px;
-          padding: 14px 18px;
-          display: flex;
-          flex-direction: column;
-          gap: 10px;
-          box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        .purple-badge-wrapper {
-          text-align: center;
-          margin-top: -32px;
-        }
-        .purple-circle-badge {
-          background: linear-gradient(135deg, #7c3aed 100%, #5b21b6 0%);
-          color: #fff;
-          font-size: 1.4rem;
-          font-weight: 900;
-          padding: 8px 28px;
-          border-radius: 30px;
-          border: 3px solid #fff;
-          box-shadow: 0 4px 10px rgba(124, 58, 237, 0.4);
-          display: inline-block;
-        }
-        .val-display-pro {
-          font-size: 3.4rem;
-          font-weight: 900;
-          color: #cc0000;
-          text-align: center;
-          letter-spacing: 5px;
-          padding: 6px 0;
-        }
-
-        .phone-container {
-          width: 420px;
-          height: 1020px;
-          background: #111827;
-          border: 8px solid #1f2937;
-          border-radius: 38px;
-          padding: 8px;
-          box-shadow: 0 30px 70px rgba(0,0,0,0.4);
-          display: flex;
-          flex-direction: column;
-          box-sizing: border-box;
-        }
-        .phone-screen {
-          background: #ffffff;
-          border-radius: 30px;
-          padding: 12px 14px;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          height: 100%;
-          color: #000;
-          box-sizing: border-box;
-        }
+        .phone-container { width: 420px; height: 1020px; background: #111827; border: 8px solid #1f2937; border-radius: 38px; padding: 8px; box-shadow: 0 30px 70px rgba(0,0,0,0.4); display: flex; flex-direction: column; box-sizing: border-box; }
+        .phone-screen { background: #ffffff; border-radius: 30px; padding: 12px 14px; display: flex; flex-direction: column; justify-content: space-between; height: 100%; color: #000; box-sizing: border-box; }
         .phone-status-bar { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; font-weight: bold; }
         .dynamic-island { width: 100px; height: 18px; background: #000; border-radius: 12px; }
         .app-header-bar { background: #ffcc00; padding: 6px 12px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: 1rem; }
@@ -377,51 +280,9 @@ export default function Home() {
         .badge-2d { background: #16a34a; color: #fff; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; }
         .badge-3d { background: #2563eb; color: #fff; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; }
         
-        .live-status-pill {
-          background: #f0fdf4; border: 1px solid #bbf7d0; color: #16a34a; font-size: 0.75rem; font-weight: 900; padding: 3px 8px; border-radius: 20px; display: flex; align-items: center; justify-content: center; gap: 6px; width: fit-content; margin: 2px auto;
-        }
+        .live-status-pill { background: #f0fdf4; border: 1px solid #bbf7d0; color: #16a34a; font-size: 0.75rem; font-weight: 900; padding: 3px 8px; border-radius: 20px; display: flex; align-items: center; justify-content: center; gap: 6px; width: fit-content; margin: 2px auto; }
         .pulsing-dot { width: 8px; height: 8px; background-color: #16a34a; border-radius: 50%; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.6); } 70% { box-shadow: 0 0 0 6px rgba(22, 163, 74, 0); } 100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0); } }
 
-        .live-main-display {
-          font-size: 6rem;
-          font-weight: 900;
-          color: #16a34a;
-          text-align: center;
-          line-height: 1;
-          margin: 2px 0;
-          text-shadow: 0 4px 12px rgba(22, 163, 74, 0.25);
-          display: inline-block;
-          width: 100%;
-          animation: heartbeat 1.2s infinite;
-        }
-        @keyframes heartbeat {
-          0% { transform: scale(1); }
-          25% { transform: scale(1.08); }
-          40% { transform: scale(0.95); }
-          60% { transform: scale(1.04); }
-          100% { transform: scale(1); }
-        }
-
-        .update-time-indicator { text-align: center; font-size: 0.75rem; color: #16a34a; font-weight: bold; margin-bottom: 4px; }
-
-        .cards-group { display: flex; flex-direction: column; gap: 8px; }
-        .result-card-red { background: linear-gradient(135deg, #ff4d4d 0%, #e60000 100%); border-radius: 12px; padding: 8px 12px; color: #fff; box-shadow: 0 4px 10px rgba(230,0,0,0.3); }
-        .card-title-top { text-align: center; font-weight: 900; font-size: 0.9rem; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 2px; margin-bottom: 4px; }
-        .card-sub-grid { display: flex; justify-content: space-between; text-align: center; }
-        .sub-col { flex: 1; display: flex; flex-direction: column; }
-        .sub-label { font-size: 0.65rem; opacity: 0.9; font-weight: bold; }
-        .sub-val { font-size: 1.15rem; font-weight: 900; }
-        .highlight-num { font-size: 1.3rem; background: rgba(0,0,0,0.2); border-radius: 6px; padding: 1px 0; }
-
-        .phone-subscribe-footer {
-          background: linear-gradient(90deg, #e60000, #990000); color: #fff; border-radius: 10px; padding: 8px; display: flex; justify-content: center; align-items: center; gap: 8px; font-weight: 900; font-size: 0.9rem;
-          box-shadow: 0 4px 10px rgba(230,0,0,0.3);
-          margin-top: 4px;
-        }
-        .sub-icon { font-size: 0.9rem; }
-        .sub-bell { font-size: 0.9rem; }
-      `}</style>
-    </div>
-  );
-}
+        .live-main-display { font-size: 6rem; font-weight: 900; color: #16a34a; text-align: center; line-height: 1; margin: 2px 0; text-shadow: 0 4px 12px rgba(22, 163, 74, 0.25); display: inline-block; width: 100%; animation: heartbeat 1.2s infinite; }
+        @keyframes heartbeat { 0% { transform: scale(1); } 25% { transform: scale(1.0
