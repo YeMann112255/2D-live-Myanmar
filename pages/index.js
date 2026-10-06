@@ -28,20 +28,21 @@ export default function Home() {
   const [elementSpacing, setElementSpacing] = useState('6');
   const [phonePadding, setPhonePadding] = useState('12');
 
+  // Side Cards Positioning & Sizing Controls (Restored & Enhanced)
+  const [sideCardWidth, setSideCardWidth] = useState('360');
+  const [sideFontSize, setSideFontSize] = useState('2.2');
+  const [sideValFontSize, setSideValFontSize] = useState('2.5');
+  const [sideCardPadding, setSideCardPadding] = useState('15');
+  const [sideCardGap, setSideCardGap] = useState('12');
+  const [leftBoxStyle, setLeftBoxStyle] = useState('modern');
+  const [rightBoxStyle, setRightBoxStyle] = useState('modern');
+
   // Marquee Customization States
-  const [marqueeText, setMarqueeText] = useState(' နေ့စဉ်ကံထူးရှင်များအတွက် လက်မလွှတ်တမ်းစောင့်ကြည့်ပါ - VIP Channel ကို Subscribe လုပ်ထားပါ။');
+  const [marqueeText, setMarqueeText] = useState('နေ့စဉ်ကံထူးရှင်များအတွက် လက်မလွှတ်တမ်းစောင့်ကြည့်ပါ - VIP Channel ကို Subscribe လုပ်ထားပါ။');
   const [marqueeSpeed, setMarqueeSpeed] = useState('25');
   const [marqueeBg, setMarqueeBg] = useState('#000000');
   const [marqueeColor, setMarqueeColor] = useState('#ffd700');
   const [marqueeFontSize, setMarqueeFontSize] = useState('1');
-
-  // Side Cards & Session States
-  const [sideCardWidth, setSideCardWidth] = useState('480');
-  const [sideFontSize, setSideFontSize] = useState('2.8');
-  const [sideValFontSize, setSideValFontSize] = useState('3');
-  const [sideCardPadding, setSideCardPadding] = useState('20');
-  const [leftBoxStyle, setLeftBoxStyle] = useState('modern');
-  const [rightBoxStyle, setRightBoxStyle] = useState('modern');
 
   const [sessionTitle, setSessionTitle] = useState('4:30 PM');
   const [sessionDay, setSessionDay] = useState('ညနေပိုင်း');
@@ -52,8 +53,9 @@ export default function Home() {
   const [subNum, setSubNum] = useState('35-23-25');
   const [horThout, setHorThout] = useState('5-9-8');
 
+  // Custom Items States with reliable handlers
   const [customItems, setCustomItems] = useState([
-    { id: 1, type: 'banner', text: ' နေ့စဉ်ကံထူးရှင်များအတွက် လက်မလွှတ်တမ်းစောင့်ကြည့်ပါ' }
+    { id: 1, type: 'banner', title: '', text: 'နေ့စဉ်ကံထူးရှင်များအတွက် လက်မလွှတ်တမ်းစောင့်ကြည့်ပါ' }
   ]);
 
   const [newItemType, setNewItemType] = useState('box');
@@ -80,17 +82,18 @@ export default function Home() {
           if (s.resultCardScale) setResultCardScale(s.resultCardScale);
           if (s.elementSpacing) setElementSpacing(s.elementSpacing);
           if (s.phonePadding) setPhonePadding(s.phonePadding);
+          if (s.sideCardWidth) setSideCardWidth(s.sideCardWidth);
+          if (s.sideFontSize) setSideFontSize(s.sideFontSize);
+          if (s.sideValFontSize) setSideValFontSize(s.sideValFontSize);
+          if (s.sideCardPadding) setSideCardPadding(s.sideCardPadding);
+          if (s.sideCardGap) setSideCardGap(s.sideCardGap);
+          if (s.leftBoxStyle) setLeftBoxStyle(s.leftBoxStyle);
+          if (s.rightBoxStyle) setRightBoxStyle(s.rightBoxStyle);
           if (s.marqueeText) setMarqueeText(s.marqueeText);
           if (s.marqueeSpeed) setMarqueeSpeed(s.marqueeSpeed);
           if (s.marqueeBg) setMarqueeBg(s.marqueeBg);
           if (s.marqueeColor) setMarqueeColor(s.marqueeColor);
           if (s.marqueeFontSize) setMarqueeFontSize(s.marqueeFontSize);
-          if (s.sideCardWidth) setSideCardWidth(s.sideCardWidth);
-          if (s.sideFontSize) setSideFontSize(s.sideFontSize);
-          if (s.sideValFontSize) setSideValFontSize(s.sideValFontSize);
-          if (s.sideCardPadding) setSideCardPadding(s.sideCardPadding);
-          if (s.leftBoxStyle) setLeftBoxStyle(s.leftBoxStyle);
-          if (s.rightBoxStyle) setRightBoxStyle(s.rightBoxStyle);
           if (s.sessionTitle) setSessionTitle(s.sessionTitle);
           if (s.sessionDay) setSessionDay(s.sessionDay);
           if (s.customDate) setCustomDate(s.customDate);
@@ -108,10 +111,9 @@ export default function Home() {
     const newSettings = {
       phoneModel, phoneWidth, phoneHeight, bgType, bgColor1, bgColor2,
       headerScale, liveNumScale, resultCardScale, elementSpacing, phonePadding,
-      marqueeText, marqueeSpeed, marqueeBg, marqueeColor, marqueeFontSize,
-      sideCardWidth, sideFontSize, sideValFontSize, sideCardPadding,
-      leftBoxStyle, rightBoxStyle, sessionTitle, sessionDay, customDate,
-      pitThee, mainNum, subNum, horThout, customItems
+      sideCardWidth, sideFontSize, sideValFontSize, sideCardPadding, sideCardGap,
+      leftBoxStyle, rightBoxStyle, marqueeText, marqueeSpeed, marqueeBg, marqueeColor, marqueeFontSize,
+      sessionTitle, sessionDay, customDate, pitThee, mainNum, subNum, horThout, customItems
     };
 
     try {
@@ -140,14 +142,19 @@ export default function Home() {
   };
 
   const handleAddItem = () => {
-    if (!newItemTitle) {
-      alert('ခေါင်းစဉ် သို့မဟုတ် စာသား ထည့်ပါ။');
+    if (!newItemTitle && newItemType === 'box') {
+      alert('Box ခေါင်းစဉ် ထည့်ပါ။');
+      return;
+    }
+    if (!newItemTitle && newItemType === 'banner') {
+      alert('Banner စာသား ထည့်ပါ။');
       return;
     }
     const newItem = {
       id: Date.now(),
       type: newItemType,
-      title: newItemTitle,
+      title: newItemType === 'box' ? newItemTitle : '',
+      text: newItemType === 'banner' ? newItemTitle : '',
       sub: newItemSub
     };
     setCustomItems([...customItems, newItem]);
@@ -206,7 +213,7 @@ export default function Home() {
     const timeInterval = setInterval(updateDateTime, 1000);
     
     fetchData();
-    const dataInterval = setInterval(fetchData, 3000); // Every 3 seconds refresh
+    const dataInterval = setInterval(fetchData, 3000);
 
     return () => {
       clearInterval(timeInterval);
@@ -226,7 +233,6 @@ export default function Home() {
   const totalMinutes = myanmarTime.getHours() * 60 + myanmarTime.getMinutes();
   const isPausedTime = totalMinutes >= (12 * 60 + 2) && totalMinutes < (14 * 60);
 
-  // Extracting live values safely from various API structures
   let liveTwod = data?.live?.twod || data?.twod || data?.data?.live?.twod || data?.data?.twod || "33";
   let liveSet = data?.live?.set || data?.set || data?.data?.live?.set || data?.data?.set || "1,572.80";
   let liveVal = data?.live?.value || data?.value || data?.data?.live?.value || data?.data?.value || "31,350.28";
@@ -248,17 +254,17 @@ export default function Home() {
       </Head>
 
       <button className="admin-toggle-btn" onClick={() => setShowAdmin(!showAdmin)}>
-        {showAdmin ? "❌ Control Panel ပိတ်မည်" : "⚙️ အရာရာကို စိတ်ကြိုက် ချိန်ရန် (Pro Panel)"}
+        {showAdmin ? "❌ Control Panel ပိတ်မည်" : "⚙️️ Pro Control Panel ဖွင့်မည်"}
       </button>
 
       {showAdmin && (
         <div className="admin-panel">
           <div className="admin-header-fixed">
-            <h3>🎛️ Live Studio Control Panel</h3>
+            <h3>🎛️ Live Studio Pro Panel</h3>
             <div className="save-action-box">
-              <button className="save-btn" onClick={handleSaveSettings}>💾 သိမ်းဆည်းမည် (Save)</button>
+              <button className="save-btn" onClick={handleSaveSettings}>💾 သိမ်းဆည်းမည်</button>
               <button className="reset-btn" onClick={() => window.location.reload()}>🔄 ပြန်စရန်</button>
-              {saveMessage && <span className="save-alert">✅ အောင်မြင်စွာ သိမ်းပြီးပါပြီ!</span>}
+              {saveMessage && <span className="save-alert">✅ အောင်မြင်ပါပြီ!</span>}
             </div>
           </div>
 
@@ -273,18 +279,39 @@ export default function Home() {
             </div>
             <div className="input-group">
               <label>အရောင် (၁):</label>
-              <input type="color" value={bgColor1} onChange={(e) => setBgColor1(e.target.value)} style={{ width: '50px', height: '30px', border: 'none', background: 'none', cursor: 'pointer' }} />
+              <input type="color" value={bgColor1} onChange={(e) => setBgColor1(e.target.value)} style={{ width: '45px', height: '26px', border: 'none', background: 'none', cursor: 'pointer' }} />
               <span>{bgColor1}</span>
             </div>
             {bgType === 'gradient' && (
               <div className="input-group">
                 <label>အရောင် (၂):</label>
-                <input type="color" value={bgColor2} onChange={(e) => setBgColor2(e.target.value)} style={{ width: '50px', height: '30px', border: 'none', background: 'none', cursor: 'pointer' }} />
+                <input type="color" value={bgColor2} onChange={(e) => setBgColor2(e.target.value)} style={{ width: '45px', height: '26px', border: 'none', background: 'none', cursor: 'pointer' }} />
                 <span>{bgColor2}</span>
               </div>
             )}
 
-            <div className="section-title">📱 ဖုန်းဘောင် မော်ဒယ်စတိုင်လ်များ</div>
+            <div className="section-title">📦 ဘယ်/ညာ Box များနှင့် စတိုင်လ်များ</div>
+            <div className="input-group">
+              <label>ဘယ်ဘက်စတိုင်:</label>
+              <select value={leftBoxStyle} onChange={(e) => setLeftBoxStyle(e.target.value)} className="select-style">
+                <option value="modern">Modern Glass</option>
+                <option value="classic">Classic Solid</option>
+              </select>
+            </div>
+            <div className="input-group">
+              <label>ညာဘက်စတိုင်:</label>
+              <select value={rightBoxStyle} onChange={(e) => setRightBoxStyle(e.target.value)} className="select-style">
+                <option value="modern">Modern Glass</option>
+                <option value="classic">Classic Solid</option>
+              </select>
+            </div>
+            <div className="input-group"><label>ဘောက်စ် အကျယ်:</label><input type="range" min="260" max="480" value={sideCardWidth} onChange={(e) => setSideCardWidth(e.target.value)} /><span>{sideCardWidth}px</span></div>
+            <div className="input-group"><label>ဘောက်စ် Padding:</label><input type="range" min="8" max="30" value={sideCardPadding} onChange={(e) => setSideCardPadding(e.target.value)} /><span>{sideCardPadding}px</span></div>
+            <div className="input-group"><label>အတွင်း အကွာအဝေး (Gap):</label><input type="range" min="4" max="25" value={sideCardGap} onChange={(e) => setSideCardGap(e.target.value)} /><span>{sideCardGap}px</span></div>
+            <div className="input-group"><label>ခေါင်းစဉ် စာသားအရွယ်:</label><input type="range" min="1.2" max="3.5" step="0.1" value={sideFontSize} onChange={(e) => setSideFontSize(e.target.value)} /><span>{sideFontSize}rem</span></div>
+            <div className="input-group"><label>ဂဏန်း/တန်ဖိုး အရွယ်:</label><input type="range" min="1.5" max="4" step="0.1" value={sideValFontSize} onChange={(e) => setSideValFontSize(e.target.value)} /><span>{sideValFontSize}rem</span></div>
+
+            <div className="section-title">📱 ဖုန်းဘောင်နှင့် စခရင် ထိန်းချုပ်ရန်</div>
             <div className="input-group">
               <label>ဖုန်းမော်ဒယ်:</label>
               <select value={phoneModel} onChange={(e) => setPhoneModel(e.target.value)} className="select-style">
@@ -293,22 +320,20 @@ export default function Home() {
                 <option value="redmi">Redmi / Xiaomi (Notch)</option>
               </select>
             </div>
-            <div className="input-group"><label>ဖုန်းအကျယ်:</label><input type="range" min="320" max="500" value={phoneWidth} onChange={(e) => setPhoneWidth(e.target.value)} /><span>{phoneWidth}px</span></div>
-            <div className="input-group"><label>ဖုန်းအမြင့်:</label><input type="range" min="700" max="950" value={phoneHeight} onChange={(e) => setPhoneHeight(e.target.value)} /><span>{phoneHeight}px</span></div>
+            <div className="input-group"><label>ဖုန်းအကျယ်:</label><input type="range" min="320" max="480" value={phoneWidth} onChange={(e) => setPhoneWidth(e.target.value)} /><span>{phoneWidth}px</span></div>
+            <div className="input-group"><label>ဖုန်းအမြင့်:</label><input type="range" min="700" max="920" value={phoneHeight} onChange={(e) => setPhoneHeight(e.target.value)} /><span>{phoneHeight}px</span></div>
+            <div className="input-group"><label>စခရင် Padding:</label><input type="range" min="4" max="20" value={phonePadding} onChange={(e) => setPhonePadding(e.target.value)} /><span>{phonePadding}px</span></div>
+            <div className="input-group"><label>ဒြပ်စင်များ အကွာအဝေး:</label><input type="range" min="2" max="15" value={elementSpacing} onChange={(e) => setElementSpacing(e.target.value)} /><span>{elementSpacing}px</span></div>
+            <div className="input-group"><label>Header အချိုး:</label><input type="range" min="0.7" max="1.3" step="0.1" value={headerScale} onChange={(e) => setHeaderScale(e.target.value)} /><span>{headerScale}x</span></div>
+            <div className="input-group"><label>Live ဂဏန်း အချိုး:</label><input type="range" min="2.5" max="5.5" step="0.2" value={liveNumScale} onChange={(e) => setLiveNumScale(e.target.value)} /><span>{liveNumScale}rem</span></div>
+            <div className="input-group"><label>Result Card အချိုး:</label><input type="range" min="0.7" max="1.3" step="0.1" value={resultCardScale} onChange={(e) => setResultCardScale(e.target.value)} /><span>{resultCardScale}x</span></div>
 
-            <div className="section-title">📐 ဖုန်းစခရင်ထဲက Layers များနှင့် အကွာအဝေးများ</div>
-            <div className="input-group"><label>အတွင်းပိုင်း Padding:</label><input type="range" min="4" max="25" value={phonePadding} onChange={(e) => setPhonePadding(e.target.value)} /><span>{phonePadding}px</span></div>
-            <div className="input-group"><label>အကွာအဝေး (Gap):</label><input type="range" min="2" max="20" value={elementSpacing} onChange={(e) => setElementSpacing(e.target.value)} /><span>{elementSpacing}px</span></div>
-            <div className="input-group"><label>Header အရွယ်အစား:</label><input type="range" min="0.8" max="1.5" step="0.1" value={headerScale} onChange={(e) => setHeaderScale(e.target.value)} /><span>{headerScale}x</span></div>
-            <div className="input-group"><label>Live ဂဏန်းအရွယ်:</label><input type="range" min="3" max="6" step="0.2" value={liveNumScale} onChange={(e) => setLiveNumScale(e.target.value)} /><span>{liveNumScale}rem</span></div>
-            <div className="input-group"><label>Result Card အရွယ်:</label><input type="range" min="0.7" max="1.4" step="0.1" value={resultCardScale} onChange={(e) => setResultCardScale(e.target.value)} /><span>{resultCardScale}x</span></div>
-
-            <div className="section-title">⚡ အောက်ခြေ စာတမ်းပြေး (Marquee Customization)</div>
-            <div className="input-group"><label>စာသား:</label><input type="text" value={marqueeText} onChange={(e) => setMarqueeText(e.target.value)} style={{ width: '60%' }} /></div>
+            <div className="section-title">⚡ အောက်ခြေ စာတန်းပြေး (Marquee)</div>
+            <div className="input-group"><label>စာသား:</label><input type="text" value={marqueeText} onChange={(e) => setMarqueeText(e.target.value)} style={{ width: '55%' }} /></div>
             <div className="input-group"><label>အမြန်နှုန်း (စက္ကန့်):</label><input type="range" min="5" max="60" value={marqueeSpeed} onChange={(e) => setMarqueeSpeed(e.target.value)} /><span>{marqueeSpeed}s</span></div>
             <div className="input-group"><label>စာသားအရွယ်:</label><input type="range" min="0.7" max="1.8" step="0.1" value={marqueeFontSize} onChange={(e) => setMarqueeFontSize(e.target.value)} /><span>{marqueeFontSize}rem</span></div>
-            <div className="input-group"><label>နောက်ခံအရောင်:</label><input type="color" value={marqueeBg} onChange={(e) => setMarqueeBg(e.target.value)} style={{ width: '50px', height: '25px', border: 'none', background: 'none', cursor: 'pointer' }} /></div>
-            <div className="input-group"><label>စာသားအရောင်:</label><input type="color" value={marqueeColor} onChange={(e) => setMarqueeColor(e.target.value)} style={{ width: '50px', height: '25px', border: 'none', background: 'none', cursor: 'pointer' }} /></div>
+            <div className="input-group"><label>နောက်ခံအရောင်:</label><input type="color" value={marqueeBg} onChange={(e) => setMarqueeBg(e.target.value)} style={{ width: '45px', height: '24px', border: 'none', background: 'none', cursor: 'pointer' }} /></div>
+            <div className="input-group"><label>စာသားအရောင်:</label><input type="color" value={marqueeColor} onChange={(e) => setMarqueeColor(e.target.value)} style={{ width: '45px', height: '24px', border: 'none', background: 'none', cursor: 'pointer' }} /></div>
 
             <div className="section-title">📦 Box / Banner အသစ်ထပ်ထည့်ရန်</div>
             <div className="input-group">
@@ -334,7 +359,7 @@ export default function Home() {
             <div className="input-group"><label>ပွဲစဉ်:</label><input type="text" value={sessionTitle} onChange={(e) => { setSessionTitle(e.target.value); setManualSession(true); }} /></div>
             <div className="input-group"><label>နေ့/အမျိုးအစား:</label><input type="text" value={sessionDay} onChange={(e) => { setSessionDay(e.target.value); setManualSession(true); }} /></div>
             <div className="input-group"><label>ရက်စွဲ:</label><input type="text" value={customDate} onChange={(e) => setCustomDate(e.target.value)} /></div>
-            <div className="input-group"><label>ပိတ်သီး:</label><input type="text" value={pitThee} onChange={(e) => setPitThee(e.target.value)} /></div>
+            <div className="input-group"><label>ပတ်သီး:</label><input type="text" value={pitThee} onChange={(e) => setPitThee(e.target.value)} /></div>
             <div className="input-group"><label>မိန်း:</label><input type="text" value={mainNum} onChange={(e) => setMainNum(e.target.value)} /></div>
             <div className="input-group"><label>အရံ:</label><input type="text" value={subNum} onChange={(e) => setSubNum(e.target.value)} /></div>
             <div className="input-group"><label>ဟောထိပ်:</label><input type="text" value={horThout} onChange={(e) => setHorThout(e.target.value)} /></div>
@@ -343,7 +368,7 @@ export default function Home() {
       )}
 
       {/* ဘယ်ဘက်ခြမ်း */}
-      <div className={`side-card left-card style-${leftBoxStyle}`} style={{ width: `${sideCardWidth}px`, padding: `${sideCardPadding}px` }}>
+      <div className={`side-card left-card style-${leftBoxStyle}`} style={{ width: `${sideCardWidth}px`, padding: `${sideCardPadding}px`, gap: `${sideCardGap}px` }}>
         <div className="top-red-banner" style={{ fontSize: `${sideFontSize}rem` }}>{sessionTitle}</div>
         <div className="live-clock-box" style={{ fontSize: `${sideFontSize * 0.75}rem` }}>{currentTime}</div>
         <div className="red-label-box" style={{ fontSize: `${sideFontSize * 0.65}rem` }}>{sessionDay}</div>
@@ -351,7 +376,7 @@ export default function Home() {
           <span>▶ SUBSCRIBE</span>
         </div>
         <div className="horthout-box">
-          <span className="ht-label" style={{ fontSize: `${sideFontSize * 0.5}rem` }}>ဟောထိပ်</span>
+          <span className="ht-label" style={{ fontSize: `${sideFontSize * 0.45}rem` }}>ဟောထိပ်</span>
           <span className="ht-val" style={{ fontSize: `${sideValFontSize}rem` }}>{horThout}</span>
         </div>
       </div>
@@ -430,18 +455,18 @@ export default function Home() {
       </div>
 
       {/* ညာဘက်ခြမ်း */}
-      <div className={`side-card right-card style-${rightBoxStyle}`} style={{ width: `${sideCardWidth}px`, padding: `${sideCardPadding}px` }}>
+      <div className={`side-card right-card style-${rightBoxStyle}`} style={{ width: `${sideCardWidth}px`, padding: `${sideCardPadding}px`, gap: `${sideCardGap}px` }}>
         <div className="date-display-box" style={{ fontSize: `${sideFontSize}rem` }}>{customDate}</div>
         <div className="data-section-group">
-          <div className="purple-badge-wrapper"><span className="purple-circle-badge" style={{ fontSize: `${sideFontSize * 0.4}rem` }}>ယနေ့အတွက်ပတ်သီး</span></div>
+          <div className="purple-badge-wrapper"><span className="purple-circle-badge" style={{ fontSize: `${sideFontSize * 0.38}rem` }}>ယနေ့အတွက်ပတ်သီး</span></div>
           <div className="val-display-pro" style={{ fontSize: `${sideValFontSize}rem` }}>{pitThee}</div>
         </div>
         <div className="data-section-group">
-          <div className="purple-badge-wrapper"><span className="purple-circle-badge" style={{ fontSize: `${sideFontSize * 0.4}rem` }}>မိန်း (Main)</span></div>
+          <div className="purple-badge-wrapper"><span className="purple-circle-badge" style={{ fontSize: `${sideFontSize * 0.38}rem` }}>မိန်း (Main)</span></div>
           <div className="val-display-pro" style={{ fontSize: `${sideValFontSize}rem` }}>{mainNum}</div>
         </div>
         <div className="data-section-group">
-          <div className="purple-badge-wrapper"><span className="purple-circle-badge" style={{ fontSize: `${sideFontSize * 0.4}rem` }}>အရံ (Sub)</span></div>
+          <div className="purple-badge-wrapper"><span className="purple-circle-badge" style={{ fontSize: `${sideFontSize * 0.38}rem` }}>အရံ (Sub)</span></div>
           <div className="val-display-pro" style={{ fontSize: `${sideValFontSize}rem` }}>{subNum}</div>
         </div>
       </div>
@@ -456,12 +481,12 @@ export default function Home() {
       <style jsx>{`
         .stream-container {
           width: 1920px; height: 1080px; 
-          display: flex; justify-content: space-between; align-items: center; padding: 20px 35px 50px 35px;
+          display: flex; justify-content: space-between; align-items: center; padding: 20px 35px 55px 35px;
           position: relative; font-family: 'Pyidaungsu', sans-serif; box-sizing: border-box; overflow: hidden;
         }
 
         .admin-toggle-btn { position: fixed; top: 20px; left: 20px; background: #000; color: #ffd700; border: none; padding: 10px 20px; font-weight: bold; border-radius: 8px; cursor: pointer; z-index: 99999; font-size: 1rem; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
-        .admin-panel { position: fixed; top: 75px; left: 20px; background: #111; border: 2px solid #ffd700; border-radius: 12px; z-index: 99999; width: 400px; color: #fff; box-shadow: 0 10px 25px rgba(0,0,0,0.8); height: 82vh; display: flex; flex-direction: column; overflow: hidden; }
+        .admin-panel { position: fixed; top: 75px; left: 20px; background: #111; border: 2px solid #ffd700; border-radius: 12px; z-index: 99999; width: 420px; color: #fff; box-shadow: 0 10px 25px rgba(0,0,0,0.8); height: 82vh; display: flex; flex-direction: column; overflow: hidden; }
         .admin-header-fixed { padding: 15px; background: #111; border-bottom: 1px solid #333; flex-shrink: 0; }
         .admin-header-fixed h3 { margin: 0 0 8px 0; color: #ffd700; font-size: 1rem; }
         .admin-scrollable-content { padding: 10px 15px 15px 15px; overflow-y: auto; flex-grow: 1; }
@@ -471,7 +496,7 @@ export default function Home() {
         .reset-btn { background: #dc2626; color: #fff; border: none; padding: 6px 10px; font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 0.8rem; }
         .save-alert { color: #4ade80; font-size: 0.8rem; font-weight: bold; width: 100%; text-align: center; }
 
-        .section-title { font-size: 0.85rem; color: #60a5fa; font-weight: bold; margin: 12px 0 6px 0; border-bottom: 1px dashed #444; padding-bottom: 3px; }
+        .section-title { font-size: 0.85rem; color: #60a5fa; font-weight: bold; margin: 14px 0 6px 0; border-bottom: 1px dashed #444; padding-bottom: 3px; }
         .input-group { display: flex; justify-content: space-between; margin-bottom: 8px; align-items: center; font-size: 0.85rem; }
         .input-group label { color: #ccc; font-weight: bold; }
         .input-group input[type="text"] { background: #222; border: 1px solid #555; color: #fff; padding: 4px 8px; border-radius: 4px; width: 50%; }
@@ -480,8 +505,8 @@ export default function Home() {
         .select-style { background: #222; border: 1px solid #555; color: #ffd700; padding: 4px 8px; border-radius: 4px; width: 50%; font-weight: bold; }
 
         .add-item-btn { background: #2563eb; color: #fff; border: none; padding: 8px; width: 100%; font-weight: bold; border-radius: 6px; cursor: pointer; margin-top: 5px; }
-        .admin-item-row { display: flex; justify-content: space-between; align-items: center; background: #222; padding: 5px 10px; border-radius: 4px; margin-bottom: 5px; font-size: 0.8rem; }
-        .admin-item-row button { background: #dc2626; color: #fff; border: none; padding: 2px 6px; border-radius: 4px; cursor: pointer; }
+        .admin-item-row { display: flex; justify-content: space-between; align-items: center; background: #222; padding: 6px 10px; border-radius: 4px; margin-bottom: 5px; font-size: 0.8rem; }
+        .admin-item-row button { background: #dc2626; color: #fff; border: none; padding: 3px 8px; border-radius: 4px; cursor: pointer; font-weight: bold; }
 
         /* Phone Frames */
         .phone-container { background: #111; display: flex; flex-direction: column; box-sizing: border-box; transition: width 0.2s, height 0.2s; box-shadow: 0 25px 50px rgba(0,0,0,0.5); }
@@ -523,24 +548,29 @@ export default function Home() {
         .phone-subscribe-footer { background: linear-gradient(90deg, #e60000, #990000); color: #fff; border-radius: 6px; padding: 5px; text-align: center; font-weight: 900; font-size: 0.75rem; }
 
         /* Side Cards Styles */
-        .side-card { display: flex; flex-direction: column; gap: 14px; box-shadow: 0 25px 50px rgba(0,0,0,0.2); box-sizing: border-box; }
-        .style-modern { background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(12px); border: 4px solid #ffffff; border-radius: 26px; }
+        .side-card { display: flex; flex-direction: column; box-shadow: 0 25px 50px rgba(0,0,0,0.2); box-sizing: border-box; }
+        
+        .style-modern { background: rgba(255, 255, 255, 0.55); backdrop-filter: blur(12px); border: 4px solid #ffffff; border-radius: 26px; }
         .style-modern .top-red-banner, .style-modern .date-display-box { background: linear-gradient(135deg, #e60000 0%, #990000 100%); color: #fff; border: 3px solid #ff6666; border-radius: 16px; text-align: center; font-weight: 900; padding: 12px; }
         .style-modern .live-clock-box, .style-modern .horthout-box, .style-modern .data-section-group { background: #fff; border: 3px solid #e60000; border-radius: 16px; }
 
-        .top-red-banner { font-weight: 900; padding: 12px; text-align: center; }
-        .live-clock-box { font-weight: 900; padding: 12px; text-align: center; }
-        .red-label-box { background: linear-gradient(90deg, #e60000, #b30000); color: #fff; font-weight: 900; padding: 12px; border-radius: 12px; text-align: center; }
-        .youtube-subscribe-tag { background: linear-gradient(90deg, #ff0000, #800000); color: #fff; font-weight: 900; padding: 10px; border-radius: 10px; text-align: center; }
-        .horthout-box { padding: 10px 16px; display: flex; justify-content: space-between; align-items: center; }
-        .ht-label { background: #e60000; color: #fff; font-weight: 900; padding: 8px 14px; border-radius: 8px; }
+        .style-classic { background: #ffffff; border: 4px solid #e60000; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .style-classic .top-red-banner, .style-classic .date-display-box { background: #e60000; color: #fff; border-radius: 10px; text-align: center; font-weight: 900; padding: 10px; }
+        .style-classic .live-clock-box, .style-classic .horthout-box, .style-classic .data-section-group { background: #fff9f9; border: 2px solid #ffcccc; border-radius: 10px; }
+
+        .top-red-banner { font-weight: 900; padding: 10px; text-align: center; }
+        .live-clock-box { font-weight: 900; padding: 10px; text-align: center; }
+        .red-label-box { background: linear-gradient(90deg, #e60000, #b30000); color: #fff; font-weight: 900; padding: 10px; border-radius: 12px; text-align: center; }
+        .youtube-subscribe-tag { background: linear-gradient(90deg, #ff0000, #800000); color: #fff; font-weight: 900; padding: 8px; border-radius: 10px; text-align: center; }
+        .horthout-box { padding: 8px 14px; display: flex; justify-content: space-between; align-items: center; }
+        .ht-label { background: #e60000; color: #fff; font-weight: 900; padding: 6px 12px; border-radius: 8px; }
         .ht-val { font-weight: 900; color: #cc0000; flex: 1; text-align: center; }
 
-        .date-display-box { font-weight: 900; padding: 12px; text-align: center; }
-        .data-section-group { padding: 12px 16px; display: flex; flex-direction: column; gap: 8px; }
-        .purple-badge-wrapper { text-align: center; margin-top: -28px; }
-        .purple-circle-badge { background: linear-gradient(135deg, #7c3aed 100%, #5b21b6 0%); color: #fff; font-weight: 900; padding: 6px 20px; border-radius: 20px; border: 2px solid #fff; display: inline-block; }
-        .val-display-pro { font-weight: 900; color: #cc0000; text-align: center; letter-spacing: 4px; }
+        .date-display-box { font-weight: 900; padding: 10px; text-align: center; }
+        .data-section-group { padding: 10px 14px; display: flex; flex-direction: column; gap: 6px; }
+        .purple-badge-wrapper { text-align: center; margin-top: -26px; }
+        .purple-circle-badge { background: linear-gradient(135deg, #7c3aed 100%, #5b21b6 0%); color: #fff; font-weight: 900; padding: 5px 16px; border-radius: 20px; border: 2px solid #fff; display: inline-block; }
+        .val-display-pro { font-weight: 900; color: #cc0000; text-align: center; letter-spacing: 3px; }
 
         /* Marquee Ticker */
         .marquee-container { position: absolute; bottom: 0; left: 0; width: 100%; padding: 8px 0; overflow: hidden; white-space: nowrap; box-sizing: border-box; z-index: 10; font-weight: bold; }
