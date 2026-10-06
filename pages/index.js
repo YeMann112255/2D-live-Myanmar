@@ -130,11 +130,11 @@ export default function Home() {
         </div>
       </div>
 
-      {/* အလယ် ဖုန်းပုံစံ */}
+      {/* အလယ် ဖုန်းပုံစံ (အလျားကို သင့်တော်သလို တိုစေပြီး အံဝင်ခွင်ကျဖြစ်အောင် ပြင်ထားသည်) */}
       <div className="phone-container">
         <div className="phone-screen">
           
-          {/* အပေါ်ဆုံး Header နှင့် Live Display */}
+          {/* အပေါ်ပိုင်း */}
           <div className="top-section-group">
             <div className="phone-status-bar">
               <span className="carrier">7:00</span>
@@ -156,12 +156,10 @@ export default function Home() {
               <span>{isPausedTime ? "12:01 PM CLOSED (PAUSED)" : "LIVE REAL-TIME UPDATES"}</span>
             </div>
 
-            {/* Live ဂဏန်းအကြီး (အပေါ်မှ အနည်းငယ် အကွာအဝေးချထားသည်) */}
             <div className="live-main-display">
               {liveTwod}
             </div>
 
-            {/* SET နှင့် Value */}
             <div className="update-time-indicator-large">
               <span>SET: <strong>{liveSet}</strong></span>
               <span className="separator">|</span>
@@ -169,10 +167,9 @@ export default function Home() {
             </div>
           </div>
 
-          {/* အောက်ပိုင်း Result များနှင့် ဖြည့်စွက်ကတ်များ (Live အောက်တွင် တပ်ဆင်ထားသည်) */}
+          {/* အောက်ပိုင်း Result နှင့် အချက်အလက်များ */}
           <div className="bottom-section-group">
             <div className="cards-group">
-              {/* 12:01 PM Result */}
               <div className="result-card-red">
                 <div className="card-title-top">12:01 PM Result</div>
                 <div className="card-sub-grid">
@@ -191,7 +188,6 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* 4:30 PM Result */}
               <div className="result-card-red">
                 <div className="card-title-top">4:30 PM Result</div>
                 <div className="card-sub-grid">
@@ -211,14 +207,12 @@ export default function Home() {
               </div>
             </div>
 
-            {/* ဖြည့်စွက်ကတ် ၁ - ကံထူးရှင် ပရိုမိုးရှင်း */}
             <div className="winner-promo-banner">
               <span className="promo-icon">🎉</span>
               <span className="promo-text">နေ့စဉ်ကံထူးရှင်များအတွက် လက်မလွှတ်တမ်းစောင့်ကြည့်ပါ</span>
               <span className="promo-badge">WIN</span>
             </div>
 
-            {/* ဖြည့်စွက်ကတ် ၂ - ကံစမ်းရန် အကြံပြုချက် */}
             <div className="tip-card-box">
               <span>💡 အချက်အလက်အမြန်ဆုံးကြည့်ရန် Channel ကို Subscribe လုပ်ထားပါ။</span>
             </div>
@@ -287,12 +281,13 @@ export default function Home() {
         .purple-circle-badge { background: linear-gradient(135deg, #7c3aed 100%, #5b21b6 0%); color: #fff; font-size: 1.4rem; font-weight: 900; padding: 8px 28px; border-radius: 30px; border: 3px solid #fff; box-shadow: 0 4px 10px rgba(124, 58, 237, 0.4); display: inline-block; }
         .val-display-pro { font-size: 3.4rem; font-weight: 900; color: #cc0000; text-align: center; letter-spacing: 5px; padding: 6px 0; }
 
-        .phone-container { width: 420px; height: 1020px; background: #111827; border: 8px solid #1f2937; border-radius: 38px; padding: 8px; box-shadow: 0 30px 70px rgba(0,0,0,0.4); display: flex; flex-direction: column; box-sizing: border-box; }
+        /* ဖုန်းဖရိန် အမြင့်ကို လျှော့ချထားသည် (880px) */
+        .phone-container { width: 400px; height: 880px; background: #111827; border: 8px solid #1f2937; border-radius: 38px; padding: 8px; box-shadow: 0 30px 70px rgba(0,0,0,0.4); display: flex; flex-direction: column; box-sizing: border-box; }
         
         .phone-screen { background: #ffffff; border-radius: 30px; padding: 8px 12px; display: flex; flex-direction: column; justify-content: space-between; height: 100%; color: #000; box-sizing: border-box; }
         
-        .top-section-group { display: flex; flex-direction: column; gap: 6px; }
-        .bottom-section-group { display: flex; flex-direction: column; gap: 6px; }
+        .top-section-group { display: flex; flex-direction: column; gap: 4px; }
+        .bottom-section-group { display: flex; flex-direction: column; gap: 5px; }
 
         .phone-status-bar { display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; font-weight: bold; }
         .dynamic-island { width: 90px; height: 16px; background: #000; border-radius: 12px; }
@@ -306,51 +301,51 @@ export default function Home() {
         .pulsing-dot { width: 7px; height: 7px; background-color: #16a34a; border-radius: 50%; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.6); } 70% { box-shadow: 0 0 0 6px rgba(22, 163, 74, 0); } 100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0); } }
 
-        .live-main-display { font-size: 4.8rem; font-weight: 900; color: #16a34a; text-align: center; line-height: 1; margin: 6px 0; text-shadow: 0 4px 12px rgba(22, 163, 74, 0.25); display: inline-block; width: 100%; animation: heartbeat 1.2s infinite; }
+        .live-main-display { font-size: 4.2rem; font-weight: 900; color: #16a34a; text-align: center; line-height: 1; margin: 4px 0; text-shadow: 0 4px 12px rgba(22, 163, 74, 0.25); display: inline-block; width: 100%; animation: heartbeat 1.2s infinite; }
         @keyframes heartbeat { 0% { transform: scale(1); } 25% { transform: scale(1.05); } 40% { transform: scale(0.97); } 60% { transform: scale(1.02); } 100% { transform: scale(1); } }
 
-        .update-time-indicator-large { text-align: center; font-size: 0.85rem; color: #15803d; font-weight: 700; background: #f0fdf4; border: 1.5px solid #dcfce7; padding: 4px 8px; border-radius: 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .update-time-indicator-large strong { color: #166534; font-size: 0.95rem; }
+        .update-time-indicator-large { text-align: center; font-size: 0.8rem; color: #15803d; font-weight: 700; background: #f0fdf4; border: 1.5px solid #dcfce7; padding: 3px 6px; border-radius: 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .update-time-indicator-large strong { color: #166534; font-size: 0.9rem; }
         .separator { margin: 0 6px; color: #86efac; }
 
-        .cards-group { display: flex; flex-direction: column; gap: 5px; }
-        .result-card-red { background: linear-gradient(135deg, #ff4d4d 0%, #e60000 100%); border-radius: 8px; padding: 5px 10px; color: #fff; box-shadow: 0 3px 8px rgba(230,0,0,0.3); }
-        .card-title-top { text-align: center; font-weight: 900; font-size: 0.8rem; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 2px; margin-bottom: 2px; }
+        .cards-group { display: flex; flex-direction: column; gap: 4px; }
+        .result-card-red { background: linear-gradient(135deg, #ff4d4d 0%, #e60000 100%); border-radius: 8px; padding: 4px 8px; color: #fff; box-shadow: 0 3px 8px rgba(230,0,0,0.3); }
+        .card-title-top { text-align: center; font-weight: 900; font-size: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 1px; margin-bottom: 2px; }
         .card-sub-grid { display: flex; justify-content: space-between; text-align: center; }
         .sub-col { flex: 1; display: flex; flex-direction: column; }
-        .sub-label { font-size: 0.55rem; opacity: 0.9; font-weight: bold; }
-        .sub-val { font-size: 0.95rem; font-weight: 900; }
-        .highlight-num { font-size: 1.1rem; background: rgba(0,0,0,0.2); border-radius: 4px; padding: 1px 0; }
+        .sub-label { font-size: 0.5rem; opacity: 0.9; font-weight: bold; }
+        .sub-val { font-size: 0.9rem; font-weight: 900; }
+        .highlight-num { font-size: 1rem; background: rgba(0,0,0,0.2); border-radius: 4px; padding: 1px 0; }
 
         .winner-promo-banner {
           background: linear-gradient(135deg, #7c3aed 0%, #4c1d95 100%);
           color: #ffdf40;
-          font-size: 0.7rem;
+          font-size: 0.65rem;
           font-weight: 900;
-          padding: 5px 8px;
+          padding: 4px 6px;
           border-radius: 6px;
           display: flex;
           align-items: center;
           justify-content: space-between;
           border: 1.5px solid #c084fc;
         }
-        .promo-text { color: #fff; font-size: 0.65rem; text-align: center; flex: 1; }
-        .promo-badge { background: #ffdf40; color: #4c1d95; padding: 2px 5px; border-radius: 3px; font-size: 0.6rem; }
+        .promo-text { color: #fff; font-size: 0.6rem; text-align: center; flex: 1; }
+        .promo-badge { background: #ffdf40; color: #4c1d95; padding: 2px 5px; border-radius: 3px; font-size: 0.55rem; }
 
         .tip-card-box {
           background: #fef3c7;
           border: 1px solid #fde68a;
           color: #92400e;
-          font-size: 0.65rem;
+          font-size: 0.6rem;
           font-weight: bold;
           text-align: center;
-          padding: 4px 6px;
+          padding: 3px 5px;
           border-radius: 6px;
         }
 
-        .phone-subscribe-footer { background: linear-gradient(90deg, #e60000, #990000); color: #fff; border-radius: 6px; padding: 5px; display: flex; justify-content: center; align-items: center; gap: 6px; font-weight: 900; font-size: 0.8rem; box-shadow: 0 3px 8px rgba(230,0,0,0.3); }
-        .sub-icon { font-size: 0.8rem; }
-        .sub-bell { font-size: 0.8rem; }
+        .phone-subscribe-footer { background: linear-gradient(90deg, #e60000, #990000); color: #fff; border-radius: 6px; padding: 4px; display: flex; justify-content: center; align-items: center; gap: 6px; font-weight: 900; font-size: 0.75rem; box-shadow: 0 3px 8px rgba(230,0,0,0.3); }
+        .sub-icon { font-size: 0.75rem; }
+        .sub-bell { font-size: 0.75rem; }
       `}</style>
     </div>
   );
