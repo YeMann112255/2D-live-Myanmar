@@ -37,8 +37,8 @@ export default function Home() {
   const [horThout, setHorThout] = useState('5-9-8');
 
   const [customItems, setCustomItems] = useState([
-    { id: 1, type: 'banner', text: '🎉 နေ့စဉ်ကံထူးရှင်များအတွက် လက်မလွှတ်တမ်းစောင့်ကြည့်ပါ', bg: 'purple' },
-    { id: 2, type: 'box', title: '💡 အချက်အလက်အမြန်ဆုံးကြည့်ရန်', sub: 'Channel ကို Subscribe လုပ်ပါ' }
+    { id: 1, type: 'banner', text: ' နေ့စဉ်ကံထူးရှင်များအတွက် လက်မလွှတ်တမ်းစောင့်ကြည့်ပါ', bg: 'purple' },
+    { id: 2, type: 'box', title: ' အချက်အလက်အမြန်ဆုံးကြည့်ရန်', sub: 'Channel ကို Subscribe လုပ်ပါ' }
   ]);
 
   const [newItemType, setNewItemType] = useState('box');
@@ -214,22 +214,22 @@ export default function Home() {
       </Head>
 
       <button className="admin-toggle-btn" onClick={() => setShowAdmin(!showAdmin)}>
-        {showAdmin ? "⚙️ ပိတ်မည်" : "⚙️ အရာရာကို စိတ်ကြိုက် ချိန်ရန် & ထည့်ရန်"}
+        {showAdmin ? " ပိတ်မည်" : " အရာရာကို စိတ်ကြိုက် ချိန်ရန် & ထည့်ရန်"}
       </button>
 
       {showAdmin && (
         <div className="admin-panel">
           <div className="admin-header-fixed">
-            <h3>📌 Viewer အားလုံးအတွက် ချိန်ရန် (Cloud Sync)</h3>
+            <h3> Viewer အားလုံးအတွက် ချိန်ရန် (Cloud Sync)</h3>
             <div className="save-action-box">
-              <button className="save-btn" onClick={handleSaveSettings}>💾 သိမ်းဆည်းမည် (Save)</button>
-              <button className="reset-btn" onClick={handleResetSettings}>🔄 မူလ</button>
-              {saveMessage && <span className="save-alert">✅ သိမ်းဆည်းပြီးပါပြီ!</span>}
+              <button className="save-btn" onClick={handleSaveSettings}> သိမ်းဆည်းမည် (Save)</button>
+              <button className="reset-btn" onClick={handleResetSettings}> မူလ</button>
+              {saveMessage && <span className="save-alert"> သိမ်းဆည်းပြီးပါပြီ!</span>}
             </div>
           </div>
 
           <div className="admin-scrollable-content">
-            <div className="section-title">➕ Box / Banner အသစ်ထပ်ထည့်ရန်</div>
+            <div className="section-title"> Box / Banner အသစ်ထပ်ထည့်ရန်</div>
             <div className="input-group">
               <label>အမျိုးအစား:</label>
               <select value={newItemType} onChange={(e) => setNewItemType(e.target.value)} className="select-style">
@@ -242,7 +242,7 @@ export default function Home() {
             <div className="input-group"><label>အသေးစိတ်/လင့်ခ်:</label><input type="text" value={newItemSub} onChange={(e) => setNewItemSub(e.target.value)} placeholder="ဥပမာ - နှုန်းထား သို့မဟုတ် ပုံလင့်ခ် URL" /></div>
             <button className="add-item-btn" onClick={handleAddItem}>+ ဖုန်းစခရင်ထဲသို့ ထည့်မည်</button>
 
-            <div className="section-title">🗑️ ထည့်ထားပြီးသားများကို ဖျက်ရန်</div>
+            <div className="section-title"> ထည့်ထားပြီးသားများကို ဖျက်ရန်</div>
             {customItems.map((item) => (
               <div key={item.id} className="admin-item-row">
                 <span>{item.title || item.text}</span>
@@ -250,13 +250,13 @@ export default function Home() {
               </div>
             ))}
 
-            <div className="section-title">📱 ဖုန်းအရွယ်အစား ချိန်ရန်</div>
+            <div className="section-title"> ဖုန်းအရွယ်အစား ချိန်ရန်</div>
             <div className="input-group"><label>ဖုန်းအကျယ်:</label><input type="range" min="320" max="500" value={phoneWidth} onChange={(e) => setPhoneWidth(e.target.value)} /><span>{phoneWidth}px</span></div>
             <div className="input-group"><label>ဖုန်းအမြင့်:</label><input type="range" min="700" max="950" value={phoneHeight} onChange={(e) => setPhoneHeight(e.target.value)} /><span>{phoneHeight}px</span></div>
             <div className="input-group"><label>အကွာအဝေး:</label><input type="range" min="1" max="15" value={contentGap} onChange={(e) => setContentGap(e.target.value)} /><span>{contentGap}px</span></div>
             <div className="input-group"><label>Live ဂဏန်းအရွယ်:</label><input type="range" min="3" max="6" step="0.2" value={liveFontSize} onChange={(e) => setLiveFontSize(e.target.value)} /><span>{liveFontSize}rem</span></div>
 
-            <div className="section-title">🎨 ဘေးဘက် Box ပုံစံများ (Styles)</div>
+            <div className="section-title"> ဘေးဘက် Box ပုံစံများ (Styles)</div>
             <div className="input-group">
               <label>ဘယ်ဘက် Box:</label>
               <select value={leftBoxStyle} onChange={(e) => setLeftBoxStyle(e.target.value)} className="select-style">
@@ -276,9 +276,9 @@ export default function Home() {
               </select>
             </div>
 
-            <div className="section-title">✏️ အဓိက စာသားများ ချိန်ရန်</div>
-            <div className="input-group"><label>⏰ ပွဲစဉ်:</label><input type="text" value={sessionTitle} onChange={(e) => { setSessionTitle(e.target.value); setManualSession(true); }} /></div>
-            <div className="input-group"><label>📅 နေ့/အမျိုးအစား:</label><input type="text" value={sessionDay} onChange={(e) => { setSessionDay(e.target.value); setManualSession(true); }} /></div>
+            <div className="section-title"> အဓိက စာသားများ ချိန်ရန်</div>
+            <div className="input-group"><label> ပွဲစဉ်:</label><input type="text" value={sessionTitle} onChange={(e) => { setSessionTitle(e.target.value); setManualSession(true); }} /></div>
+            <div className="input-group"><label> နေ့/အမျိုးအစား:</label><input type="text" value={sessionDay} onChange={(e) => { setSessionDay(e.target.value); setManualSession(true); }} /></div>
             <div className="input-group"><label>ရက်စွဲ:</label><input type="text" value={customDate} onChange={(e) => setCustomDate(e.target.value)} /></div>
             <div className="input-group"><label>ပိတ်သီး:</label><input type="text" value={pitThee} onChange={(e) => setPitThee(e.target.value)} /></div>
             <div className="input-group"><label>မိန်း:</label><input type="text" value={mainNum} onChange={(e) => setMainNum(e.target.value)} /></div>
@@ -295,7 +295,7 @@ export default function Home() {
         <div className="red-label-box" style={{ fontSize: `${sideFontSize * 0.65}rem` }}>{sessionDay}</div>
         
         <div className="youtube-subscribe-tag" style={{ fontSize: `${sideFontSize * 0.5}rem` }}>
-          <span className="yt-icon">▶</span>
+          <span className="yt-icon"></span>
           <span className="yt-text">SUBSCRIBE</span>
         </div>
 
@@ -313,11 +313,11 @@ export default function Home() {
             <div className="phone-status-bar">
               <span className="carrier">7:00</span>
               <div className="dynamic-island"></div>
-              <div className="status-icons">📶 🛜 🔋 49</div>
+              <div className="status-icons">   49</div>
             </div>
 
             <div className="app-header-bar">
-              <span className="app-logo">⭐ 2D live Myanmar</span>
+              <span className="app-logo"> 2D live Myanmar</span>
               <div className="app-menu-icons">
                 <span className="badge-2d">2D</span>
                 <span className="badge-3d">3D</span>
@@ -397,7 +397,7 @@ export default function Home() {
               } else {
                 return (
                   <div key={item.id} className="winner-promo-banner">
-                    <span className="promo-icon">📌</span>
+                    <span className="promo-icon"></span>
                     <span className="promo-text">{item.title || item.text}</span>
                   </div>
                 );
@@ -405,9 +405,9 @@ export default function Home() {
             })}
 
             <div className="phone-subscribe-footer">
-              <span className="sub-icon">👍</span>
+              <span className="sub-icon"></span>
               <span className="sub-text">LIKE & SUBSCRIBE</span>
-              <span className="sub-bell">🔔</span>
+              <span className="sub-bell"></span>
             </div>
           </div>
 
