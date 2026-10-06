@@ -6,8 +6,6 @@ const MASTER_KEY = '$2a$10$fYB8HrDgeJuhR/ZHy2JVvuz8qs2ShnIW6ZbqQCVATxhB6dJ8NjODa
 
 export default function Home() {
   const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [currentTime, setCurrentTime] = useState("");
   const [showAdmin, setShowAdmin] = useState(false);
   const [saveMessage, setSaveMessage] = useState(false);
 
@@ -21,14 +19,14 @@ export default function Home() {
   const [bgColor1, setBgColor1] = useState('#ffdf40');
   const [bgColor2, setBgColor2] = useState('#ffbb00');
 
-  // Individual Object Margins inside Phone Screen (New Precise Control)
+  // Individual Object Margins inside Phone Screen
   const [headerMarginTop, setHeaderMarginTop] = useState('0');
   const [liveNumMarginTop, setLiveNumMarginTop] = useState('0');
   const [resultCardMarginTop, setResultCardMarginTop] = useState('0');
   
-  // General Sizing
+  // General Sizing & Live Number Scale (Max increased to 8rem)
   const [headerScale, setHeaderScale] = useState('1');
-  const [liveNumScale, setLiveNumScale] = useState('4.5');
+  const [liveNumScale, setLiveNumScale] = useState('5.5');
   const [resultCardScale, setResultCardScale] = useState('1');
   const [elementSpacing, setElementSpacing] = useState('6');
   const [phonePadding, setPhonePadding] = useState('12');
@@ -58,13 +56,29 @@ export default function Home() {
   const [subNum, setSubNum] = useState('35-23-25');
   const [horThout, setHorThout] = useState('5-9-8');
 
+  // Custom Items with Individual Styling (Colors, Spacing, Scale, Font Size)
   const [customItems, setCustomItems] = useState([
-    { id: 1, type: 'banner', title: '', text: 'နေ့စဉ်ကံထူးရှင်များအတွက် လက်မလွှတ်တမ်းစောင့်ကြည့်ပါ' }
+    { 
+      id: 1, 
+      type: 'banner', 
+      title: '', 
+      text: 'နေ့စဉ်ကံထူးရှင်များအတွက် လက်မလွှတ်တမ်းစောင့်ကြည့်ပါ', 
+      bg: '#7c3aed', 
+      color: '#ffffff', 
+      fontSize: '0.75', 
+      padding: '6', 
+      marginTop: '0' 
+    }
   ]);
 
   const [newItemType, setNewItemType] = useState('box');
   const [newItemTitle, setNewItemTitle] = useState('');
   const [newItemSub, setNewItemSub] = useState('');
+  const [newItemBg, setNewItemBg] = useState('#2563eb');
+  const [newItemColor, setNewItemColor] = useState('#ffffff');
+  const [newItemFontSize, setNewItemFontSize] = useState('0.75');
+  const [newItemPadding, setNewItemPadding] = useState('6');
+  const [newItemMarginTop, setNewItemMarginTop] = useState('0');
 
   // Load Settings from JSONBin
   useEffect(() => {
@@ -163,7 +177,12 @@ export default function Home() {
       type: newItemType,
       title: newItemType === 'box' ? newItemTitle : '',
       text: newItemType === 'banner' ? newItemTitle : '',
-      sub: newItemSub
+      sub: newItemSub,
+      bg: newItemBg,
+      color: newItemColor,
+      fontSize: newItemFontSize,
+      padding: newItemPadding,
+      marginTop: newItemMarginTop
     };
     setCustomItems([...customItems, newItem]);
     setNewItemTitle('');
@@ -174,21 +193,41 @@ export default function Home() {
     setCustomItems(customItems.filter(item => item.id !== id));
   };
 
+  const handleUpdateItemProperty = (id, property, value) => {
+    setCustomItems(customItems.map(item => item.id === id ? { ...item, [property]: value } : item));
+  };
+
+  // Robust Live Data Fetcher with multiple fallback endpoints
   const fetchData = async () => {
-    try {
-      const res = await fetch('https://api.thaistock2d.com/live');
-      const json = await res.json();
-      setData(json);
-    } catch (err) {
+    const apis = [
+      'https://api.thaistock2d.com/live',
+      'https://api.twodlive.com/live',
+      'https://api.2d3dmyanmar.com/live'
+    ];
+
+    let fetched = false;
+    for (let api of apis) {
+      try {
+        const res = await fetch(api);
+        const json = await res.json();
+        if (json) {
+          setData(json);
+          fetched = true;
+          break;
+        }
+      } catch (err) {
+        continue;
+      }
+    }
+
+    if (!fetched) {
       try {
         const resInternal = await fetch('/api/live');
         const jsonInternal = await resInternal.json();
         setData(jsonInternal);
       } catch (e) {
-        console.error('Failed to fetch live data:', e);
+        console.error('All live data sources failed:', e);
       }
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -203,7 +242,7 @@ export default function Home() {
       const seconds = String(myanmarTime.getSeconds()).padStart(2, '0');
       const ampm = hours >= 12 ? 'PM' : 'AM';
       hours = hours % 12 || 12;
-      setCurrentTime(`${String(hours).padStart(2, '0')}:${minutes}:${seconds} ${ampm}`);
+      setCurrentTime ? setCurrentTime(`${String(hours).padStart(2, '0')}:${minutes}:${seconds} ${ampm}`) : null;
 
       if (!manualSession) {
         if (myanmarTime.getHours() < 13) {
@@ -228,6 +267,7 @@ export default function Home() {
     };
   }, [manualSession]);
 
+  const [currentTime, setCurrentTime] = useState("");
   const resultsArray = Array.isArray(data) ? data : (data?.result || data?.data?.result || []);
   const getResult = (timeStr) => resultsArray.find(r => r.open_time && r.open_time.includes(timeStr));
 
@@ -292,7 +332,7 @@ export default function Home() {
             {bgType === 'gradient' && (
               <div className="input-group">
                 <label>အရောင် (၂):</label>
-                <input type="color" value={bgColor2} onChange={(e) => setBgColor2(e.target.value)} style={{ width: '45px', height: '26px', border: 'none', background: 'none', cursor: 'pointer' }} />
+                <input type="color" value={bgColor2} onChange={(e) => setbgColor2(e.target.value)} style={{ width: '45px', height: '26px', border: 'none', background: 'none', cursor: 'pointer' }} />
                 <span>{bgColor2}</span>
               </div>
             )}
@@ -336,7 +376,7 @@ export default function Home() {
             <div className="input-group"><label>Header အချိုး (Scale):</label><input type="range" min="0.7" max="1.3" step="0.1" value={headerScale} onChange={(e) => setHeaderScale(e.target.value)} /><span>{headerScale}x</span></div>
             
             <div className="input-group"><label>Live ဂဏန်း အနေအထား (Top):</label><input type="range" min="-30" max="50" value={liveNumMarginTop} onChange={(e) => setLiveNumMarginTop(e.target.value)} /><span>{liveNumMarginTop}px</span></div>
-            <div className="input-group"><label>Live ဂဏန်း အရွယ်:</label><input type="range" min="2.5" max="5.5" step="0.2" value={liveNumScale} onChange={(e) => setLiveNumScale(e.target.value)} /><span>{liveNumScale}rem</span></div>
+            <div className="input-group"><label>Live ဂဏန်း အရွယ် (ကြီးရန်):</label><input type="range" min="3.0" max="8.0" step="0.2" value={liveNumScale} onChange={(e) => setLiveNumScale(e.target.value)} /><span>{liveNumScale}rem</span></div>
 
             <div className="input-group"><label>Result Card အနေအထား (Top):</label><input type="range" min="-30" max="50" value={resultCardMarginTop} onChange={(e) => setResultCardMarginTop(e.target.value)} /><span>{resultCardMarginTop}px</span></div>
             <div className="input-group"><label>Result Card အရွယ်:</label><input type="range" min="0.7" max="1.3" step="0.1" value={resultCardScale} onChange={(e) => setResultCardScale(e.target.value)} /><span>{resultCardScale}x</span></div>
@@ -358,13 +398,26 @@ export default function Home() {
             </div>
             <div className="input-group"><label>ခေါင်းစဉ်/စာသား:</label><input type="text" value={newItemTitle} onChange={(e) => setNewItemTitle(e.target.value)} placeholder="ဥပမာ - VIP အထူးဂဏန်း" /></div>
             <div className="input-group"><label>အသေးစိတ်:</label><input type="text" value={newItemSub} onChange={(e) => setNewItemSub(e.target.value)} placeholder="ဥပမာ - ဆက်သွယ်ရန်" /></div>
+            <div className="input-group"><label>နောက်ခံအရောင်:</label><input type="color" value={newItemBg} onChange={(e) => setNewItemBg(e.target.value)} style={{ width: '45px', height: '24px', border: 'none', background: 'none', cursor: 'pointer' }} /></div>
+            <div className="input-group"><label>စာသားအရောင်:</label><input type="color" value={newItemColor} onChange={(e) => setNewItemColor(e.target.value)} style={{ width: '45px', height: '24px', border: 'none', background: 'none', cursor: 'pointer' }} /></div>
+            <div className="input-group"><label>ဖောင့်အရွယ် (rem):</label><input type="range" min="0.5" max="1.5" step="0.05" value={newItemFontSize} onChange={(e) => setNewItemFontSize(e.target.value)} /><span>{newItemFontSize}</span></div>
+            <div className="input-group"><label>Padding:</label><input type="range" min="2" max="20" value={newItemPadding} onChange={(e) => setNewItemPadding(e.target.value)} /><span>{newItemPadding}px</span></div>
+            <div className="input-group"><label>အပေါ်အကွာအဝေး (Top):</label><input type="range" min="-20" max="30" value={newItemMarginTop} onChange={(e) => setNewItemMarginTop(e.target.value)} /><span>{newItemMarginTop}px</span></div>
+            
             <button className="add-item-btn" onClick={handleAddItem}>+ စခရင်ထဲ ထည့်မည်</button>
 
-            <div className="section-title">🗑️ ထည့်ထားပြီးသားများ ဖျက်ရန်</div>
+            <div className="section-title">⚙️ ထည့်ထားပြီးသား Box/Banner များကို တစ်ခုချင်း ပြင်ဆင်/ဖျက်ရန်</div>
             {customItems.map((item) => (
-              <div key={item.id} className="admin-item-row">
-                <span>{item.title || item.text}</span>
-                <button onClick={() => handleDeleteItem(item.id)}>ဖျက်ရန်</button>
+              <div key={item.id} className="admin-item-customizer-box">
+                <div className="admin-item-row">
+                  <span style={{ fontWeight: 'bold', color: '#ffd700' }}>{item.title || item.text}</span>
+                  <button onClick={() => handleDeleteItem(item.id)} className="del-btn">ဖျက်ရန်</button>
+                </div>
+                <div className="input-group"><label>နောက်ခံအရောင်:</label><input type="color" value={item.bg || '#2563eb'} onChange={(e) => handleUpdateItemProperty(item.id, 'bg', e.target.value)} style={{ width: '40px', height: '22px', border: 'none', background: 'none', cursor: 'pointer' }} /></div>
+                <div className="input-group"><label>စာသားအရောင်:</label><input type="color" value={item.color || '#ffffff'} onChange={(e) => handleUpdateItemProperty(item.id, 'color', e.target.value)} style={{ width: '40px', height: '22px', border: 'none', background: 'none', cursor: 'pointer' }} /></div>
+                <div className="input-group"><label>ဖောင့်အရွယ်:</label><input type="range" min="0.5" max="1.5" step="0.05" value={item.fontSize || '0.75'} onChange={(e) => handleUpdateItemProperty(item.id, 'fontSize', e.target.value)} /><span>{item.fontSize || '0.75'}</span></div>
+                <div className="input-group"><label>Padding:</label><input type="range" min="2" max="20" value={item.padding || '6'} onChange={(e) => handleUpdateItemProperty(item.id, 'padding', e.target.value)} /><span>{item.padding || '6'}px</span></div>
+                <div className="input-group"><label>အပေါ်အကွာ (Top):</label><input type="range" min="-20" max="30" value={item.marginTop || '0'} onChange={(e) => handleUpdateItemProperty(item.id, 'marginTop', e.target.value)} /><span>{item.marginTop || '0'}px</span></div>
               </div>
             ))}
 
@@ -455,9 +508,19 @@ export default function Home() {
             </div>
 
             {customItems.map((item) => (
-              <div key={item.id} className={item.type === 'box' ? "result-card-dynamic" : "winner-promo-banner"} style={item.type === 'box' ? { background: '#2563eb', color: '#fff' } : {}}>
-                <div className={item.type === 'box' ? "card-title-top" : ""}>{item.title || item.text}</div>
-                {item.sub && <div style={{ textAlign: 'center', fontSize: '0.7rem' }}>{item.sub}</div>}
+              <div 
+                key={item.id} 
+                className={item.type === 'box' ? "result-card-dynamic" : "winner-promo-banner"} 
+                style={{ 
+                  background: item.bg || (item.type === 'box' ? '#2563eb' : '#7c3aed'), 
+                  color: item.color || '#fff',
+                  fontSize: `${item.fontSize || 0.75}rem`,
+                  padding: `${item.padding || 6}px 8px`,
+                  marginTop: `${item.marginTop || 0}px`
+                }}
+              >
+                {item.type === 'box' && <div className="card-title-top" style={{ fontSize: `${(item.fontSize || 0.75) * 0.95}rem` }}>{item.title}</div>}
+                <div style={{ textAlign: 'center' }}>{item.type === 'banner' ? item.text : item.sub}</div>
               </div>
             ))}
 
@@ -501,7 +564,7 @@ export default function Home() {
         }
 
         .admin-toggle-btn { position: fixed; top: 20px; left: 20px; background: #000; color: #ffd700; border: none; padding: 10px 20px; font-weight: bold; border-radius: 8px; cursor: pointer; z-index: 99999; font-size: 1rem; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
-        .admin-panel { position: fixed; top: 75px; left: 20px; background: #111; border: 2px solid #ffd700; border-radius: 12px; z-index: 99999; width: 420px; color: #fff; box-shadow: 0 10px 25px rgba(0,0,0,0.8); height: 82vh; display: flex; flex-direction: column; overflow: hidden; }
+        .admin-panel { position: fixed; top: 75px; left: 20px; background: #111; border: 2px solid #ffd700; border-radius: 12px; z-index: 99999; width: 440px; color: #fff; box-shadow: 0 10px 25px rgba(0,0,0,0.8); height: 82vh; display: flex; flex-direction: column; overflow: hidden; }
         .admin-header-fixed { padding: 15px; background: #111; border-bottom: 1px solid #333; flex-shrink: 0; }
         .admin-header-fixed h3 { margin: 0 0 8px 0; color: #ffd700; font-size: 1rem; }
         .admin-scrollable-content { padding: 10px 15px 15px 15px; overflow-y: auto; flex-grow: 1; }
@@ -520,8 +583,9 @@ export default function Home() {
         .select-style { background: #222; border: 1px solid #555; color: #ffd700; padding: 4px 8px; border-radius: 4px; width: 50%; font-weight: bold; }
 
         .add-item-btn { background: #2563eb; color: #fff; border: none; padding: 8px; width: 100%; font-weight: bold; border-radius: 6px; cursor: pointer; margin-top: 5px; }
-        .admin-item-row { display: flex; justify-content: space-between; align-items: center; background: #222; padding: 6px 10px; border-radius: 4px; margin-bottom: 5px; font-size: 0.8rem; }
-        .admin-item-row button { background: #dc2626; color: #fff; border: none; padding: 3px 8px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        .admin-item-customizer-box { background: #1c1c1c; border: 1px solid #444; border-radius: 8px; padding: 8px 10px; margin-bottom: 8px; }
+        .admin-item-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; border-bottom: 1px solid #333; padding-bottom: 4px; font-size: 0.8rem; }
+        .del-btn { background: #dc2626; color: #fff; border: none; padding: 3px 8px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 0.75rem; }
 
         /* Phone Frames */
         .phone-container { background: #111; display: flex; flex-direction: column; box-sizing: border-box; transition: width 0.2s, height 0.2s; box-shadow: 0 25px 50px rgba(0,0,0,0.5); }
@@ -559,7 +623,7 @@ export default function Home() {
         .sub-val { font-weight: 900; }
         .highlight-num { background: rgba(0,0,0,0.25); border-radius: 4px; padding: 1px 0; }
 
-        .winner-promo-banner { background: linear-gradient(135deg, #7c3aed 0%, #4c1d95 100%); color: #fff; font-weight: 900; padding: 4px 8px; border-radius: 6px; text-align: center; font-size: 0.7rem; }
+        .winner-promo-banner { color: #fff; font-weight: 900; border-radius: 6px; text-align: center; }
         .phone-subscribe-footer { background: linear-gradient(90deg, #e60000, #990000); color: #fff; border-radius: 6px; padding: 5px; text-align: center; font-weight: 900; font-size: 0.75rem; }
 
         /* Side Cards Styles */
