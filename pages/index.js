@@ -50,7 +50,7 @@ export default function Home() {
   const [leftBoxStyle, setLeftBoxStyle] = useState('modern');
   const [rightBoxStyle, setRightBoxStyle] = useState('modern');
 
-  const [marqueeText, setMarqueeText] = useState('နေ့စဉ်ကံထူးရှင်များအတွက် လက်မလွှတ်တမ်းစောင့်ကြည့်ပါ - VIP Channel ကို Subscribe လုပ်ထားပါ။');
+  const [marqueeText, setMarqueeText] = useState('ဈေးကွက်အချက်အလက်များကို အချိန်နှင့်တပြေးညီ လေ့လာဆန်းစစ်ရန် - VIP Channel ကို Subscribe လုပ်ထားပါ။');
   const [marqueeSpeed, setMarqueeSpeed] = useState('25');
   const [marqueeBg, setMarqueeBg] = useState('#000000');
   const [marqueeColor, setMarqueeColor] = useState('#ffd700');
@@ -61,11 +61,10 @@ export default function Home() {
   const [manualSession, setManualSession] = useState(false);
   const [customDate, setCustomDate] = useState('06-10-2026');
   
-  // 🎛️ Admin Panel ကနေ အမည်ပြောင်းလဲနိုင်သော ခေါင်းစဉ်အသစ်များ
-  const [labelHorThout, setLabelHorThout] = useState('ဟောထိပ်');
-  const [labelPitThee, setLabelPitThee] = useState('ယနေ့အတွက်ပတ်သီး');
-  const [labelMainNum, setLabelMainNum] = useState('မိန်း (Main)');
-  const [labelSubNum, setLabelSubNum] = useState('အရံ (Sub)');
+  const [labelHorThout, setLabelHorThout] = useState('ဈေးကွက်ဦးဆောင်ချက်');
+  const [labelPitThee, setLabelPitThee] = useState('အဓိကအညွှန်းကိန်း');
+  const [labelMainNum, setLabelMainNum] = useState('အဓိကအကဲခတ်ချက်');
+  const [labelSubNum, setLabelSubNum] = useState('ထပ်ဆောင်းအချက်အလက်');
 
   const [pitThee, setPitThee] = useState('5-3-2');
   const [mainNum, setMainNum] = useState('53-57-39');
@@ -73,7 +72,7 @@ export default function Home() {
   const [horThout, setHorThout] = useState('5-9-8');
 
   const [enableAvatar, setEnableAvatar] = useState(true);
-  const [avatarStatusText, setAvatarStatusText] = useState('ယနေ့အတွက် 2D တိုက်ရိုက်အချက်အလက်များကို အချိန်နဲ့တစ်ပြေးညီ တင်ဆက်ပေးနေပါသည်ခင်ဗျာ...');
+  const [avatarStatusText, setAvatarStatusText] = useState('ယနေ့အတွက် ဈေးကွက်အချက်အလက်များကို အချိန်နဲ့တစ်ပြေးညီ တင်ဆက်ပေးနေပါသည်ခင်ဗျာ...');
   const [hostImageSize, setHostImageSize] = useState('150');
   const [hostPosX, setHostPosX] = useState('10'); 
   const [hostPosY, setHostPosY] = useState('0');  
@@ -85,7 +84,7 @@ export default function Home() {
       id: 1, 
       type: 'banner', 
       title: '', 
-      text: 'နေ့စဉ်ကံထူးရှင်များအတွက် လက်မလွှတ်တမ်းစောင့်ကြည့်ပါ', 
+      text: 'ဈေးကွက်အချက်အလက်များကို အချိန်နှင့်တပြေးညီ လေ့လာရန်', 
       bg: '#7c3aed', 
       color: '#ffffff', 
       fontSize: '0.95', 
@@ -320,7 +319,7 @@ export default function Home() {
   return (
     <div className="stream-container" style={customBgStyle}>
       <Head>
-        <title>2D LIVE MYANMAR - Ultimate Custom Pro with Side AI Host</title>
+        <title>Market Analytics Live - Pro Studio</title>
       </Head>
 
       <button className="admin-toggle-btn" onClick={(e) => { e.stopPropagation(); handleAdminToggle(); }}>
@@ -453,7 +452,7 @@ export default function Home() {
                 <option value="banner">Banner Text</option>
               </select>
             </div>
-            <div className="input-group"><label>ခေါင်းစဉ်/စာသား:</label><input type="text" value={newItemTitle} onChange={(e) => setNewItemTitle(e.target.value)} placeholder="ဥပမာ - VIP အထူးဂဏန်း" /></div>
+            <div className="input-group"><label>ခေါင်းစဉ်/စာသား:</label><input type="text" value={newItemTitle} onChange={(e) => setNewItemTitle(e.target.value)} placeholder="ဥပမာ - ဈေးကွက်သုံးသပ်ချက်" /></div>
             <div className="input-group"><label>အသေးစိတ်:</label><input type="text" value={newItemSub} onChange={(e) => setNewItemSub(e.target.value)} placeholder="ဥပမာ - ဆက်သွယ်ရန်" /></div>
             <div className="input-group"><label>နောက်ခံအရောင်:</label><input type="color" value={newItemBg} onChange={(e) => setNewItemBg(e.target.value)} style={{ width: '45px', height: '24px', border: 'none', background: 'none', cursor: 'pointer' }} /></div>
             <div className="input-group"><label>စာသားအရောင်:</label><input type="color" value={newItemColor} onChange={(e) => setNewItemColor(e.target.value)} style={{ width: '45px', height: '24px', border: 'none', background: 'none', cursor: 'pointer' }} /></div>
@@ -484,13 +483,13 @@ export default function Home() {
             <div className="input-group"><label>ရက်စွဲ:</label><input type="text" value={customDate} onChange={(e) => setCustomDate(e.target.value)} /></div>
             
             <div className="section-title">🏷️ ဘောက်စ်ခေါင်းစဉ်အမည်များ ပြောင်းရန်</div>
-            <div className="input-group"><label>ဘယ်ဘက် ခေါင်းစဉ် (ဟောထိပ်):</label><input type="text" value={labelHorThout} onChange={(e) => setLabelHorThout(e.target.value)} /></div>
+            <div className="input-group"><label>ဘယ်ဘက် ခေါင်းစဉ်:</label><input type="text" value={labelHorThout} onChange={(e) => setLabelHorThout(e.target.value)} /></div>
             <div className="input-group"><label>ညာဘက် (၁) ခေါင်းစဉ်:</label><input type="text" value={labelPitThee} onChange={(e) => setLabelPitThee(e.target.value)} /></div>
             <div className="input-group"><label>ညာဘက် (၂) ခေါင်းစဉ်:</label><input type="text" value={labelMainNum} onChange={(e) => setLabelMainNum(e.target.value)} /></div>
             <div className="input-group"><label>ညာဘက် (၃) ခေါင်းစဉ်:</label><input type="text" value={labelSubNum} onChange={(e) => setLabelSubNum(e.target.value)} /></div>
 
             <div className="section-title">🔢 ဂဏန်းတန်ဖိုးများ</div>
-            <div className="input-group"><label>ဟောထိပ် တန်ဖိုး:</label><input type="text" value={horThout} onChange={(e) => setHorThout(e.target.value)} /></div>
+            <div className="input-group"><label>ဦးဆောင်ချက် တန်ဖိုး:</label><input type="text" value={horThout} onChange={(e) => setHorThout(e.target.value)} /></div>
             <div className="input-group"><label>ပထမတန်ဖိုး:</label><input type="text" value={pitThee} onChange={(e) => setPitThee(e.target.value)} /></div>
             <div className="input-group"><label>ဒုတိယတန်ဖိုး:</label><input type="text" value={mainNum} onChange={(e) => setMainNum(e.target.value)} /></div>
             <div className="input-group"><label>တတိယတန်ဖိုး:</label><input type="text" value={subNum} onChange={(e) => setSubNum(e.target.value)} /></div>
@@ -553,10 +552,10 @@ export default function Home() {
               </div>
 
               <div className="app-header-bar">
-                <span className="app-logo">⭐ 2D live Myanmar</span>
+                <span className="app-logo">⭐ Market Analytics Pro</span>
                 <div className="app-menu-icons">
-                  <span className="badge-2d">2D</span>
-                  <span className="badge-3d">3D</span>
+                  <span className="badge-2d">SET</span>
+                  <span className="badge-3d">VAL</span>
                 </div>
               </div>
 
@@ -585,7 +584,7 @@ export default function Home() {
                   <div className="card-sub-grid">
                     <div className="sub-col"><span className="sub-label">SET</span><span className="sub-val">{result12?.set || "--"}</span></div>
                     <div className="sub-col"><span className="sub-label">Value</span><span className="sub-val">{result12?.value || "--"}</span></div>
-                    <div className="sub-col"><span className="sub-label">2D</span><span className="sub-val highlight-num">{result12?.twod || "--"}</span></div>
+                    <div className="sub-col"><span className="sub-label">Index</span><span className="sub-val highlight-num">{result12?.twod || "--"}</span></div>
                   </div>
                 </div>
 
@@ -594,7 +593,7 @@ export default function Home() {
                   <div className="card-sub-grid">
                     <div className="sub-col"><span className="sub-label">SET</span><span className="sub-val">{result1630?.set || "--"}</span></div>
                     <div className="sub-col"><span className="sub-label">Value</span><span className="sub-val">{result1630?.value || "--"}</span></div>
-                    <div className="sub-col"><span className="sub-label">2D</span><span className="sub-val highlight-num">{result1630?.twod || "--"}</span></div>
+                    <div className="sub-col"><span className="sub-label">Index</span><span className="sub-val highlight-num">{result1630?.twod || "--"}</span></div>
                   </div>
                 </div>
               </div>
