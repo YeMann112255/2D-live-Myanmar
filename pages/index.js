@@ -56,7 +56,9 @@ export default function Home() {
     try {
       const res = await fetch('/api/live');
       const json = await res.json();
-      if (json.success) setData(json.data);
+      if (json) {
+        setData(json.data || json);
+      }
     } catch (err) {
       console.error(err);
     } finally {
@@ -108,7 +110,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* အလယ် ဖုန်းပုံစံ */}
+      {/* အလယ် ဖုန်းပုံစံ (နေရာတကျ ချိန်ညှိထားသည်) */}
       <div className="phone-container">
         <div className="phone-screen">
           <div className="phone-status-bar">
@@ -318,9 +320,10 @@ export default function Home() {
           padding: 6px 0;
         }
 
+        /* ဖုန်းပုံစံ Layout (နေရာတကျ သပ်ရပ်စေရန် ပြင်ဆင်ထားသည်) */
         .phone-container {
           width: 420px;
-          height: 920px;
+          height: 1020px;
           background: #111827;
           border: 8px solid #1f2937;
           border-radius: 38px;
@@ -333,7 +336,7 @@ export default function Home() {
         .phone-screen {
           background: #ffffff;
           border-radius: 30px;
-          padding: 14px 16px;
+          padding: 12px 14px;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
@@ -343,36 +346,37 @@ export default function Home() {
         }
         .phone-status-bar { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; font-weight: bold; }
         .dynamic-island { width: 100px; height: 18px; background: #000; border-radius: 12px; }
-        .app-header-bar { background: #ffcc00; padding: 8px 14px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: 1.05rem; }
+        .app-header-bar { background: #ffcc00; padding: 6px 12px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: 1rem; }
         .app-logo { color: #000; font-weight: 900; }
         .app-menu-icons { display: flex; gap: 6px; align-items: center; font-size: 0.8rem; }
         .badge-2d { background: #16a34a; color: #fff; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; }
         .badge-3d { background: #2563eb; color: #fff; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; }
         
         .live-status-pill {
-          background: #f0fdf4; border: 1px solid #bbf7d0; color: #16a34a; font-size: 0.8rem; font-weight: 900; padding: 4px 10px; border-radius: 20px; display: flex; align-items: center; justify-content: center; gap: 6px; width: fit-content; margin: 0 auto;
+          background: #f0fdf4; border: 1px solid #bbf7d0; color: #16a34a; font-size: 0.75rem; font-weight: 900; padding: 3px 8px; border-radius: 20px; display: flex; align-items: center; justify-content: center; gap: 6px; width: fit-content; margin: 2px auto;
         }
         .pulsing-dot { width: 8px; height: 8px; background-color: #16a34a; border-radius: 50%; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.6); } 70% { box-shadow: 0 0 0 6px rgba(22, 163, 74, 0); } 100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0); } }
 
-        .live-main-display { font-size: 7rem; font-weight: 900; color: #16a34a; text-align: center; line-height: 1; margin: 0; text-shadow: 0 4px 12px rgba(22, 163, 74, 0.25); }
-        .update-time-indicator { text-align: center; font-size: 0.8rem; color: #16a34a; font-weight: bold; }
+        .live-main-display { font-size: 6rem; font-weight: 900; color: #16a34a; text-align: center; line-height: 1; margin: 2px 0; text-shadow: 0 4px 12px rgba(22, 163, 74, 0.25); }
+        .update-time-indicator { text-align: center; font-size: 0.75rem; color: #16a34a; font-weight: bold; margin-bottom: 4px; }
 
         .cards-group { display: flex; flex-direction: column; gap: 8px; }
-        .result-card-red { background: linear-gradient(135deg, #ff4d4d 0%, #e60000 100%); border-radius: 12px; padding: 8px 14px; color: #fff; box-shadow: 0 4px 10px rgba(230,0,0,0.3); }
-        .card-title-top { text-align: center; font-weight: 900; font-size: 0.95rem; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 3px; margin-bottom: 5px; }
+        .result-card-red { background: linear-gradient(135deg, #ff4d4d 0%, #e60000 100%); border-radius: 12px; padding: 8px 12px; color: #fff; box-shadow: 0 4px 10px rgba(230,0,0,0.3); }
+        .card-title-top { text-align: center; font-weight: 900; font-size: 0.9rem; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 2px; margin-bottom: 4px; }
         .card-sub-grid { display: flex; justify-content: space-between; text-align: center; }
         .sub-col { flex: 1; display: flex; flex-direction: column; }
-        .sub-label { font-size: 0.7rem; opacity: 0.9; font-weight: bold; }
-        .sub-val { font-size: 1.2rem; font-weight: 900; }
-        .highlight-num { font-size: 1.35rem; background: rgba(0,0,0,0.2); border-radius: 6px; }
+        .sub-label { font-size: 0.65rem; opacity: 0.9; font-weight: bold; }
+        .sub-val { font-size: 1.15rem; font-weight: 900; }
+        .highlight-num { font-size: 1.3rem; background: rgba(0,0,0,0.2); border-radius: 6px; padding: 1px 0; }
 
         .phone-subscribe-footer {
-          background: linear-gradient(90deg, #e60000, #990000); color: #fff; border-radius: 10px; padding: 8px; display: flex; justify-content: center; align-items: center; gap: 8px; font-weight: 900; font-size: 0.95rem;
+          background: linear-gradient(90deg, #e60000, #990000); color: #fff; border-radius: 10px; padding: 8px; display: flex; justify-content: center; align-items: center; gap: 8px; font-weight: 900; font-size: 0.9rem;
           box-shadow: 0 4px 10px rgba(230,0,0,0.3);
+          margin-top: 4px;
         }
-        .sub-icon { font-size: 1rem; }
-        .sub-bell { font-size: 1rem; }
+        .sub-icon { font-size: 0.9rem; }
+        .sub-bell { font-size: 0.9rem; }
       `}</style>
     </div>
   );
