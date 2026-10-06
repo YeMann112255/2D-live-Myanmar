@@ -66,9 +66,14 @@ export default function Home() {
     }
   };
 
-  const getResult = (time) => data?.result?.find(r => r.open_time === time);
-  const result12 = getResult("12:01:00");
-  const result1630 = getResult("16:30:00");
+  // Result များကို ရှာဖွေရာတွင် အချိန်ပုံစံ ကွဲလွဲမှုမရှိစေရန် စစ်ဆေးခြင်း
+  const getResult = (timeKey) => {
+    if (!data?.result) return null;
+    return data.result.find(r => r.open_time && r.open_time.includes(timeKey));
+  };
+
+  const result12 = getResult("12:01");
+  const result1630 = getResult("16:30");
 
   return (
     <div className="stream-container">
@@ -110,7 +115,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* အလယ် ဖုန်းပုံစံ (နေရာတကျ ချိန်ညှိထားသည်) */}
+      {/* အလယ် ဖုန်းပုံစံ */}
       <div className="phone-container">
         <div className="phone-screen">
           <div className="phone-status-bar">
@@ -133,8 +138,9 @@ export default function Home() {
             <span>LIVE REAL-TIME UPDATES</span>
           </div>
 
+          {/* ခုန်နေသည့် Animation ပါသော Live ဂဏန်းအကြီး */}
           <div className="live-main-display">
-            {data?.live?.twod || "57"}
+            {data?.live?.twod || "33"}
           </div>
 
           <div className="update-time-indicator">
@@ -320,7 +326,6 @@ export default function Home() {
           padding: 6px 0;
         }
 
-        /* ဖုန်းပုံစံ Layout (နေရာတကျ သပ်ရပ်စေရန် ပြင်ဆင်ထားသည်) */
         .phone-container {
           width: 420px;
           height: 1020px;
@@ -358,7 +363,27 @@ export default function Home() {
         .pulsing-dot { width: 8px; height: 8px; background-color: #16a34a; border-radius: 50%; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.6); } 70% { box-shadow: 0 0 0 6px rgba(22, 163, 74, 0); } 100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0); } }
 
-        .live-main-display { font-size: 6rem; font-weight: 900; color: #16a34a; text-align: center; line-height: 1; margin: 2px 0; text-shadow: 0 4px 12px rgba(22, 163, 74, 0.25); }
+        /* လိုင်းပေါ်တွင် ဂဏန်းအကြီး ခုန်နေစေရန် (Heartbeat Animation) */
+        .live-main-display {
+          font-size: 6rem;
+          font-weight: 900;
+          color: #16a34a;
+          text-align: center;
+          line-height: 1;
+          margin: 2px 0;
+          text-shadow: 0 4px 12px rgba(22, 163, 74, 0.25);
+          display: inline-block;
+          width: 100%;
+          animation: heartbeat 1.2s infinite;
+        }
+        @keyframes heartbeat {
+          0% { transform: scale(1); }
+          25% { transform: scale(1.08); }
+          40% { transform: scale(0.95); }
+          60% { transform: scale(1.04); }
+          100% { transform: scale(1); }
+        }
+
         .update-time-indicator { text-align: center; font-size: 0.75rem; color: #16a34a; font-weight: bold; margin-bottom: 4px; }
 
         .cards-group { display: flex; flex-direction: column; gap: 8px; }
