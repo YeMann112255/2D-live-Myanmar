@@ -65,12 +65,12 @@ export default function Home() {
   const [subNum, setSubNum] = useState('35-23-25');
   const [horThout, setHorThout] = useState('5-9-8');
 
-  // AI Host & Side Text Controls (ကျယ်ကျယ်ပြန့်ပြန့် ရွှေ့နိုင်ရန် Range Limit များ တိုးမြှင့်ထားသည်)
+  // AI Host & Side Text Controls (Pos X ကို 0 မှ 900 အထိ အကောင်းဆုံး ချိန်ညှိနိုင်ရန်)
   const [enableAvatar, setEnableAvatar] = useState(true);
   const [avatarStatusText, setAvatarStatusText] = useState('ယနေ့အတွက် 2D တိုက်ရိုက်အချက်အလက်များကို အချိန်နဲ့တစ်ပြေးညီ တင်ဆက်ပေးနေပါသည်ခင်ဗျာ...');
   const [hostImageSize, setHostImageSize] = useState('150');
-  const [hostPosX, setHostPosX] = useState('20'); // ဘေးဘယ်ညာ လွတ်လွတ်လပ်လပ် ရွှေ့ရန်
-  const [hostPosY, setHostPosY] = useState('0');  // အထက်အောက် ရွှေ့ရန်
+  const [hostPosX, setHostPosX] = useState('10'); 
+  const [hostPosY, setHostPosY] = useState('0');  
   const [hostTextWidth, setHostTextWidth] = useState('160'); 
   const [hostTextFontSize, setHostTextFontSize] = useState('0.85'); 
 
@@ -154,7 +154,7 @@ export default function Home() {
 
   useEffect(() => {
     fetchSettings();
-    const syncInterval = setInterval(fetchSettings, 3000);
+    const syncInterval = setInterval(fetchSettings, 4000);
     return () => clearInterval(syncInterval);
   }, []);
 
@@ -339,7 +339,7 @@ export default function Home() {
             </div>
             <div className="input-group">
               <label>ဘေးဘယ်ညာ နေရာ (Pos X):</label>
-              <input type="range" min="0" max="800" value={hostPosX} onChange={(e) => setHostPosX(e.target.value)} /><span>{hostPosX}px</span>
+              <input type="range" min="0" max="900" value={hostPosX} onChange={(e) => setHostPosX(e.target.value)} /><span>{hostPosX}px</span>
             </div>
             <div className="input-group">
               <label>အထက်အောက် နေရာ (Pos Y):</label>
@@ -452,7 +452,7 @@ export default function Home() {
             
             <button className="add-item-btn" onClick={handleAddItem}>+ စခရင်ထဲ ထည့်မည်</button>
 
-            <div className="section-title">⚙️ ထည့်ထားပြီးသား Box/Banner များကို ပြင်ဆင်/ဖျက်ရန်</div>
+            <div className="section-title">⚙️️ ထည့်ထားပြီးသား Box/Banner များကို ပြင်ဆင်/ဖျက်ရန်</div>
             {customItems.map((item) => (
               <div key={item.id} className="admin-item-customizer-box">
                 <div className="admin-item-row">
@@ -479,7 +479,7 @@ export default function Home() {
         </div>
       )}
 
-      {/* အဓိက Stream Container ၏ တိုက်ရိုက်အောက်ခံတွင် AI Host ကို ထည့်သွင်းထားသဖြင့် စခရင်ဘယ်ဘက်စွန်းအထိ လွတ်လွတ်လပ်လပ် ရွှေ့နိုင်သည် */}
+      {/* AI Host နေရာလွတ်လပ်စွာ ရွှေ့နိုင်ရန် */}
       {enableAvatar && (
         <div 
           className="side-ai-host-wrapper" 
@@ -663,12 +663,11 @@ export default function Home() {
 
         .center-stream-wrapper { display: flex; align-items: center; justify-content: center; position: relative; z-index: 20; }
         
-        /* စခရင်ဘယ်ဘက်ထောင့်ဆုံးအထိ လွတ်လွတ်လပ်လပ် ရွှေ့နိုင်ရန် ပြုပြင်ထားသော AI Host စတိုင် */
         .side-ai-host-wrapper { 
           display: flex; align-items: center; gap: 10px; 
           background: rgba(255, 255, 255, 0.96); padding: 12px; border-radius: 16px; 
           border: 3px solid #16a34a; box-shadow: 0 15px 35px rgba(0,0,0,0.4); 
-          position: absolute; top: 50%; transform: translateY(-50%); z-index: 100; 
+          position: absolute; z-index: 100; 
         }
         .side-avatar-circle-frame { border-radius: 50%; overflow: hidden; border: 3px solid #16a34a; background: #fff; flex-shrink: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
         .side-avatar-speech-box { display: flex; flex-direction: column; gap: 2px; }
