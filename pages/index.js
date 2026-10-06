@@ -65,14 +65,14 @@ export default function Home() {
   const [subNum, setSubNum] = useState('35-23-25');
   const [horThout, setHorThout] = useState('5-9-8');
 
-  // AI Host & Side Text Controls
+  // AI Host & Side Text Controls (ကျယ်ကျယ်ပြန့်ပြန့် ရွှေ့နိုင်ရန် Range Limit များ တိုးမြှင့်ထားသည်)
   const [enableAvatar, setEnableAvatar] = useState(true);
   const [avatarStatusText, setAvatarStatusText] = useState('ယနေ့အတွက် 2D တိုက်ရိုက်အချက်အလက်များကို အချိန်နဲ့တစ်ပြေးညီ တင်ဆက်ပေးနေပါသည်ခင်ဗျာ...');
   const [hostImageSize, setHostImageSize] = useState('150');
-  const [hostPosX, setHostPosX] = useState('-120'); // ဘေးဘယ်ညာ ရွှေ့ရန်
-  const [hostPosY, setHostPosY] = useState('-50');  // အထက်အောက် ရွှေ့ရန်
-  const [hostTextWidth, setHostTextWidth] = useState('160'); // စာသားဘောက်စ် အကျယ်
-  const [hostTextFontSize, setHostTextFontSize] = useState('0.85'); // စာသား အရွယ်အစား
+  const [hostPosX, setHostPosX] = useState('20'); // ဘေးဘယ်ညာ လွတ်လွတ်လပ်လပ် ရွှေ့ရန်
+  const [hostPosY, setHostPosY] = useState('0');  // အထက်အောက် ရွှေ့ရန်
+  const [hostTextWidth, setHostTextWidth] = useState('160'); 
+  const [hostTextFontSize, setHostTextFontSize] = useState('0.85'); 
 
   const [customItems, setCustomItems] = useState([
     { 
@@ -339,15 +339,15 @@ export default function Home() {
             </div>
             <div className="input-group">
               <label>ဘေးဘယ်ညာ နေရာ (Pos X):</label>
-              <input type="range" min="-250" max="100" value={hostPosX} onChange={(e) => setHostPosX(e.target.value)} /><span>{hostPosX}px</span>
+              <input type="range" min="0" max="800" value={hostPosX} onChange={(e) => setHostPosX(e.target.value)} /><span>{hostPosX}px</span>
             </div>
             <div className="input-group">
               <label>အထက်အောက် နေရာ (Pos Y):</label>
-              <input type="range" min="-150" max="150" value={hostPosY} onChange={(e) => setHostPosY(e.target.value)} /><span>{hostPosY}px</span>
+              <input type="range" min="-450" max="450" value={hostPosY} onChange={(e) => setHostPosY(e.target.value)} /><span>{hostPosY}px</span>
             </div>
             <div className="input-group">
               <label>ဘေးစာသားဘောက်စ် အကျယ်:</label>
-              <input type="range" min="100" max="300" value={hostTextWidth} onChange={(e) => setHostTextWidth(e.target.value)} /><span>{hostTextWidth}px</span>
+              <input type="range" min="100" max="350" value={hostTextWidth} onChange={(e) => setHostTextWidth(e.target.value)} /><span>{hostTextWidth}px</span>
             </div>
             <div className="input-group">
               <label>ဘေးစာသား အရွယ်အစား:</label>
@@ -479,7 +479,33 @@ export default function Home() {
         </div>
       )}
 
-      {/* ဘယ်ဘက်ခြမ်း */}
+      {/* အဓိက Stream Container ၏ တိုက်ရိုက်အောက်ခံတွင် AI Host ကို ထည့်သွင်းထားသဖြင့် စခရင်ဘယ်ဘက်စွန်းအထိ လွတ်လွတ်လပ်လပ် ရွှေ့နိုင်သည် */}
+      {enableAvatar && (
+        <div 
+          className="side-ai-host-wrapper" 
+          style={{ 
+            left: `${hostPosX}px`, 
+            top: `calc(50% + ${hostPosY}px)` 
+          }}
+        >
+          <div className="side-avatar-circle-frame" style={{ width: `${hostImageSize}px`, height: `${hostImageSize}px` }}>
+            <video 
+              src="/ai-host.mp4" 
+              autoPlay 
+              loop 
+              muted 
+              playsInline 
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+            />
+          </div>
+          <div className="side-avatar-speech-box" style={{ width: `${hostTextWidth}px` }}>
+            <span className="host-title-side">🎙 AI Host:</span>
+            <p style={{ fontSize: `${hostTextFontSize}rem` }}>{avatarStatusText}</p>
+          </div>
+        </div>
+      )}
+
+      {/* ဘယ်ဘက်ခြမ်း Card */}
       <div className={`side-card left-card style-${leftBoxStyle}`} style={{ width: `${sideCardWidth}px`, padding: `${sideCardPadding}px`, gap: `${sideCardGap}px` }}>
         <div className="top-red-banner" style={{ fontSize: `${sideFontSize}rem` }}>{sessionTitle}</div>
         <div className="live-clock-box" style={{ fontSize: `${sideFontSize * 0.75}rem` }}>{currentTime}</div>
@@ -493,33 +519,8 @@ export default function Home() {
         </div>
       </div>
 
-      {/* အလယ် ဖုန်းပုံစံ နှင့် ဘယ်ဘက်ထောင့်ဆုံးတွင် ဘေးတိုက်ပြမည့် AI Host နှင့် စာသားဘောက်စ် */}
+      {/* အလယ် ဖုန်းပုံစံ */}
       <div className="center-stream-wrapper">
-        {enableAvatar && (
-          <div 
-            className="side-ai-host-wrapper" 
-            style={{ 
-              left: `${hostPosX}px`, 
-              top: `calc(50% + ${hostPosY}px)` 
-            }}
-          >
-            <div className="side-avatar-circle-frame" style={{ width: `${hostImageSize}px`, height: `${hostImageSize}px` }}>
-              <video 
-                src="/ai-host.mp4" 
-                autoPlay 
-                loop 
-                muted 
-                playsInline 
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
-              />
-            </div>
-            <div className="side-avatar-speech-box" style={{ width: `${hostTextWidth}px` }}>
-              <span className="host-title-side">🎙 AI Host:</span>
-              <p style={{ fontSize: `${hostTextFontSize}rem` }}>{avatarStatusText}</p>
-            </div>
-          </div>
-        )}
-
         <div className={`phone-container model-${phoneModel}`} style={{ width: `${phoneWidth}px`, height: `${phoneHeight}px` }}>
           <div className="phone-screen" style={{ gap: `${elementSpacing}px`, padding: `${phonePadding}px` }}>
             
@@ -605,7 +606,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* ညာဘက်ခြမ်း */}
+      {/* ညာဘက်ခြမ်း Card */}
       <div className={`side-card right-card style-${rightBoxStyle}`} style={{ width: `${sideCardWidth}px`, padding: `${sideCardPadding}px`, gap: `${sideCardGap}px` }}>
         <div className="date-display-box" style={{ fontSize: `${sideFontSize}rem` }}>{customDate}</div>
         <div className="data-section-group">
@@ -660,14 +661,14 @@ export default function Home() {
         .admin-item-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; border-bottom: 1px solid #333; padding-bottom: 4px; font-size: 0.8rem; }
         .del-btn { background: #dc2626; color: #fff; border: none; padding: 3px 8px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 0.75rem; }
 
-        .center-stream-wrapper { display: flex; align-items: center; gap: 20px; justify-content: center; position: relative; z-index: 50; }
+        .center-stream-wrapper { display: flex; align-items: center; justify-content: center; position: relative; z-index: 20; }
         
-        /* ဘယ်ဘက်ထောင့်ဆုံးတွင် ဘေးတိုက်ပြမည့် AI Host နှင့် စာသားဘောက်စ် */
+        /* စခရင်ဘယ်ဘက်ထောင့်ဆုံးအထိ လွတ်လွတ်လပ်လပ် ရွှေ့နိုင်ရန် ပြုပြင်ထားသော AI Host စတိုင် */
         .side-ai-host-wrapper { 
           display: flex; align-items: center; gap: 10px; 
           background: rgba(255, 255, 255, 0.96); padding: 12px; border-radius: 16px; 
           border: 3px solid #16a34a; box-shadow: 0 15px 35px rgba(0,0,0,0.4); 
-          position: absolute; transform: translateY(-50%); z-index: 100; 
+          position: absolute; top: 50%; transform: translateY(-50%); z-index: 100; 
         }
         .side-avatar-circle-frame { border-radius: 50%; overflow: hidden; border: 3px solid #16a34a; background: #fff; flex-shrink: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
         .side-avatar-speech-box { display: flex; flex-direction: column; gap: 2px; }
