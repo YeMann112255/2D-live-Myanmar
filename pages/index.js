@@ -65,10 +65,14 @@ export default function Home() {
   const [subNum, setSubNum] = useState('35-23-25');
   const [horThout, setHorThout] = useState('5-9-8');
 
-  // AI Host & Live Text States (အသံမပါတော့ဘဲ စာသားဖြင့်သာ တင်ဆက်ရန်)
+  // AI Host & Side Text Controls
   const [enableAvatar, setEnableAvatar] = useState(true);
   const [avatarStatusText, setAvatarStatusText] = useState('ယနေ့အတွက် 2D တိုက်ရိုက်အချက်အလက်များကို အချိန်နဲ့တစ်ပြေးညီ တင်ဆက်ပေးနေပါသည်ခင်ဗျာ...');
-  const [hostImageSize, setHostImageSize] = useState('180');
+  const [hostImageSize, setHostImageSize] = useState('150');
+  const [hostPosX, setHostPosX] = useState('-120'); // ဘေးဘယ်ညာ ရွှေ့ရန်
+  const [hostPosY, setHostPosY] = useState('-50');  // အထက်အောက် ရွှေ့ရန်
+  const [hostTextWidth, setHostTextWidth] = useState('160'); // စာသားဘောက်စ် အကျယ်
+  const [hostTextFontSize, setHostTextFontSize] = useState('0.85'); // စာသား အရွယ်အစား
 
   const [customItems, setCustomItems] = useState([
     { 
@@ -138,6 +142,10 @@ export default function Home() {
         if (s.avatarStatusText !== undefined) setAvatarStatusText(s.avatarStatusText);
         if (s.enableAvatar !== undefined) setEnableAvatar(s.enableAvatar);
         if (s.hostImageSize !== undefined) setHostImageSize(s.hostImageSize);
+        if (s.hostPosX !== undefined) setHostPosX(s.hostPosX);
+        if (s.hostPosY !== undefined) setHostPosY(s.hostPosY);
+        if (s.hostTextWidth !== undefined) setHostTextWidth(s.hostTextWidth);
+        if (s.hostTextFontSize !== undefined) setHostTextFontSize(s.hostTextFontSize);
       }
     } catch (err) {
       console.error('Failed to load settings:', err);
@@ -158,7 +166,7 @@ export default function Home() {
       sideCardWidth, sideFontSize, sideValFontSize, sideCardPadding, sideCardGap,
       leftBoxStyle, rightBoxStyle, marqueeText, marqueeSpeed, marqueeBg, marqueeColor, marqueeFontSize,
       sessionTitle, sessionDay, customDate, pitThee, mainNum, subNum, horThout, customItems,
-      avatarStatusText, enableAvatar, hostImageSize
+      avatarStatusText, enableAvatar, hostImageSize, hostPosX, hostPosY, hostTextWidth, hostTextFontSize
     };
 
     try {
@@ -301,7 +309,7 @@ export default function Home() {
   return (
     <div className="stream-container" style={customBgStyle}>
       <Head>
-        <title>2D LIVE MYANMAR - Ultimate Custom Pro with Big AI Host</title>
+        <title>2D LIVE MYANMAR - Ultimate Custom Pro with Side AI Host</title>
       </Head>
 
       <button className="admin-toggle-btn" onClick={(e) => { e.stopPropagation(); handleAdminToggle(); }}>
@@ -320,14 +328,30 @@ export default function Home() {
           </div>
 
           <div className="admin-scrollable-content">
-            <div className="section-title">🤖 AI Host & Live Text ဆက်တင်များ</div>
+            <div className="section-title">🤖 AI Host & Side Text ဆက်တင်များ</div>
             <div className="input-group">
-              <label>AI Host ကြီးပြရန်:</label>
+              <label>AI Host ပြရန်:</label>
               <input type="checkbox" checked={enableAvatar} onChange={(e) => setEnableAvatar(e.target.checked)} style={{ width: '20px', height: '20px', accentColor: '#22c55e', cursor: 'pointer' }} />
             </div>
             <div className="input-group">
               <label>AI Host ပုံအရွယ်အစား:</label>
-              <input type="range" min="120" max="320" value={hostImageSize} onChange={(e) => setHostImageSize(e.target.value)} /><span>{hostImageSize}px</span>
+              <input type="range" min="80" max="250" value={hostImageSize} onChange={(e) => setHostImageSize(e.target.value)} /><span>{hostImageSize}px</span>
+            </div>
+            <div className="input-group">
+              <label>ဘေးဘယ်ညာ နေရာ (Pos X):</label>
+              <input type="range" min="-250" max="100" value={hostPosX} onChange={(e) => setHostPosX(e.target.value)} /><span>{hostPosX}px</span>
+            </div>
+            <div className="input-group">
+              <label>အထက်အောက် နေရာ (Pos Y):</label>
+              <input type="range" min="-150" max="150" value={hostPosY} onChange={(e) => setHostPosY(e.target.value)} /><span>{hostPosY}px</span>
+            </div>
+            <div className="input-group">
+              <label>ဘေးစာသားဘောက်စ် အကျယ်:</label>
+              <input type="range" min="100" max="300" value={hostTextWidth} onChange={(e) => setHostTextWidth(e.target.value)} /><span>{hostTextWidth}px</span>
+            </div>
+            <div className="input-group">
+              <label>ဘေးစာသား အရွယ်အစား:</label>
+              <input type="range" min="0.6" max="1.4" step="0.05" value={hostTextFontSize} onChange={(e) => setHostTextFontSize(e.target.value)} /><span>{hostTextFontSize}</span>
             </div>
             <div className="input-group" style={{ flexDirection: 'column', alignItems: 'stretch', gap: '5px' }}>
               <label>ဘေးတွင်ပြမည့် တင်ဆက်မှု စာသား:</label>
@@ -469,11 +493,17 @@ export default function Home() {
         </div>
       </div>
 
-      {/* အလယ် ဖုန်းပုံစံ နှင့် ဘေးပတ်လည်တွင် ကြီးမားသော AI Host (ဘောက်စ်များကို အုပ်မိုးနိုင်ရန် ဇယားအလွှာမြှင့်ထားသည်) */}
+      {/* အလယ် ဖုန်းပုံစံ နှင့် ဘယ်ဘက်ထောင့်ဆုံးတွင် ဘေးတိုက်ပြမည့် AI Host နှင့် စာသားဘောက်စ် */}
       <div className="center-stream-wrapper">
         {enableAvatar && (
-          <div className="big-ai-host-floating-box">
-            <div className="big-avatar-circle-frame" style={{ width: `${hostImageSize}px`, height: `${hostImageSize}px` }}>
+          <div 
+            className="side-ai-host-wrapper" 
+            style={{ 
+              left: `${hostPosX}px`, 
+              top: `calc(50% + ${hostPosY}px)` 
+            }}
+          >
+            <div className="side-avatar-circle-frame" style={{ width: `${hostImageSize}px`, height: `${hostImageSize}px` }}>
               <video 
                 src="/ai-host.mp4" 
                 autoPlay 
@@ -483,9 +513,9 @@ export default function Home() {
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
               />
             </div>
-            <div className="big-avatar-speech-bubble">
-              <span className="host-title-big">🎙 AI Host:</span>
-              <p>{avatarStatusText}</p>
+            <div className="side-avatar-speech-box" style={{ width: `${hostTextWidth}px` }}>
+              <span className="host-title-side">🎙 AI Host:</span>
+              <p style={{ fontSize: `${hostTextFontSize}rem` }}>{avatarStatusText}</p>
             </div>
           </div>
         )}
@@ -632,18 +662,17 @@ export default function Home() {
 
         .center-stream-wrapper { display: flex; align-items: center; gap: 20px; justify-content: center; position: relative; z-index: 50; }
         
-        /* ကြီးမားသော AI Host ပုံနှင့် ဘေးမှ အနေတော်စာသားဘောက်စ် (ဘေးဘောက်စ်များကို အုပ်မိုးစေရန် z-index မြှင့်ထားသည်) */
-        .big-ai-host-floating-box { 
-          display: flex; flex-direction: column; align-items: center; gap: 10px; 
-          background: rgba(255, 255, 255, 0.98); padding: 18px; border-radius: 20px; 
-          border: 3px solid #16a34a; box-shadow: 0 20px 45px rgba(0,0,0,0.4); 
-          width: 250px; text-align: center; position: absolute; left: -140px; top: 50%; 
-          transform: translateY(-50%); z-index: 100; 
+        /* ဘယ်ဘက်ထောင့်ဆုံးတွင် ဘေးတိုက်ပြမည့် AI Host နှင့် စာသားဘောက်စ် */
+        .side-ai-host-wrapper { 
+          display: flex; align-items: center; gap: 10px; 
+          background: rgba(255, 255, 255, 0.96); padding: 12px; border-radius: 16px; 
+          border: 3px solid #16a34a; box-shadow: 0 15px 35px rgba(0,0,0,0.4); 
+          position: absolute; transform: translateY(-50%); z-index: 100; 
         }
-        .big-avatar-circle-frame { border-radius: 50%; overflow: hidden; border: 4px solid #16a34a; background: #fff; box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
-        .big-avatar-speech-bubble { display: flex; flex-direction: column; gap: 4px; width: 100%; }
-        .host-title-big { font-size: 0.8rem; font-weight: 900; color: #15803d; }
-        .big-avatar-speech-bubble p { margin: 0; font-size: 0.85rem; color: #1f2937; font-weight: bold; line-height: 1.35; }
+        .side-avatar-circle-frame { border-radius: 50%; overflow: hidden; border: 3px solid #16a34a; background: #fff; flex-shrink: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+        .side-avatar-speech-box { display: flex; flex-direction: column; gap: 2px; }
+        .host-title-side { font-size: 0.75rem; font-weight: 900; color: #15803d; }
+        .side-avatar-speech-box p { margin: 0; color: #1f2937; font-weight: bold; line-height: 1.3; }
 
         .phone-container { background: #111; display: flex; flex-direction: column; box-sizing: border-box; transition: width 0.2s, height 0.2s; box-shadow: 0 25px 50px rgba(0,0,0,0.5); z-index: 20; }
         .model-iphone { border: 10px solid #1f2937; border-radius: 40px; }
