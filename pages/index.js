@@ -21,14 +21,19 @@ export default function Home() {
   const [bgColor1, setBgColor1] = useState('#ffdf40');
   const [bgColor2, setBgColor2] = useState('#ffbb00');
 
-  // Layer Positioning & Spacing States inside Phone Screen
+  // Individual Object Margins inside Phone Screen (New Precise Control)
+  const [headerMarginTop, setHeaderMarginTop] = useState('0');
+  const [liveNumMarginTop, setLiveNumMarginTop] = useState('0');
+  const [resultCardMarginTop, setResultCardMarginTop] = useState('0');
+  
+  // General Sizing
   const [headerScale, setHeaderScale] = useState('1');
   const [liveNumScale, setLiveNumScale] = useState('4.5');
   const [resultCardScale, setResultCardScale] = useState('1');
   const [elementSpacing, setElementSpacing] = useState('6');
   const [phonePadding, setPhonePadding] = useState('12');
 
-  // Side Cards Positioning & Sizing Controls (Restored & Enhanced)
+  // Side Cards Positioning & Sizing Controls
   const [sideCardWidth, setSideCardWidth] = useState('360');
   const [sideFontSize, setSideFontSize] = useState('2.2');
   const [sideValFontSize, setSideValFontSize] = useState('2.5');
@@ -53,7 +58,6 @@ export default function Home() {
   const [subNum, setSubNum] = useState('35-23-25');
   const [horThout, setHorThout] = useState('5-9-8');
 
-  // Custom Items States with reliable handlers
   const [customItems, setCustomItems] = useState([
     { id: 1, type: 'banner', title: '', text: 'နေ့စဉ်ကံထူးရှင်များအတွက် လက်မလွှတ်တမ်းစောင့်ကြည့်ပါ' }
   ]);
@@ -77,6 +81,9 @@ export default function Home() {
           if (s.bgType) setBgType(s.bgType);
           if (s.bgColor1) setBgColor1(s.bgColor1);
           if (s.bgColor2) setBgColor2(s.bgColor2);
+          if (s.headerMarginTop) setHeaderMarginTop(s.headerMarginTop);
+          if (s.liveNumMarginTop) setLiveNumMarginTop(s.liveNumMarginTop);
+          if (s.resultCardMarginTop) setResultCardMarginTop(s.resultCardMarginTop);
           if (s.headerScale) setHeaderScale(s.headerScale);
           if (s.liveNumScale) setLiveNumScale(s.liveNumScale);
           if (s.resultCardScale) setResultCardScale(s.resultCardScale);
@@ -110,6 +117,7 @@ export default function Home() {
   const handleSaveSettings = async () => {
     const newSettings = {
       phoneModel, phoneWidth, phoneHeight, bgType, bgColor1, bgColor2,
+      headerMarginTop, liveNumMarginTop, resultCardMarginTop,
       headerScale, liveNumScale, resultCardScale, elementSpacing, phonePadding,
       sideCardWidth, sideFontSize, sideValFontSize, sideCardPadding, sideCardGap,
       leftBoxStyle, rightBoxStyle, marqueeText, marqueeSpeed, marqueeBg, marqueeColor, marqueeFontSize,
@@ -166,7 +174,6 @@ export default function Home() {
     setCustomItems(customItems.filter(item => item.id !== id));
   };
 
-  // Fetch Live Data function with fallback support
   const fetchData = async () => {
     try {
       const res = await fetch('https://api.thaistock2d.com/live');
@@ -254,13 +261,13 @@ export default function Home() {
       </Head>
 
       <button className="admin-toggle-btn" onClick={() => setShowAdmin(!showAdmin)}>
-        {showAdmin ? "❌ Control Panel ပိတ်မည်" : "⚙️️ Pro Control Panel ဖွင့်မည်"}
+        {showAdmin ? "❌ Control Panel ပိတ်မည်" : "⚙️ Pro Control Panel ဖွင့်မည်"}
       </button>
 
       {showAdmin && (
         <div className="admin-panel">
           <div className="admin-header-fixed">
-            <h3>🎛️ Live Studio Pro Panel</h3>
+            <h3>🎛️ Element-by-Element Studio Panel</h3>
             <div className="save-action-box">
               <button className="save-btn" onClick={handleSaveSettings}>💾 သိမ်းဆည်းမည်</button>
               <button className="reset-btn" onClick={() => window.location.reload()}>🔄 ပြန်စရန်</button>
@@ -311,7 +318,7 @@ export default function Home() {
             <div className="input-group"><label>ခေါင်းစဉ် စာသားအရွယ်:</label><input type="range" min="1.2" max="3.5" step="0.1" value={sideFontSize} onChange={(e) => setSideFontSize(e.target.value)} /><span>{sideFontSize}rem</span></div>
             <div className="input-group"><label>ဂဏန်း/တန်ဖိုး အရွယ်:</label><input type="range" min="1.5" max="4" step="0.1" value={sideValFontSize} onChange={(e) => setSideValFontSize(e.target.value)} /><span>{sideValFontSize}rem</span></div>
 
-            <div className="section-title">📱 ဖုန်းဘောင်နှင့် စခရင် ထိန်းချုပ်ရန်</div>
+            <div className="section-title">📱 ဖုန်းဘောင် အထွေထွေ ချိန်ညှိရန်</div>
             <div className="input-group">
               <label>ဖုန်းမော်ဒယ်:</label>
               <select value={phoneModel} onChange={(e) => setPhoneModel(e.target.value)} className="select-style">
@@ -323,10 +330,16 @@ export default function Home() {
             <div className="input-group"><label>ဖုန်းအကျယ်:</label><input type="range" min="320" max="480" value={phoneWidth} onChange={(e) => setPhoneWidth(e.target.value)} /><span>{phoneWidth}px</span></div>
             <div className="input-group"><label>ဖုန်းအမြင့်:</label><input type="range" min="700" max="920" value={phoneHeight} onChange={(e) => setPhoneHeight(e.target.value)} /><span>{phoneHeight}px</span></div>
             <div className="input-group"><label>စခရင် Padding:</label><input type="range" min="4" max="20" value={phonePadding} onChange={(e) => setPhonePadding(e.target.value)} /><span>{phonePadding}px</span></div>
-            <div className="input-group"><label>ဒြပ်စင်များ အကွာအဝေး:</label><input type="range" min="2" max="15" value={elementSpacing} onChange={(e) => setElementSpacing(e.target.value)} /><span>{elementSpacing}px</span></div>
-            <div className="input-group"><label>Header အချိုး:</label><input type="range" min="0.7" max="1.3" step="0.1" value={headerScale} onChange={(e) => setHeaderScale(e.target.value)} /><span>{headerScale}x</span></div>
-            <div className="input-group"><label>Live ဂဏန်း အချိုး:</label><input type="range" min="2.5" max="5.5" step="0.2" value={liveNumScale} onChange={(e) => setLiveNumScale(e.target.value)} /><span>{liveNumScale}rem</span></div>
-            <div className="input-group"><label>Result Card အချိုး:</label><input type="range" min="0.7" max="1.3" step="0.1" value={resultCardScale} onChange={(e) => setResultCardScale(e.target.value)} /><span>{resultCardScale}x</span></div>
+
+            <div className="section-title">🎯 စခရင်တွင်း Object တစ်ခုချင်း ချိန်ရန် (Precise)</div>
+            <div className="input-group"><label>Header အနေအထား (Top):</label><input type="range" min="-30" max="50" value={headerMarginTop} onChange={(e) => setHeaderMarginTop(e.target.value)} /><span>{headerMarginTop}px</span></div>
+            <div className="input-group"><label>Header အချိုး (Scale):</label><input type="range" min="0.7" max="1.3" step="0.1" value={headerScale} onChange={(e) => setHeaderScale(e.target.value)} /><span>{headerScale}x</span></div>
+            
+            <div className="input-group"><label>Live ဂဏန်း အနေအထား (Top):</label><input type="range" min="-30" max="50" value={liveNumMarginTop} onChange={(e) => setLiveNumMarginTop(e.target.value)} /><span>{liveNumMarginTop}px</span></div>
+            <div className="input-group"><label>Live ဂဏန်း အရွယ်:</label><input type="range" min="2.5" max="5.5" step="0.2" value={liveNumScale} onChange={(e) => setLiveNumScale(e.target.value)} /><span>{liveNumScale}rem</span></div>
+
+            <div className="input-group"><label>Result Card အနေအထား (Top):</label><input type="range" min="-30" max="50" value={resultCardMarginTop} onChange={(e) => setResultCardMarginTop(e.target.value)} /><span>{resultCardMarginTop}px</span></div>
+            <div className="input-group"><label>Result Card အရွယ်:</label><input type="range" min="0.7" max="1.3" step="0.1" value={resultCardScale} onChange={(e) => setResultCardScale(e.target.value)} /><span>{resultCardScale}x</span></div>
 
             <div className="section-title">⚡ အောက်ခြေ စာတန်းပြေး (Marquee)</div>
             <div className="input-group"><label>စာသား:</label><input type="text" value={marqueeText} onChange={(e) => setMarqueeText(e.target.value)} style={{ width: '55%' }} /></div>
@@ -385,7 +398,7 @@ export default function Home() {
       <div className={`phone-container model-${phoneModel}`} style={{ width: `${phoneWidth}px`, height: `${phoneHeight}px` }}>
         <div className="phone-screen" style={{ gap: `${elementSpacing}px`, padding: `${phonePadding}px` }}>
           
-          <div className="top-section-group" style={{ gap: `${elementSpacing}px`, transform: `scale(${headerScale})`, transformOrigin: 'top center' }}>
+          <div className="top-section-group" style={{ gap: `${elementSpacing}px`, transform: `scale(${headerScale})`, transformOrigin: 'top center', marginTop: `${headerMarginTop}px` }}>
             <div className="phone-status-bar">
               <span className="carrier">7:00</span>
               {phoneModel === 'iphone' && <div className="iphone-dynamic-island"></div>}
@@ -406,7 +419,9 @@ export default function Home() {
               <span className="pulsing-dot"></span>
               <span>{isPausedTime ? "12:01 PM CLOSED (PAUSED)" : "LIVE REAL-TIME UPDATES"}</span>
             </div>
+          </div>
 
+          <div className="live-main-display-wrapper" style={{ marginTop: `${liveNumMarginTop}px` }}>
             <div className="live-main-display animate-pulse" style={{ fontSize: `${liveNumScale}rem` }}>
               {liveTwod}
             </div>
@@ -418,7 +433,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="bottom-section-group" style={{ gap: `${elementSpacing}px`, transform: `scale(${resultCardScale})`, transformOrigin: 'center center' }}>
+          <div className="bottom-section-group" style={{ gap: `${elementSpacing}px`, transform: `scale(${resultCardScale})`, transformOrigin: 'center center', marginTop: `${resultCardMarginTop}px` }}>
             <div className="cards-group" style={{ gap: `${elementSpacing}px` }}>
               <div className="result-card-dynamic">
                 <div className="card-title-top">12:01 PM Result</div>
