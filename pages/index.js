@@ -10,7 +10,7 @@ export default function Home() {
   const [data, setData] = useState(null);
   const [showAdmin, setShowAdmin] = useState(false);
   const [saveMessage, setSaveMessage] = useState(false);
-  const [audioEnabled, setAudioEnabled] = useState(false); // User အသံဖွင့်ရန် ခလုတ်အတွက်
+  const [audioEnabled, setAudioEnabled] = useState(false);
 
   const handleAdminToggle = () => {
     if (!showAdmin) {
@@ -70,7 +70,7 @@ export default function Home() {
   // AI Host & Loop Audio States
   const [enableAvatar, setEnableAvatar] = useState(true);
   const [avatarStatusText, setAvatarStatusText] = useState('မင်္ဂလာပါခင်ဗျာ၊ ယနေ့အတွက် 2D တိုက်ရိုက်အချက်အလက်များကို တင်ဆက်ပေးနေပါတယ်...');
-  const [enableLoopVoice, setEnableLoopVoice] = useState(false);
+  const [enableLoopVoice, setEnableLoopVoice] = useState(true);
 
   const [customItems, setCustomItems] = useState([
     { 
@@ -151,17 +151,20 @@ export default function Home() {
     return () => clearInterval(syncInterval);
   }, []);
 
-  // Text-to-Speech Loop (User က အသံဖွင့်ခလုတ် နှိပ်ထားမှသာ အလုပ်လုပ်မည်)
+  // Text-to-Speech Voice Loop (သဘာဝကျကျ အသံထွက်စေရန်)
   useEffect(() => {
-    if (!enableLoopVoice || !audioEnabled) return;
+    if (!enableLoopVoice) return;
 
     let isSpeaking = false;
     const speakLoopText = () => {
       if (!isSpeaking && 'speechSynthesis' in window && avatarStatusText) {
         isSpeaking = true;
+        window.speechSynthesis.cancel(); // ေဟာင်းတာတွေ ရပ်မယ်
+        
         const utterance = new SpeechSynthesisUtterance(avatarStatusText);
         utterance.lang = 'my-MM';
-        utterance.rate = 1.0;
+        utterance.rate = 0.95; // အသံထွက် ပိုရှင်းစေရန် နှုန်းညှိခြင်း
+        utterance.pitch = 1.0;
         
         utterance.onend = () => { isSpeaking = false; };
         utterance.onerror = () => { isSpeaking = false; };
@@ -170,16 +173,17 @@ export default function Home() {
       }
     };
 
-    speakLoopText();
-    const loopInterval = setInterval(speakLoopText, 15000);
+    const timer = setTimeout(speakLoopText, 1000);
+    const loopInterval = setInterval(speakLoopText, 18000);
 
     return () => {
+      clearTimeout(timer);
       clearInterval(loopInterval);
       if ('speechSynthesis' in window) {
         window.speechSynthesis.cancel();
       }
     };
-  }, [enableLoopVoice, audioEnabled, avatarStatusText]);
+  }, [enableLoopVoice, avatarStatusText]);
 
   const handleSaveSettings = async () => {
     const newSettings = {
@@ -330,28 +334,23 @@ export default function Home() {
   };
 
   return (
-    <div className="stream-container" style={customBgStyle}>
+    <div className="stream-container" style={customBgStyle} onClick={() => {
+      // ဝင်လာပြီး စခရင်ပေါ် ဘယ်နေရာမဆို နှိပ်လိုက်တာနဲ့ အသံထွက်လာစေရန် Trigger လုပ်ပေးသည်
+      if (!audioEnabled && 'speechSynthesis' in window) {
+        setAudioEnabled(true);
+        window.speechSynthesis.resume();
+      }
+    }}>
       <Head>
         <title>2D LIVE MYANMAR - Ultimate Custom Pro with Big AI Host</title>
       </Head>
 
-      {/* ဝင်ရောက်လာသူများ အသံထွက်စေရန် အစမ်းခလုတ် (Browser Audio Policy ဖြေရှင်းရန်) */}
-      {!audioEnabled && (
-        <div className="audio-prompt-overlay" onClick={() => setAudioEnabled(true)}>
-          <div className="audio-prompt-box">
-            <h2>🔊 2D Live သို့ ကြိုဆိုပါတယ်</h2>
-            <p>အသံနှင့် AI Host အပြည့်အစုံ ကြည့်ရှုရန် ဤနေရာကို နှိပ်ပါ</p>
-            <button className="enable-audio-btn">စတင်ရန် (Click to Start)</button>
-          </div>
-        </div>
-      )}
-
-      <button className="admin-toggle-btn" onClick={handleAdminToggle}>
+      <button className="admin-toggle-btn" onClick={(e) => { e.stopPropagation(); handleAdminToggle(); }}>
         {showAdmin ? "❌ Control Panel ပိတ်မည်" : "⚙️ Pro Control Panel ဖွင့်မည်"}
       </button>
 
       {showAdmin && (
-        <div className="admin-panel">
+        <div className="admin-panel" onClick={(e) => e.stopPropagation()}>
           <div className="admin-header-fixed">
             <h3>🎛️ Element-by-Element Studio Panel</h3>
             <div className="save-action-box">
@@ -368,11 +367,11 @@ export default function Home() {
               <input type="checkbox" checked={enableAvatar} onChange={(e) => setEnableAvatar(e.target.checked)} style={{ width: '20px', height: '20px', accentColor: '#22c55e', cursor: 'pointer' }} />
             </div>
             <div className="input-group">
-              <label>ဝင်ကြည့်သူများပါ အသံကြားမည့် Loop စနစ်:</label>
+              <label>အသံထွက်စနစ် (Loop Voice):</label>
               <input type="checkbox" checked={enableLoopVoice} onChange={(e) => setEnableLoopVoice(e.target.checked)} style={{ width: '20px', height: '20px', accentColor: '#22c55e', cursor: 'pointer' }} />
             </div>
             <div className="input-group" style={{ flexDirection: 'column', alignItems: 'stretch', gap: '5px' }}>
-              <label>Host အမြဲပြောမည့် စာသား (Loop text):</label>
+              <label>Host ပြောမည့် စာသားအပြည့်အစုံ:</label>
               <textarea 
                 value={avatarStatusText} 
                 onChange={(e) => setAvatarStatusText(e.target.value)} 
@@ -497,7 +496,7 @@ export default function Home() {
         </div>
       )}
 
-      {/* ဘယ်ဘက်ခြမ်း (AI Host ကြီးကို ဤနေရာမှ ဖြုတ်ထုတ်လိုက်ပြီး သီးသန့် အပြင်ဘက်သို့ ထုတ်ထားသည်) */}
+      {/* ဘယ်ဘက်ခြမ်း */}
       <div className={`side-card left-card style-${leftBoxStyle}`} style={{ width: `${sideCardWidth}px`, padding: `${sideCardPadding}px`, gap: `${sideCardGap}px` }}>
         <div className="top-red-banner" style={{ fontSize: `${sideFontSize}rem` }}>{sessionTitle}</div>
         <div className="live-clock-box" style={{ fontSize: `${sideFontSize * 0.75}rem` }}>{currentTime}</div>
@@ -511,7 +510,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* အလယ် ဖုန်းပုံစံ နှင့် ဘေးပတ်လည်တွင် ကြီးမားသော AI Host အသစ် */}
+      {/* အလယ် ဖုန်းပုံစံ နှင့် ဘေးပတ်လည်တွင် ကြီးမားသော AI Host */}
       <div className="center-stream-wrapper">
         {enableAvatar && (
           <div className="big-ai-host-floating-box">
@@ -648,22 +647,6 @@ export default function Home() {
           position: relative; font-family: 'Pyidaungsu', sans-serif; box-sizing: border-box; overflow: hidden;
         }
 
-        .audio-prompt-overlay {
-          position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85);
-          z-index: 999999; display: flex; justify-content: center; align-items: center; backdrop-filter: blur(8px);
-        }
-        .audio-prompt-box {
-          background: #1e1e1e; border: 3px solid #ffd700; padding: 30px 40px; border-radius: 16px;
-          text-align: center; color: #fff; box-shadow: 0 15px 35px rgba(0,0,0,0.9); max-width: 450px;
-        }
-        .audio-prompt-box h2 { color: #ffd700; margin-top: 0; font-size: 1.5rem; }
-        .audio-prompt-box p { color: #ccc; font-size: 1rem; margin-bottom: 20px; }
-        .enable-audio-btn {
-          background: #16a34a; color: #fff; border: none; padding: 12px 25px; font-size: 1.1rem;
-          font-weight: bold; border-radius: 8px; cursor: pointer; box-shadow: 0 4px 12px rgba(22,163,74,0.5);
-        }
-        .enable-audio-btn:hover { background: #15803d; }
-
         .admin-toggle-btn { position: fixed; top: 20px; left: 20px; background: #000; color: #ffd700; border: none; padding: 10px 20px; font-weight: bold; border-radius: 8px; cursor: pointer; z-index: 99999; font-size: 1rem; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
         .admin-panel { position: fixed; top: 75px; left: 20px; background: #111; border: 2px solid #ffd700; border-radius: 12px; z-index: 99999; width: 440px; color: #fff; box-shadow: 0 10px 25px rgba(0,0,0,0.8); height: 82vh; display: flex; flex-direction: column; overflow: hidden; }
         .admin-header-fixed { padding: 15px; background: #111; border-bottom: 1px solid #333; flex-shrink: 0; }
@@ -688,7 +671,6 @@ export default function Home() {
         .admin-item-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; border-bottom: 1px solid #333; padding-bottom: 4px; font-size: 0.8rem; }
         .del-btn { background: #dc2626; color: #fff; border: none; padding: 3px 8px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 0.75rem; }
 
-        /* ကြီးမားသော AI Host Floating Box (စခရင်အလယ် ဖုန်းဘောင်ဘေးတွင် ကြီးကြီးမားမားပြရန်) */
         .center-stream-wrapper { display: flex; align-items: center; gap: 20px; justify-content: center; }
         .big-ai-host-floating-box { 
           display: flex; flex-direction: column; align-items: center; gap: 10px; 
