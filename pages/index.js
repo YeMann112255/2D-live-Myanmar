@@ -32,6 +32,11 @@ export default function Home() {
   const [bgColor1, setBgColor1] = useState('#ffdf40');
   const [bgColor2, setBgColor2] = useState('#ffbb00');
 
+  // Background Stock Exchange Ticker Controls
+  const [showBgStock, setShowBgStock] = useState(true);
+  const [bgStockSpeed, setBgStockSpeed] = useState('35');
+  const [bgStockOpacity, setBgStockOpacity] = useState('0.15');
+
   const [headerMarginTop, setHeaderMarginTop] = useState('0');
   const [liveNumMarginTop, setLiveNumMarginTop] = useState('0');
   const [resultCardMarginTop, setResultCardMarginTop] = useState('0');
@@ -49,6 +54,20 @@ export default function Home() {
   const [sideCardGap, setSideCardGap] = useState('15');
   const [leftBoxStyle, setLeftBoxStyle] = useState('modern');
   const [rightBoxStyle, setRightBoxStyle] = useState('modern');
+
+  // New Toggles & Positions for Left/Right Boxes & 3-Day Result Box
+  const [showLeftBox, setShowLeftBox] = useState(true);
+  const [leftBoxPosX, setLeftBoxPosX] = useState('40');
+  const [leftBoxPosY, setLeftBoxPosY] = useState('0');
+
+  const [showRightBox, setShowRightBox] = useState(true);
+  const [rightBoxPosX, setRightBoxPosX] = useState('40');
+  const [rightBoxPosY, setRightBoxPosY] = useState('0');
+
+  const [showThreeDayBox, setShowThreeDayBox] = useState(false);
+  const [threeDayResult1, setThreeDayResult1] = useState('ရက်စွဲ (၁): 53 - 57');
+  const [threeDayResult2, setThreeDayResult2] = useState('ရက်စွဲ (၂): 12 - 45');
+  const [threeDayResult3, setThreeDayResult3] = useState('ရက်စွဲ (၃): 88 - 90');
 
   const [marqueeText, setMarqueeText] = useState('ဈေးကွက်အချက်အလက်များကို အချိန်နှင့်တပြေးညီ လေ့လာဆန်းစစ်ရန် - VIP Channel ကို Subscribe လုပ်ထားပါ။');
   const [marqueeSpeed, setMarqueeSpeed] = useState('25');
@@ -116,6 +135,9 @@ export default function Home() {
         if (s.bgType !== undefined) setBgType(s.bgType);
         if (s.bgColor1 !== undefined) setBgColor1(s.bgColor1);
         if (s.bgColor2 !== undefined) setBgColor2(s.bgColor2);
+        if (s.showBgStock !== undefined) setShowBgStock(s.showBgStock);
+        if (s.bgStockSpeed !== undefined) setBgStockSpeed(s.bgStockSpeed);
+        if (s.bgStockOpacity !== undefined) setBgStockOpacity(s.bgStockOpacity);
         if (s.headerMarginTop !== undefined) setHeaderMarginTop(s.headerMarginTop);
         if (s.liveNumMarginTop !== undefined) setLiveNumMarginTop(s.liveNumMarginTop);
         if (s.resultCardMarginTop !== undefined) setResultCardMarginTop(s.resultCardMarginTop);
@@ -131,6 +153,18 @@ export default function Home() {
         if (s.sideCardGap !== undefined) setSideCardGap(s.sideCardGap);
         if (s.leftBoxStyle !== undefined) setLeftBoxStyle(s.leftBoxStyle);
         if (s.rightBoxStyle !== undefined) setRightBoxStyle(s.rightBoxStyle);
+        
+        if (s.showLeftBox !== undefined) setShowLeftBox(s.showLeftBox);
+        if (s.leftBoxPosX !== undefined) setLeftBoxPosX(s.leftBoxPosX);
+        if (s.leftBoxPosY !== undefined) setLeftBoxPosY(s.leftBoxPosY);
+        if (s.showRightBox !== undefined) setShowRightBox(s.showRightBox);
+        if (s.rightBoxPosX !== undefined) setRightBoxPosX(s.rightBoxPosX);
+        if (s.rightBoxPosY !== undefined) setRightBoxPosY(s.rightBoxPosY);
+        if (s.showThreeDayBox !== undefined) setShowThreeDayBox(s.showThreeDayBox);
+        if (s.threeDayResult1 !== undefined) setThreeDayResult1(s.threeDayResult1);
+        if (s.threeDayResult2 !== undefined) setThreeDayResult2(s.threeDayResult2);
+        if (s.threeDayResult3 !== undefined) setThreeDayResult3(s.threeDayResult3);
+
         if (s.marqueeText !== undefined) setMarqueeText(s.marqueeText);
         if (s.marqueeSpeed !== undefined) setMarqueeSpeed(s.marqueeSpeed);
         if (s.marqueeBg !== undefined) setMarqueeBg(s.marqueeBg);
@@ -170,10 +204,15 @@ export default function Home() {
   const handleSaveSettings = async () => {
     const newSettings = {
       phoneModel, phoneWidth, phoneHeight, bgType, bgColor1, bgColor2,
+      showBgStock, bgStockSpeed, bgStockOpacity,
       headerMarginTop, liveNumMarginTop, resultCardMarginTop,
       headerScale, liveNumScale, resultCardScale, elementSpacing, phonePadding,
       sideCardWidth, sideFontSize, sideValFontSize, sideCardPadding, sideCardGap,
-      leftBoxStyle, rightBoxStyle, marqueeText, marqueeSpeed, marqueeBg, marqueeColor, marqueeFontSize,
+      leftBoxStyle, rightBoxStyle, 
+      showLeftBox, leftBoxPosX, leftBoxPosY, 
+      showRightBox, rightBoxPosX, rightBoxPosY, 
+      showThreeDayBox, threeDayResult1, threeDayResult2, threeDayResult3,
+      marqueeText, marqueeSpeed, marqueeBg, marqueeColor, marqueeFontSize,
       sessionTitle, sessionDay, customDate, labelHorThout, labelPitThee, labelMainNum, labelSubNum,
       pitThee, mainNum, subNum, horThout, customItems,
       avatarStatusText, enableAvatar, hostImageSize, hostPosX, hostPosY, hostTextWidth, hostTextFontSize
@@ -322,6 +361,31 @@ export default function Home() {
         <title>Market Analytics Live - Pro Studio</title>
       </Head>
 
+      {/* Background Floating Stock Exchange Animation */}
+      {showBgStock && (
+        <div className="bg-stock-ticker-container" style={{ opacity: bgStockOpacity }}>
+          <div className="bg-stock-track" style={{ animationDuration: `${bgStockSpeed}s` }}>
+            <span>SET: {liveSet}</span>
+            <span>•</span>
+            <span>VALUE: {liveVal}</span>
+            <span>•</span>
+            <span>INDEX: {liveTwod}</span>
+            <span>•</span>
+            <span>SET: {liveSet}</span>
+            <span>•</span>
+            <span>VALUE: {liveVal}</span>
+            <span>•</span>
+            <span>INDEX: {liveTwod}</span>
+            <span>•</span>
+            <span>SET: {liveSet}</span>
+            <span>•</span>
+            <span>VALUE: {liveVal}</span>
+            <span>•</span>
+            <span>INDEX: {liveTwod}</span>
+          </div>
+        </div>
+      )}
+
       <button className="admin-toggle-btn" onClick={(e) => { e.stopPropagation(); handleAdminToggle(); }}>
         {showAdmin ? "❌ Control Panel ပိတ်မည်" : "⚙️ Pro Control Panel ဖွင့်မည်"}
       </button>
@@ -338,6 +402,20 @@ export default function Home() {
           </div>
 
           <div className="admin-scrollable-content">
+            <div className="section-title">📈 Background Stock Exchange (SET/Value)</div>
+            <div className="input-group">
+              <label>နောက်ခံ Stock ပြရန်:</label>
+              <input type="checkbox" checked={showBgStock} onChange={(e) => setShowBgStock(e.target.checked)} style={{ width: '20px', height: '20px', accentColor: '#22c55e', cursor: 'pointer' }} />
+            </div>
+            <div className="input-group">
+              <label>ရွှေ့လျားအမြန်နှုန်း (စက္ကန့်):</label>
+              <input type="range" min="10" max="80" value={bgStockSpeed} onChange={(e) => setBgStockSpeed(e.target.value)} /><span>{bgStockSpeed}s</span>
+            </div>
+            <div className="input-group">
+              <label>နောက်ခံမြင်သာမှု (Opacity):</label>
+              <input type="range" min="0.05" max="0.5" step="0.05" value={bgStockOpacity} onChange={(e) => setBgStockOpacity(e.target.value)} /><span>{bgStockOpacity}</span>
+            </div>
+
             <div className="section-title">🤖 AI Host & Side Text ဆက်တင်များ</div>
             <div className="input-group">
               <label>AI Host ပြရန်:</label>
@@ -372,6 +450,59 @@ export default function Home() {
               />
             </div>
 
+            <div className="section-title">📦 ဘယ်/ညာ Box များနှင့် ထိန်းချုပ်မှုများ</div>
+            
+            {/* Left Box Controls */}
+            <div style={{ background: '#1a1a1a', padding: '8px', borderRadius: '6px', marginBottom: '8px', border: '1px solid #333' }}>
+              <div className="input-group">
+                <label style={{ color: '#4ade80' }}>ဘယ်ဘက် Box ပြရန်:</label>
+                <input type="checkbox" checked={showLeftBox} onChange={(e) => setShowLeftBox(e.target.checked)} style={{ width: '18px', height: '18px', accentColor: '#22c55e', cursor: 'pointer' }} />
+              </div>
+              <div className="input-group"><label>ဘယ်ဘက် (Pos X):</label><input type="range" min="0" max="400" value={leftBoxPosX} onChange={(e) => setLeftBoxPosX(e.target.value)} /><span>{leftBoxPosX}px</span></div>
+              <div className="input-group"><label>ဘယ်ဘက် (Pos Y):</label><input type="range" min="-300" max="300" value={leftBoxPosY} onChange={(e) => setLeftBoxPosY(e.target.value)} /><span>{leftBoxPosY}px</span></div>
+              <div className="input-group">
+                <label>ဘယ်ဘက်စတိုင်:</label>
+                <select value={leftBoxStyle} onChange={(e) => setLeftBoxStyle(e.target.value)} className="select-style">
+                  <option value="modern">Modern Glass</option>
+                  <option value="classic">Classic Solid</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Right Box Controls */}
+            <div style={{ background: '#1a1a1a', padding: '8px', borderRadius: '6px', marginBottom: '8px', border: '1px solid #333' }}>
+              <div className="input-group">
+                <label style={{ color: '#4ade80' }}>ညာဘက် Box ပြရန်:</label>
+                <input type="checkbox" checked={showRightBox} onChange={(e) => setShowRightBox(e.target.checked)} style={{ width: '18px', height: '18px', accentColor: '#22c55e', cursor: 'pointer' }} />
+              </div>
+              <div className="input-group"><label>ညာဘက် (Pos X):</label><input type="range" min="0" max="400" value={rightBoxPosX} onChange={(e) => setRightBoxPosX(e.target.value)} /><span>{rightBoxPosX}px</span></div>
+              <div className="input-group"><label>ညာဘက် (Pos Y):</label><input type="range" min="-300" max="300" value={rightBoxPosY} onChange={(e) => setRightBoxPosY(e.target.value)} /><span>{rightBoxPosY}px</span></div>
+              <div className="input-group">
+                <label>ညာဘက်စတိုင်:</label>
+                <select value={rightBoxStyle} onChange={(e) => setRightBoxStyle(e.target.value)} className="select-style">
+                  <option value="modern">Modern Glass</option>
+                  <option value="classic">Classic Solid</option>
+                </select>
+              </div>
+            </div>
+
+            {/* 3-Day Result Box Controls */}
+            <div style={{ background: '#1a1a1a', padding: '8px', borderRadius: '6px', marginBottom: '8px', border: '1px solid #333' }}>
+              <div className="input-group">
+                <label style={{ color: '#f87171' }}>သုံးရက်စာ Result Box ပြရန်:</label>
+                <input type="checkbox" checked={showThreeDayBox} onChange={(e) => setShowThreeDayBox(e.target.checked)} style={{ width: '18px', height: '18px', accentColor: '#ef4444', cursor: 'pointer' }} />
+              </div>
+              <div className="input-group"><label>ရက်စွဲ (၁) ရလဒ်:</label><input type="text" value={threeDayResult1} onChange={(e) => setThreeDayResult1(e.target.value)} /></div>
+              <div className="input-group"><label>ရက်စွဲ (၂) ရလဒ်:</label><input type="text" value={threeDayResult2} onChange={(e) => setThreeDayResult2(e.target.value)} /></div>
+              <div className="input-group"><label>ရက်စွဲ (၃) ရလဒ်:</label><input type="text" value={threeDayResult3} onChange={(e) => setThreeDayResult3(e.target.value)} /></div>
+            </div>
+
+            <div className="input-group"><label>ဘောက်စ် အကျယ်:</label><input type="range" min="300" max="550" value={sideCardWidth} onChange={(e) => setSideCardWidth(e.target.value)} /><span>{sideCardWidth}px</span></div>
+            <div className="input-group"><label>ဘောက်စ် Padding:</label><input type="range" min="10" max="40" value={sideCardPadding} onChange={(e) => setSideCardPadding(e.target.value)} /><span>{sideCardPadding}px</span></div>
+            <div className="input-group"><label>အတွင်း အကွာအဝေး (Gap):</label><input type="range" min="5" max="35" value={sideCardGap} onChange={(e) => setSideCardGap(e.target.value)} /><span>{sideCardGap}px</span></div>
+            <div className="input-group"><label>ခေါင်းစဉ် စာသားအရွယ်:</label><input type="range" min="1.5" max="4.5" step="0.1" value={sideFontSize} onChange={(e) => setSideFontSize(e.target.value)} /><span>{sideFontSize}rem</span></div>
+            <div className="input-group"><label>ဂဏန်း/တန်ဖိုး အရွယ်:</label><input type="range" min="2.0" max="5.5" step="0.1" value={sideValFontSize} onChange={(e) => setSideValFontSize(e.target.value)} /><span>{sideValFontSize}rem</span></div>
+
             <div className="section-title">🎨 Background အရောင်များ</div>
             <div className="input-group">
               <label>အရောင်ပုံစံ:</label>
@@ -392,27 +523,6 @@ export default function Home() {
                 <span>{bgColor2}</span>
               </div>
             )}
-
-            <div className="section-title">📦 ဘယ်/ညာ Box များနှင့် စတိုင်လ်များ</div>
-            <div className="input-group">
-              <label>ဘယ်ဘက်စတိုင်:</label>
-              <select value={leftBoxStyle} onChange={(e) => setLeftBoxStyle(e.target.value)} className="select-style">
-                <option value="modern">Modern Glass</option>
-                <option value="classic">Classic Solid</option>
-              </select>
-            </div>
-            <div className="input-group">
-              <label>ညာဘက်စတိုင်:</label>
-              <select value={rightBoxStyle} onChange={(e) => setRightBoxStyle(e.target.value)} className="select-style">
-                <option value="modern">Modern Glass</option>
-                <option value="classic">Classic Solid</option>
-              </select>
-            </div>
-            <div className="input-group"><label>ဘောက်စ် အကျယ်:</label><input type="range" min="300" max="550" value={sideCardWidth} onChange={(e) => setSideCardWidth(e.target.value)} /><span>{sideCardWidth}px</span></div>
-            <div className="input-group"><label>ဘောက်စ် Padding:</label><input type="range" min="10" max="40" value={sideCardPadding} onChange={(e) => setSideCardPadding(e.target.value)} /><span>{sideCardPadding}px</span></div>
-            <div className="input-group"><label>အတွင်း အကွာအဝေး (Gap):</label><input type="range" min="5" max="35" value={sideCardGap} onChange={(e) => setSideCardGap(e.target.value)} /><span>{sideCardGap}px</span></div>
-            <div className="input-group"><label>ခေါင်းစဉ် စာသားအရွယ်:</label><input type="range" min="1.5" max="4.5" step="0.1" value={sideFontSize} onChange={(e) => setSideFontSize(e.target.value)} /><span>{sideFontSize}rem</span></div>
-            <div className="input-group"><label>ဂဏန်း/တန်ဖိုး အရွယ်:</label><input type="range" min="2.0" max="5.5" step="0.1" value={sideValFontSize} onChange={(e) => setSideValFontSize(e.target.value)} /><span>{sideValFontSize}rem</span></div>
 
             <div className="section-title">📱 ဖုန်းဘောင် အထွေထွေ ချိန်ညှိရန်</div>
             <div className="input-group">
@@ -524,18 +634,30 @@ export default function Home() {
       )}
 
       {/* ဘယ်ဘက်ခြမ်း Card */}
-      <div className={`side-card left-card style-${leftBoxStyle}`} style={{ width: `${sideCardWidth}px`, padding: `${sideCardPadding}px`, gap: `${sideCardGap}px` }}>
-        <div className="top-red-banner" style={{ fontSize: `${sideFontSize}rem` }}>{sessionTitle}</div>
-        <div className="live-clock-box" style={{ fontSize: `${sideFontSize * 0.75}rem` }}>{currentTime}</div>
-        <div className="red-label-box" style={{ fontSize: `${sideFontSize * 0.65}rem` }}>{sessionDay}</div>
-        <div className="youtube-subscribe-tag" style={{ fontSize: `${sideFontSize * 0.5}rem` }}>
-          <span>▶ SUBSCRIBE</span>
+      {showLeftBox && (
+        <div 
+          className={`side-card left-card style-${leftBoxStyle}`} 
+          style={{ 
+            width: `${sideCardWidth}px`, 
+            padding: `${sideCardPadding}px`, 
+            gap: `${sideCardGap}px`,
+            position: 'relative',
+            left: `${leftBoxPosX}px`,
+            top: `${leftBoxPosY}px`
+          }}
+        >
+          <div className="top-red-banner" style={{ fontSize: `${sideFontSize}rem` }}>{sessionTitle}</div>
+          <div className="live-clock-box" style={{ fontSize: `${sideFontSize * 0.75}rem` }}>{currentTime}</div>
+          <div className="red-label-box" style={{ fontSize: `${sideFontSize * 0.65}rem` }}>{sessionDay}</div>
+          <div className="youtube-subscribe-tag" style={{ fontSize: `${sideFontSize * 0.5}rem` }}>
+            <span>▶ SUBSCRIBE</span>
+          </div>
+          <div className="horthout-box">
+            <span className="ht-label" style={{ fontSize: `${sideFontSize * 0.45}rem` }}>{labelHorThout}</span>
+            <span className="ht-val" style={{ fontSize: `${sideValFontSize}rem` }}>{horThout}</span>
+          </div>
         </div>
-        <div className="horthout-box">
-          <span className="ht-label" style={{ fontSize: `${sideFontSize * 0.45}rem` }}>{labelHorThout}</span>
-          <span className="ht-val" style={{ fontSize: `${sideValFontSize}rem` }}>{horThout}</span>
-        </div>
-      </div>
+      )}
 
       {/* အလယ် ဖုန်းပုံစံ */}
       <div className="center-stream-wrapper">
@@ -624,22 +746,60 @@ export default function Home() {
         </div>
       </div>
 
-      {/* ညာဘက်ခြမ်း Card */}
-      <div className={`side-card right-card style-${rightBoxStyle}`} style={{ width: `${sideCardWidth}px`, padding: `${sideCardPadding}px`, gap: `${sideCardGap}px` }}>
-        <div className="date-display-box" style={{ fontSize: `${sideFontSize}rem` }}>{customDate}</div>
-        <div className="data-section-group">
-          <div className="purple-badge-wrapper"><span className="purple-circle-badge" style={{ fontSize: `${sideFontSize * 0.38}rem` }}>{labelPitThee}</span></div>
-          <div className="val-display-pro" style={{ fontSize: `${sideValFontSize}rem` }}>{pitThee}</div>
+      {/* ညာဘက်ခြမ်း Card (သို့မဟုတ် သုံးရက်စာ Result Box) */}
+      {showRightBox && (
+        <div 
+          className={`side-card right-card style-${rightBoxStyle}`} 
+          style={{ 
+            width: `${sideCardWidth}px`, 
+            padding: `${sideCardPadding}px`, 
+            gap: `${sideCardGap}px`,
+            position: 'relative',
+            right: `${rightBoxPosX}px`,
+            top: `${rightBoxPosY}px`
+          }}
+        >
+          <div className="date-display-box" style={{ fontSize: `${sideFontSize}rem` }}>{customDate}</div>
+          <div className="data-section-group">
+            <div className="purple-badge-wrapper"><span className="purple-circle-badge" style={{ fontSize: `${sideFontSize * 0.38}rem` }}>{labelPitThee}</span></div>
+            <div className="val-display-pro" style={{ fontSize: `${sideValFontSize}rem` }}>{pitThee}</div>
+          </div>
+          <div className="data-section-group">
+            <div className="purple-badge-wrapper"><span className="purple-circle-badge" style={{ fontSize: `${sideFontSize * 0.38}rem` }}>{labelMainNum}</span></div>
+            <div className="val-display-pro" style={{ fontSize: `${sideValFontSize}rem` }}>{mainNum}</div>
+          </div>
+          <div className="data-section-group">
+            <div className="purple-badge-wrapper"><span className="purple-circle-badge" style={{ fontSize: `${sideFontSize * 0.38}rem` }}>{labelSubNum}</span></div>
+            <div className="val-display-pro" style={{ fontSize: `${sideValFontSize}rem` }}>{subNum}</div>
+          </div>
         </div>
-        <div className="data-section-group">
-          <div className="purple-badge-wrapper"><span className="purple-circle-badge" style={{ fontSize: `${sideFontSize * 0.38}rem` }}>{labelMainNum}</span></div>
-          <div className="val-display-pro" style={{ fontSize: `${sideValFontSize}rem` }}>{mainNum}</div>
+      )}
+
+      {/* ညာဘက်ခြမ်း ပိတ်ထားသည့်အချိန် သုံးရက်စာ Result ပြသရန် သီးသန့် Box */}
+      {showThreeDayBox && (
+        <div 
+          className={`side-card right-card style-${rightBoxStyle}`} 
+          style={{ 
+            width: `${sideCardWidth}px`, 
+            padding: `${sideCardPadding}px`, 
+            gap: `${sideCardGap}px`,
+            position: 'relative',
+            right: `${rightBoxPosX}px`,
+            top: `${rightBoxPosY}px`
+          }}
+        >
+          <div className="date-display-box" style={{ fontSize: `${sideFontSize * 0.8}rem`, background: '#dc2626' }}>📊 ပြီးခဲ့သော (၃) ရက်စာ Result</div>
+          <div className="data-section-group" style={{ background: '#fff5f5' }}>
+            <div className="val-display-pro" style={{ fontSize: `${sideValFontSize * 0.8}rem` }}>{threeDayResult1}</div>
+          </div>
+          <div className="data-section-group" style={{ background: '#fff5f5' }}>
+            <div className="val-display-pro" style={{ fontSize: `${sideValFontSize * 0.8}rem` }}>{threeDayResult2}</div>
+          </div>
+          <div className="data-section-group" style={{ background: '#fff5f5' }}>
+            <div className="val-display-pro" style={{ fontSize: `${sideValFontSize * 0.8}rem` }}>{threeDayResult3}</div>
+          </div>
         </div>
-        <div className="data-section-group">
-          <div className="purple-badge-wrapper"><span className="purple-circle-badge" style={{ fontSize: `${sideFontSize * 0.38}rem` }}>{labelSubNum}</span></div>
-          <div className="val-display-pro" style={{ fontSize: `${sideValFontSize}rem` }}>{subNum}</div>
-        </div>
-      </div>
+      )}
 
       {/* Custom Marquee Ticker */}
       <div className="marquee-container" style={{ background: marqueeBg, borderTop: `2px solid ${marqueeColor}` }}>
@@ -653,6 +813,23 @@ export default function Home() {
           width: 1920px; height: 1080px; 
           display: flex; justify-content: space-between; align-items: center; padding: 20px 35px 55px 35px;
           position: relative; font-family: 'Pyidaungsu', sans-serif; box-sizing: border-box; overflow: hidden;
+        }
+
+        /* Background Floating Stock Exchange Ticker Animation */
+        .bg-stock-ticker-container {
+          position: absolute;
+          top: 0; left: 0; width: 100%; height: 100%;
+          display: flex; align-items: center; overflow: hidden;
+          pointer-events: none; z-index: 1;
+        }
+        .bg-stock-track {
+          display: flex; gap: 60px; white-space: nowrap;
+          font-size: 8rem; font-weight: 900; color: #ffffff;
+          animation: bgStockScroll linear infinite;
+        }
+        @keyframes bgStockScroll {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
         }
 
         .admin-toggle-btn { position: fixed; top: 20px; left: 20px; background: #000; color: #ffd700; border: none; padding: 10px 20px; font-weight: bold; border-radius: 8px; cursor: pointer; z-index: 99999; font-size: 1rem; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
