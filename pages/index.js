@@ -30,7 +30,7 @@ export default function Home() {
       hours = hours ? hours : 12;
       const formattedHours = String(hours).padStart(2, '0');
 
-      setCurrentTime(`${formattedHours}:${minutes}:${seconds}${ampm}`);
+      setCurrentTime(`${formattedHours}:${minutes}:${seconds} ${ampm}`);
 
       if (myanmarTime.getHours() < 13) {
         setSessionTitle("12:01 PM");
@@ -78,14 +78,14 @@ export default function Home() {
   const myanmarTime = new Date(utc + (3600000 * 6.5));
   const totalMinutes = myanmarTime.getHours() * 60 + myanmarTime.getMinutes();
   
-  // 12:02 မှ 14:00 အတွင်း Live ကို ရပ်ထားရန်
-  const isPausedTime = totalMinutes >= (12 * 60 + 2) && totalMinutes < (14 * 0);
+  // 12:02 (722 မိနစ်) မှ 14:00 (840 မိနစ်) အတွင်း Live ကို တိကျစွာ ရပ်ထားရန်
+  const isPausedTime = totalMinutes >= (12 * 60 + 2) && totalMinutes < (14 * 60);
 
   let liveTwod = data?.live?.twod || data?.data?.live?.twod || "33";
   let liveSet = data?.live?.set || data?.data?.live?.set || "1,572.80";
   let liveVal = data?.live?.value || data?.data?.live?.value || "31,350.28";
 
-  // 12:01 Result ထွက်ပြီးပါက Live တွင် Result တန်ဖိုးအတိုင်း အတိအကျ ငြိမ်နေစေရန်
+  // အချိန်ကျပါက 12:01 Result ဖြင့် အတိအကျ ငြိမ်နေစေရန်
   if (isPausedTime && result12) {
     liveTwod = result12.twod || liveTwod;
     liveSet = result12.set || liveSet;
@@ -135,82 +135,96 @@ export default function Home() {
       {/* အလယ် ဖုန်းပုံစံ */}
       <div className="phone-container">
         <div className="phone-screen">
-          <div className="phone-status-bar">
-            <span className="carrier">7:00</span>
-            <div className="dynamic-island"></div>
-            <div className="status-icons">📶 🛜 🔋 49</div>
-          </div>
+          
+          {/* ဖုန်းစခရင်အပေါ်ဆုံးသို့ ကပ်ထားသော Header နှင့် Live Display */}
+          <div className="top-section-group">
+            <div className="phone-status-bar">
+              <span className="carrier">7:00</span>
+              <div className="dynamic-island"></div>
+              <div className="status-icons">📶 🛜 🔋 49</div>
+            </div>
 
-          <div className="app-header-bar">
-            <span className="app-logo">⭐ 2D live Myanmar</span>
-            <div className="app-menu-icons">
-              <span className="badge-2d">2D</span>
-              <span className="badge-3d">3D</span>
-              <span>📅</span>
+            <div className="app-header-bar">
+              <span className="app-logo">⭐ 2D live Myanmar</span>
+              <div className="app-menu-icons">
+                <span className="badge-2d">2D</span>
+                <span className="badge-3d">3D</span>
+                <span>📅</span>
+              </div>
+            </div>
+
+            <div className="live-status-pill">
+              <span className="pulsing-dot"></span>
+              <span>{isPausedTime ? "12:01 PM CLOSED (PAUSED)" : "LIVE REAL-TIME UPDATES"}</span>
+            </div>
+
+            {/* Live ဂဏန်းအကြီး */}
+            <div className="live-main-display">
+              {liveTwod}
+            </div>
+
+            {/* SET နှင့် Value ရှင်းလင်းစွာပြသရန် */}
+            <div className="update-time-indicator-large">
+              <span>SET: <strong>{liveSet}</strong></span>
+              <span className="separator">|</span>
+              <span>Value: <strong>{liveVal}</strong></span>
             </div>
           </div>
 
-          <div className="live-status-pill">
-            <span className="pulsing-dot"></span>
-            <span>{isPausedTime ? "12:01 PM CLOSED" : "LIVE REAL-TIME UPDATES"}</span>
-          </div>
-
-          {/* Live ဂဏန်းအကြီး */}
-          <div className="live-main-display">
-            {liveTwod}
-          </div>
-
-          {/* ကြီးမားထင်ရှားသော SET နှင့် Value ပြသရန် */}
-          <div className="update-time-indicator-large">
-            <span>SET: <strong>{liveSet}</strong></span>
-            <span className="separator">|</span>
-            <span>Value: <strong>{liveVal}</strong></span>
-          </div>
-
-          <div className="cards-group">
-            {/* 12:01 PM Result */}
-            <div className="result-card-red">
-              <div className="card-title-top">12:01 PM Result</div>
-              <div className="card-sub-grid">
-                <div className="sub-col">
-                  <span className="sub-label">SET</span>
-                  <span className="sub-val">{result12?.set || "--"}</span>
+          {/* အောက်ပိုင်း ရလဒ်များနှင့် ပုံ */}
+          <div className="bottom-section-group">
+            <div className="cards-group">
+              {/* 12:01 PM Result */}
+              <div className="result-card-red">
+                <div className="card-title-top">12:01 PM Result</div>
+                <div className="card-sub-grid">
+                  <div className="sub-col">
+                    <span className="sub-label">SET</span>
+                    <span className="sub-val">{result12?.set || "--"}</span>
+                  </div>
+                  <div className="sub-col">
+                    <span className="sub-label">Value</span>
+                    <span className="sub-val">{result12?.value || "--"}</span>
+                  </div>
+                  <div className="sub-col">
+                    <span className="sub-label">2D</span>
+                    <span className="sub-val highlight-num">{result12?.twod || "--"}</span>
+                  </div>
                 </div>
-                <div className="sub-col">
-                  <span className="sub-label">Value</span>
-                  <span className="sub-val">{result12?.value || "--"}</span>
-                </div>
-                <div className="sub-col">
-                  <span className="sub-label">2D</span>
-                  <span className="sub-val highlight-num">{result12?.twod || "--"}</span>
+              </div>
+
+              {/* 4:30 PM Result */}
+              <div className="result-card-red">
+                <div className="card-title-top">4:30 PM Result</div>
+                <div className="card-sub-grid">
+                  <div className="sub-col">
+                    <span className="sub-label">SET</span>
+                    <span className="sub-val">{result1630?.set || "--"}</span>
+                  </div>
+                  <div className="sub-col">
+                    <span className="sub-label">Value</span>
+                    <span className="sub-val">{result1630?.value || "--"}</span>
+                  </div>
+                  <div className="sub-col">
+                    <span className="sub-label">2D</span>
+                    <span className="sub-val highlight-num">{result1630?.twod || "--"}</span>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* 4:30 PM Result */}
-            <div className="result-card-red">
-              <div className="card-title-top">4:30 PM Result</div>
-              <div className="card-sub-grid">
-                <div className="sub-col">
-                  <span className="sub-label">SET</span>
-                  <span className="sub-val">{result1630?.set || "--"}</span>
-                </div>
-                <div className="sub-col">
-                  <span className="sub-label">Value</span>
-                  <span className="sub-val">{result1630?.value || "--"}</span>
-                </div>
-                <div className="sub-col">
-                  <span className="sub-label">2D</span>
-                  <span className="sub-val highlight-num">{result1630?.twod || "--"}</span>
-                </div>
-              </div>
+            {/* လူစိတ်ဝင်စားစေမည့် ကံထူးရှင်/ငွေကြေး ဆွဲဆောင်မှုပုံ */}
+            <div className="winner-promo-banner">
+              <span className="promo-icon">🎉</span>
+              <span className="promo-text">နေ့စဉ်ကံထူးရှင်များအတွက် လက်မလွှတ်တမ်းစောင့်ကြည့်ပါ</span>
+              <span className="promo-badge">WIN</span>
             </div>
-          </div>
 
-          <div className="phone-subscribe-footer">
-            <span className="sub-icon">👍</span>
-            <span className="sub-text">LIKE & SUBSCRIBE</span>
-            <span className="sub-bell">🔔</span>
+            <div className="phone-subscribe-footer">
+              <span className="sub-icon">👍</span>
+              <span className="sub-text">LIKE & SUBSCRIBE</span>
+              <span className="sub-bell">🔔</span>
+            </div>
           </div>
 
         </div>
@@ -271,18 +285,61 @@ export default function Home() {
         .val-display-pro { font-size: 3.4rem; font-weight: 900; color: #cc0000; text-align: center; letter-spacing: 5px; padding: 6px 0; }
 
         .phone-container { width: 420px; height: 1020px; background: #111827; border: 8px solid #1f2937; border-radius: 38px; padding: 8px; box-shadow: 0 30px 70px rgba(0,0,0,0.4); display: flex; flex-direction: column; box-sizing: border-box; }
-        .phone-screen { background: #ffffff; border-radius: 30px; padding: 12px 14px; display: flex; flex-direction: column; justify-content: space-between; height: 100%; color: #000; box-sizing: border-box; }
-        .phone-status-bar { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; font-weight: bold; }
-        .dynamic-island { width: 100px; height: 18px; background: #000; border-radius: 12px; }
-        .app-header-bar { background: #ffcc00; padding: 6px 12px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: 1rem; }
-        .app-logo { color: #000; font-weight: 900; }
-        .app-menu-icons { display: flex; gap: 6px; align-items: center; font-size: 0.8rem; }
-        .badge-2d { background: #16a34a; color: #fff; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; }
-        .badge-3d { background: #2563eb; color: #fff; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; }
         
-        .live-status-pill { background: #f0fdf4; border: 1px solid #bbf7d0; color: #16a34a; font-size: 0.75rem; font-weight: 900; padding: 3px 8px; border-radius: 20px; display: flex; align-items: center; justify-content: center; gap: 6px; width: fit-content; margin: 2px auto; }
-        .pulsing-dot { width: 8px; height: 8px; background-color: #16a34a; border-radius: 50%; animation: pulse 1.5s infinite; }
+        .phone-screen { background: #ffffff; border-radius: 30px; padding: 8px 12px; display: flex; flex-direction: column; justify-content: flex-start; height: 100%; color: #000; box-sizing: border-box; gap: 6px; }
+        
+        .top-section-group { display: flex; flex-direction: column; gap: 4px; }
+        .bottom-section-group { display: flex; flex-direction: column; gap: 6px; margin-top: auto; }
+
+        .phone-status-bar { display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; font-weight: bold; }
+        .dynamic-island { width: 90px; height: 16px; background: #000; border-radius: 12px; }
+        .app-header-bar { background: #ffcc00; padding: 4px 10px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: 0.95rem; }
+        .app-logo { color: #000; font-weight: 900; }
+        .app-menu-icons { display: flex; gap: 4px; align-items: center; font-size: 0.75rem; }
+        .badge-2d { background: #16a34a; color: #fff; padding: 2px 5px; border-radius: 4px; font-size: 0.65rem; }
+        .badge-3d { background: #2563eb; color: #fff; padding: 2px 5px; border-radius: 4px; font-size: 0.65rem; }
+        
+        .live-status-pill { background: #f0fdf4; border: 1px solid #bbf7d0; color: #16a34a; font-size: 0.7rem; font-weight: 900; padding: 2px 8px; border-radius: 20px; display: flex; align-items: center; justify-content: center; gap: 6px; width: fit-content; margin: 0 auto; }
+        .pulsing-dot { width: 7px; height: 7px; background-color: #16a34a; border-radius: 50%; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.6); } 70% { box-shadow: 0 0 0 6px rgba(22, 163, 74, 0); } 100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0); } }
 
-        .live-main-display { font-size: 6rem; font-weight: 900; color: #16a34a; text-align: center; line-height: 1; margin: 2px 0; text-shadow: 0 4px 12px rgba(22, 163, 74, 0.25); display: inline-block; width: 100%; animation: heartbeat 1.2s infinite; }
-        @keyframes heartbeat { 0% { transform: scale(1); } 25% { transform: scale(1.0
+        .live-main-display { font-size: 5.2rem; font-weight: 900; color: #16a34a; text-align: center; line-height: 1; margin: 0; text-shadow: 0 4px 12px rgba(22, 163, 74, 0.25); display: inline-block; width: 100%; animation: heartbeat 1.2s infinite; }
+        @keyframes heartbeat { 0% { transform: scale(1); } 25% { transform: scale(1.06); } 40% { transform: scale(0.96); } 60% { transform: scale(1.03); } 100% { transform: scale(1); } }
+
+        .update-time-indicator-large { text-align: center; font-size: 0.85rem; color: #15803d; font-weight: 700; background: #f0fdf4; border: 1.5px solid #dcfce7; padding: 4px 8px; border-radius: 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .update-time-indicator-large strong { color: #166534; font-size: 0.95rem; }
+        .separator { margin: 0 6px; color: #86efac; }
+
+        .cards-group { display: flex; flex-direction: column; gap: 6px; }
+        .result-card-red { background: linear-gradient(135deg, #ff4d4d 0%, #e60000 100%); border-radius: 10px; padding: 6px 10px; color: #fff; box-shadow: 0 4px 10px rgba(230,0,0,0.3); }
+        .card-title-top { text-align: center; font-weight: 900; font-size: 0.85rem; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 2px; margin-bottom: 3px; }
+        .card-sub-grid { display: flex; justify-content: space-between; text-align: center; }
+        .sub-col { flex: 1; display: flex; flex-direction: column; }
+        .sub-label { font-size: 0.6rem; opacity: 0.9; font-weight: bold; }
+        .sub-val { font-size: 1.05rem; font-weight: 900; }
+        .highlight-num { font-size: 1.2rem; background: rgba(0,0,0,0.2); border-radius: 5px; padding: 1px 0; }
+
+        /* ဆွဲဆောင်မှုရှိသော ကံထူးရှင် ပရိုမိုးရှင်းကတ် */
+        .winner-promo-banner {
+          background: linear-gradient(135deg, #7c3aed 0%, #4c1d95 100%);
+          color: #ffdf40;
+          font-size: 0.75rem;
+          font-weight: 900;
+          padding: 6px 10px;
+          border-radius: 8px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          border: 1.5px solid #c084fc;
+          box-shadow: 0 3px 8px rgba(124, 58, 237, 0.4);
+        }
+        .promo-text { color: #fff; font-size: 0.7rem; text-align: center; flex: 1; }
+        .promo-badge { background: #ffdf40; color: #4c1d95; padding: 2px 6px; border-radius: 4px; font-size: 0.65rem; }
+
+        .phone-subscribe-footer { background: linear-gradient(90deg, #e60000, #990000); color: #fff; border-radius: 8px; padding: 6px; display: flex; justify-content: center; align-items: center; gap: 8px; font-weight: 900; font-size: 0.85rem; box-shadow: 0 4px 10px rgba(230,0,0,0.3); }
+        .sub-icon { font-size: 0.85rem; }
+        .sub-bell { font-size: 0.85rem; }
+      `}</style>
+    </div>
+  );
+}
