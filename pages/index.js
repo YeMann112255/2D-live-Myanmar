@@ -36,13 +36,11 @@ export default function Home() {
   const [subNum, setSubNum] = useState('35-23-25');
   const [horThout, setHorThout] = useState('5-9-8');
 
-  // Dynamic Custom Items (Boxes, Banners, Images)
   const [customItems, setCustomItems] = useState([
     { id: 1, type: 'banner', text: '🎉 နေ့စဉ်ကံထူးရှင်များအတွက် လက်မလွှတ်တမ်းစောင့်ကြည့်ပါ', bg: 'purple' },
     { id: 2, type: 'box', title: '💡 အချက်အလက်အမြန်ဆုံးကြည့်ရန်', sub: 'Channel ကို Subscribe လုပ်ပါ' }
   ]);
 
-  // Inputs for adding new item
   const [newItemType, setNewItemType] = useState('box');
   const [newItemTitle, setNewItemTitle] = useState('');
   const [newItemSub, setNewItemSub] = useState('');
