@@ -1,9 +1,8 @@
 import Head from 'next/head';
 import { useState, useEffect } from 'react';
 
-// JSONBin.io က သင့်ရဲ့ Bin ID နဲ့ Master Key
 const BIN_ID = '6ac4a0a1ffd5d1605351b310'; 
-const MASTER_KEY = '$2a$10$fYB8HrDgeJuhR/ZHy2JVvuz8qs2ShnIW6ZbqQCVATxhB6dJ8NjODa';[span_2](start_span)[span_2](end_span)
+const MASTER_KEY = '$2a$10$fYB8HrDgeJuhR/ZHy2JVvuz8qs2ShnIW6ZbqQCVATxhB6dJ8NjODa';[span_0](start_span)[span_0](end_span)
 
 export default function Home() {
   const [data, setData] = useState(null);
@@ -12,6 +11,7 @@ export default function Home() {
   const [showAdmin, setShowAdmin] = useState(false);
   const [saveMessage, setSaveMessage] = useState(false);
 
+  // Layout & Settings States
   const [phoneWidth, setPhoneWidth] = useState('380');
   const [phoneHeight, setPhoneHeight] = useState('820');
   const [liveFontSize, setLiveFontSize] = useState('4.5');
@@ -36,7 +36,17 @@ export default function Home() {
   const [subNum, setSubNum] = useState('35-23-25');
   const [horThout, setHorThout] = useState('5-9-8');
 
-  // JSONBin မှ Settings များကို ဝင်ဆွဲရန်
+  // Dynamic Custom Items (Boxes, Banners, Images)
+  const [customItems, setCustomItems] = useState([
+    { id: 1, type: 'banner', text: '🎉 နေ့စဉ်ကံထူးရှင်များအတွက် လက်မလွှတ်တမ်းစောင့်ကြည့်ပါ', bg: 'purple' },
+    { id: 2, type: 'box', title: '💡 အချက်အလက်အမြန်ဆုံးကြည့်ရန်', sub: 'Channel ကို Subscribe လုပ်ပါ' }
+  ]);
+
+  // Inputs for adding new item
+  const [newItemType, setNewItemType] = useState('box');
+  const [newItemTitle, setNewItemTitle] = useState('');
+  const [newItemSub, setNewItemSub] = useState('');
+
   useEffect(() => {
     fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
       headers: { 'X-Master-Key': MASTER_KEY }
@@ -63,18 +73,18 @@ export default function Home() {
           setMainNum(settings.mainNum || '53-57-39');
           setSubNum(settings.subNum || '35-23-25');
           setHorThout(settings.horThout || '5-9-8');
+          if (settings.customItems) setCustomItems(settings.customItems);
         }
       })
       .catch(err => console.error('Failed to load settings:', err));
   }, []);
 
-  // Admin က Save လိုက်လျှင် JSONBin သို့ တိုက်ရိုက် တင်မည် (တခြားဖုန်းများပါ တစ်ပြိုင်နက် ပြောင်းသွားမည်)
   const handleSaveSettings = async () => {
     const newSettings = {
       phoneWidth, phoneHeight, liveFontSize, resultTextSize, contentGap,
       sideCardWidth, sideFontSize, sideValFontSize, sideCardPadding,
       leftBoxStyle, rightBoxStyle, sessionTitle, sessionDay,
-      customDate, pitThee, mainNum, subNum, horThout
+      customDate, pitThee, mainNum, subNum, horThout, customItems
     };
 
     try {
@@ -100,6 +110,26 @@ export default function Home() {
       console.error('Error saving settings:', error);
       alert('Error connecting to server');
     }
+  };
+
+  const handleAddItem = () => {
+    if (!newItemTitle) {
+      alert('ခေါင်းစဉ် သို့မဟုတ် စာသား ထည့်ပါ။');
+      return;
+    }
+    const newItem = {
+      id: Date.now(),
+      type: newItemType,
+      title: newItemTitle,
+      sub: newItemSub
+    };
+    setCustomItems([...customItems, newItem]);
+    setNewItemTitle('');
+    setNewItemSub('');
+  };
+
+  const handleDeleteItem = (id) => {
+    setCustomItems(customItems.filter(item => item.id !== id));
   };
 
   const handleResetSettings = () => {
@@ -186,7 +216,7 @@ export default function Home() {
       </Head>
 
       <button className="admin-toggle-btn" onClick={() => setShowAdmin(!showAdmin)}>
-        {showAdmin ? "⚙️ ပြီးပြီ" : "⚙️ စခရင်၊ ဘေးဘတ်များနှင့် Box Style ချိန်ရန်"}
+        {showAdmin ? "⚙️ ပိတ်မည်" : "⚙️ အရာရာကို စိတ်ကြိုက် ချိန်ရန် & ထည့်ရန်"}
       </button>
 
       {showAdmin && (
@@ -201,39 +231,54 @@ export default function Home() {
           </div>
 
           <div className="admin-scrollable-content">
+            <div className="section-title">➕ Box / Banner အသစ်ထပ်ထည့်ရန်</div>
+            <div className="input-group">
+              <label>အမျိုးအစား:</label>
+              <select value={newItemType} onChange={(e) => setNewItemType(e.target.value)} className="select-style">
+                <option value="box">Result/Info Box (ဘောက်စ်)</option>
+                <option value="banner">Banner / Text (ကြေငြာစာသား)</option>
+                <option value="image">Image / Photo (ပုံ)</option>
+              </select>
+            </div>
+            <div className="input-group"><label>ခေါင်းစဉ် / စာသား:</label><input type="text" value={newItemTitle} onChange={(e) => setNewItemTitle(e.target.value)} placeholder="ဥပမာ - အထူးအစီအစဉ်" /></div>
+            <div className="input-group"><label>အသေးစိတ်/လင့်ခ်:</label><input type="text" value={newItemSub} onChange={(e) => setNewItemSub(e.target.value)} placeholder="ဥပမာ - နှုန်းထား သို့မဟုတ် ပုံလင့်ခ် URL" /></div>
+            <button className="add-item-btn" onClick={handleAddItem}>+ ဖုန်းစခရင်ထဲသို့ ထည့်မည်</button>
+
+            <div className="section-title">🗑️ ထည့်ထားပြီးသားများကို ဖျက်ရန်</div>
+            {customItems.map((item) => (
+              <div key={item.id} className="admin-item-row">
+                <span>{item.title || item.text}</span>
+                <button onClick={() => handleDeleteItem(item.id)}>ဖျက်ရန်</button>
+              </div>
+            ))}
+
             <div className="section-title">📱 ဖုန်းအရွယ်အစား ချိန်ရန်</div>
-            <div className="input-group"><label>ဖုန်းအကျယ် (Width):</label><input type="range" min="320" max="500" value={phoneWidth} onChange={(e) => setPhoneWidth(e.target.value)} /><span>{phoneWidth}px</span></div>
-            <div className="input-group"><label>ဖုန်းအမြင့် (Height):</label><input type="range" min="700" max="950" value={phoneHeight} onChange={(e) => setPhoneHeight(e.target.value)} /><span>{phoneHeight}px</span></div>
-            <div className="input-group"><label>Box များအကွာအဝေး:</label><input type="range" min="1" max="15" value={contentGap} onChange={(e) => setContentGap(e.target.value)} /><span>{contentGap}px</span></div>
+            <div className="input-group"><label>ဖုန်းအကျယ်:</label><input type="range" min="320" max="500" value={phoneWidth} onChange={(e) => setPhoneWidth(e.target.value)} /><span>{phoneWidth}px</span></div>
+            <div className="input-group"><label>ဖုန်းအမြင့်:</label><input type="range" min="700" max="950" value={phoneHeight} onChange={(e) => setPhoneHeight(e.target.value)} /><span>{phoneHeight}px</span></div>
+            <div className="input-group"><label>အကွာအဝေး:</label><input type="range" min="1" max="15" value={contentGap} onChange={(e) => setContentGap(e.target.value)} /><span>{contentGap}px</span></div>
             <div className="input-group"><label>Live ဂဏန်းအရွယ်:</label><input type="range" min="3" max="6" step="0.2" value={liveFontSize} onChange={(e) => setLiveFontSize(e.target.value)} /><span>{liveFontSize}rem</span></div>
 
             <div className="section-title">🎨 ဘေးဘက် Box ပုံစံများ (Styles)</div>
             <div className="input-group">
-              <label>ဘယ်ဘက် Box ပုံစံ:</label>
+              <label>ဘယ်ဘက် Box:</label>
               <select value={leftBoxStyle} onChange={(e) => setLeftBoxStyle(e.target.value)} className="select-style">
-                <option value="modern">Modern (ကြွေရောင်/မှန်ပြواف)</option>
-                <option value="classic">Classic (အနီရောင်စစ်စစ်)</option>
-                <option value="neon">Neon (အလင်းရောင်စိမ့်)</option>
-                <option value="dark">Dark Pro (အမည်းရောင်ဇိမ်ခံ)</option>
+                <option value="modern">Modern 3D (ကြွေရောင်)</option>
+                <option value="classic">Classic (အနီရောင်)</option>
+                <option value="neon">Neon (မီးလင်း)</option>
+                <option value="dark">Dark Pro (အမည်း)</option>
               </select>
             </div>
             <div className="input-group">
-              <label>ညာဘက် Box ပုံစံ:</label>
+              <label>ညာဘက် Box:</label>
               <select value={rightBoxStyle} onChange={(e) => setRightBoxStyle(e.target.value)} className="select-style">
-                <option value="modern">Modern (ကြွေရောင်/မှန်ပြواف)</option>
-                <option value="classic">Classic (အနီရောင်စစ်စစ်)</option>
-                <option value="neon">Neon (အလင်းရောင်စိမ့်)</option>
-                <option value="dark">Dark Pro (အမည်းရောင်ဇိမ်ခံ)</option>
+                <option value="modern">Modern 3D (ကြွေရောင်)</option>
+                <option value="classic">Classic (အနီရောင်)</option>
+                <option value="neon">Neon (မီးလင်း)</option>
+                <option value="dark">Dark Pro (အမည်း)</option>
               </select>
             </div>
 
-            <div className="section-title">🎛️ ဘေး Card အရွယ်အစားများ</div>
-            <div className="input-group"><label>ဘေး Card အကျယ်:</label><input type="range" min="350" max="650" value={sideCardWidth} onChange={(e) => setSideCardWidth(e.target.value)} /><span>{sideCardWidth}px</span></div>
-            <div className="input-group"><label>ဘေး Card Padding:</label><input type="range" min="10" max="35" value={sideCardPadding} onChange={(e) => setSideCardPadding(e.target.value)} /><span>{sideCardPadding}px</span></div>
-            <div className="input-group"><label>ခေါင်းစဉ် Font အရွယ်:</label><input type="range" min="1.5" max="4" step="0.1" value={sideFontSize} onChange={(e) => setSideFontSize(e.target.value)} /><span>{sideFontSize}rem</span></div>
-            <div className="input-group"><label>တန်ဖိုး/ဂဏန်း Font:</label><input type="range" min="2" max="4.5" step="0.1" value={sideValFontSize} onChange={(e) => setSideValFontSize(e.target.value)} /><span>{sideValFontSize}rem</span></div>
-
-            <div className="section-title">✏️ စာသားများ ချိန်ရန်</div>
+            <div className="section-title">✏️ အဓိက စာသားများ ချိန်ရန်</div>
             <div className="input-group"><label>⏰ ပွဲစဉ်:</label><input type="text" value={sessionTitle} onChange={(e) => { setSessionTitle(e.target.value); setManualSession(true); }} /></div>
             <div className="input-group"><label>📅 နေ့/အမျိုးအစား:</label><input type="text" value={sessionDay} onChange={(e) => { setSessionDay(e.target.value); setManualSession(true); }} /></div>
             <div className="input-group"><label>ရက်စွဲ:</label><input type="text" value={customDate} onChange={(e) => setCustomDate(e.target.value)} /></div>
@@ -336,15 +381,30 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="winner-promo-banner">
-              <span className="promo-icon">🎉</span>
-              <span className="promo-text">နေ့စဉ်ကံထူးရှင်များအတွက် လက်မလွှတ်တမ်းစောင့်ကြည့်ပါ</span>
-              <span className="promo-badge">WIN</span>
-            </div>
-
-            <div className="tip-card-box">
-              <span>💡 အချက်အလက်အမြန်ဆုံးကြည့်ရန် Channel ကို Subscribe လုပ်ပါ</span>
-            </div>
+            {/* Render Dynamic Custom Added Items */}
+            {customItems.map((item) => {
+              if (item.type === 'box') {
+                return (
+                  <div key={item.id} className="result-card-red" style={{ background: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)' }}>
+                    <div className="card-title-top">{item.title}</div>
+                    <div style={{ textAlign: 'center', fontSize: '0.75rem', fontWeight: 'bold', padding: '2px 0' }}>{item.sub}</div>
+                  </div>
+                );
+              } else if (item.type === 'image') {
+                return (
+                  <div key={item.id} style={{ textAlign: 'center', margin: '2px 0' }}>
+                    <img src={item.sub || item.title} alt="Custom" style={{ maxWidth: '100%', maxHeight: '80px', borderRadius: '6px' }} />
+                  </div>
+                );
+              } else {
+                return (
+                  <div key={item.id} className="winner-promo-banner">
+                    <span className="promo-icon">📌</span>
+                    <span className="promo-text">{item.title || item.text}</span>
+                  </div>
+                );
+              }
+            })}
 
             <div className="phone-subscribe-footer">
               <span className="sub-icon">👍</span>
@@ -408,6 +468,10 @@ export default function Home() {
         .input-group span { color: #ffd700; font-weight: bold; font-size: 0.8rem; width: 45px; text-align: right; }
         .select-style { background: #222; border: 1px solid #555; color: #ffd700; padding: 4px 8px; border-radius: 4px; width: 50%; font-weight: bold; }
 
+        .add-item-btn { background: #2563eb; color: #fff; border: none; padding: 8px; width: 100%; font-weight: bold; border-radius: 6px; cursor: pointer; margin-top: 5px; }
+        .admin-item-row { display: flex; justify-content: space-between; align-items: center; background: #222; padding: 5px 10px; border-radius: 4px; margin-bottom: 5px; font-size: 0.8rem; }
+        .admin-item-row button { background: #dc2626; color: #fff; border: none; padding: 2px 6px; border-radius: 4px; cursor: pointer; }
+
         .side-card { display: flex; flex-direction: column; gap: 14px; box-shadow: 0 25px 50px rgba(0,0,0,0.2); transition: all 0.2s ease; box-sizing: border-box; }
         
         .style-modern { background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(12px); border: 4px solid #ffffff; border-radius: 26px; }
@@ -442,7 +506,7 @@ export default function Home() {
         .purple-circle-badge { background: linear-gradient(135deg, #7c3aed 100%, #5b21b6 0%); color: #fff; font-weight: 900; padding: 6px 20px; border-radius: 20px; border: 2px solid #fff; box-shadow: 0 3px 8px rgba(124, 58, 237, 0.4); display: inline-block; }
         .val-display-pro { font-weight: 900; color: #cc0000; text-align: center; letter-spacing: 4px; padding: 4px 0; }
 
-        .phone-container { background: #111827; border: 8px solid #1f2937; border-radius: 36px; padding: 6px; box-shadow: 0 25px 50px rgba(0,0,0,0.4); display: flex; flex-direction: column; box-sizing: border-box; transition: width 0.2s ease, height 0.2s ease; }
+        .phone-container { background: #111827; border: 8px solid #1f2937; border-radius: 36px; padding: 6px; box-shadow: 0 25px 50px rgba(0,0,0,0.4); display: flex; flex-직ရင်: column; box-sizing: border-box; transition: width 0.2s ease, height 0.2s ease; }
         .phone-screen { background: #ffffff; border-radius: 28px; padding: 8px 12px; display: flex; flex-direction: column; justify-content: space-between; height: 100%; color: #000; box-sizing: border-box; overflow: hidden; }
         .top-section-group { display: flex; flex-direction: column; }
         .bottom-section-group { display: flex; flex-direction: column; }
@@ -476,9 +540,7 @@ export default function Home() {
 
         .winner-promo-banner { background: linear-gradient(135deg, #7c3aed 0%, #4c1d95 100%); color: #ffdf40; font-weight: 900; padding: 4px 8px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between; }
         .promo-text { color: #fff; font-size: 0.62rem; text-align: center; flex: 1; }
-        .promo-badge { background: #ffdf40; color: #4c1d95; padding: 1px 5px; border-radius: 3px; font-size: 0.55rem; }
-
-        .tip-card-box { background: #fef3c7; border: 1px solid #fde68a; color: #92400e; font-size: 0.62rem; font-weight: bold; text-align: center; padding: 3px 6px; border-radius: 6px; }
+        
         .phone-subscribe-footer { background: linear-gradient(90deg, #e60000, #990000); color: #fff; border-radius: 6px; padding: 5px; display: flex; justify-content: center; align-items: center; gap: 6px; font-weight: 900; font-size: 0.75rem; }
       `}</style>
     </div>
