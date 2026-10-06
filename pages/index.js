@@ -56,9 +56,8 @@ export default function Home() {
     try {
       const res = await fetch('/api/live');
       const json = await res.json();
-      if (json) {
-        setData(json.data || json);
-      }
+      // API က Array တိုက်ရိုက်ပေးတာပဲဖြစ်ဖြစ်၊ Object နဲ့လာတာပဲဖြစ်ဖြစ် အဆင်ပြေအောင် ယူခြင်း
+      setData(json);
     } catch (err) {
       console.error(err);
     } finally {
@@ -66,14 +65,18 @@ export default function Home() {
     }
   };
 
-  // Result များကို ရှာဖွေရာတွင် အချိန်ပုံစံ ကွဲလွဲမှုမရှိစေရန် စစ်ဆေးခြင်း
-  const getResult = (timeKey) => {
-    if (!data?.result) return null;
-    return data.result.find(r => r.open_time && r.open_time.includes(timeKey));
+  // Result Array ထဲမှ အချိန်အလိုက် (12:01 သို့မဟုတ် 16:30) ရှာဖွေခြင်း
+  const resultsArray = Array.isArray(data) ? data : (data?.result || data?.data?.result || []);
+  
+  const getResult = (timeStr) => {
+    return resultsArray.find(r => r.open_time && r.open_time.includes(timeStr));
   };
 
   const result12 = getResult("12:01");
   const result1630 = getResult("16:30");
+
+  // Live 2D ဂဏန်းရယူရန်
+  const liveTwod = data?.live?.twod || data?.data?.live?.twod || (resultsArray.length > 0 ? resultsArray[resultsArray.length - 1]?.twod : "33");
 
   return (
     <div className="stream-container">
@@ -140,7 +143,7 @@ export default function Home() {
 
           {/* ခုန်နေသည့် Animation ပါသော Live ဂဏန်းအကြီး */}
           <div className="live-main-display">
-            {data?.live?.twod || "33"}
+            {liveTwod}
           </div>
 
           <div className="update-time-indicator">
@@ -148,38 +151,40 @@ export default function Home() {
           </div>
 
           <div className="cards-group">
+            {/* 12:01 PM Result */}
             <div className="result-card-red">
               <div className="card-title-top">12:01 PM Result</div>
               <div className="card-sub-grid">
                 <div className="sub-col">
                   <span className="sub-label">SET</span>
-                  <span className="sub-val">{result12?.set || "1,572.80"}</span>
+                  <span className="sub-val">{result12?.set || "--"}</span>
                 </div>
                 <div className="sub-col">
                   <span className="sub-label">Value</span>
-                  <span className="sub-val">{result12?.value || "31,350.28"}</span>
+                  <span className="sub-val">{result12?.value || "--"}</span>
                 </div>
                 <div className="sub-col">
                   <span className="sub-label">2D</span>
-                  <span className="sub-val highlight-num">{result12?.twod || "00"}</span>
+                  <span className="sub-val highlight-num">{result12?.twod || "--"}</span>
                 </div>
               </div>
             </div>
 
+            {/* 4:30 PM Result */}
             <div className="result-card-red">
               <div className="card-title-top">4:30 PM Result</div>
               <div className="card-sub-grid">
                 <div className="sub-col">
                   <span className="sub-label">SET</span>
-                  <span className="sub-val">{result1630?.set || "1,576.45"}</span>
+                  <span className="sub-val">{result1630?.set || "--"}</span>
                 </div>
                 <div className="sub-col">
                   <span className="sub-label">Value</span>
-                  <span className="sub-val">{result1630?.value || "55,047.95"}</span>
+                  <span className="sub-val">{result1630?.value || "--"}</span>
                 </div>
                 <div className="sub-col">
                   <span className="sub-label">2D</span>
-                  <span className="sub-val highlight-num">{result1630?.twod || "57"}</span>
+                  <span className="sub-val highlight-num">{result1630?.twod || "--"}</span>
                 </div>
               </div>
             </div>
